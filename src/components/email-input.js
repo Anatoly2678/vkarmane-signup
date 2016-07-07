@@ -42,6 +42,7 @@ export default React.createClass({
             emailBlocked: false
         })
 
+        this.raiseOnChange(null)
         this.validateEmailDebounced()
     },
     validateEmail () {
@@ -85,5 +86,10 @@ export default React.createClass({
             console.error(result['Message'])
             return
         }
+
+        this.raiseOnChange(this.state.email)
+    },
+    raiseOnChange(email) {
+        this.props.onChange(email)
     }
 })

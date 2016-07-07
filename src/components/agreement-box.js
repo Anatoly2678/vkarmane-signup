@@ -1,0 +1,37 @@
+export default React.createClass({
+    getInitialState() {
+        return {
+            generalRules: false,
+            asp: false
+        }
+    },
+    render() {
+        return (
+            <div>
+                <div className="checkbox">
+                    <label>
+                        <input type="checkbox" checked={this.state.generalRules} onChange={this.handleGeneralRulesChange} />
+                        Я принимаю <a href="http://www.vkarmane-online.ru/files/flib/51.pdf" target="_blank" >
+                        Общие условия договора потребительского займа</a>, <a href="http://www.vkarmane-online.ru/files/flib/69.pdf" target="_blank">
+                        Правила предоставления займов</a> и <a href= "http://www.vkarmane-online.ru/files/flib/70.pdf" target="_blank">
+                        Информацию об условиях предоставления, использования и возврата потребительского микрозайма</a>. Предлагаю рассмотреть мое <a href="http://www.vkarmane-online.ru/files/flib/84.pdf" target="_blank">
+                        Заявление о предоставлении микрозайма</a>.
+                    </label>
+                </div>
+                <div className="checkbox">
+                    <label>
+                        <input type="checkbox" checked={this.state.asp} onChange={this.handleAspChange} />
+                        Я, подтверждаю принятие <a href="http://www.vkarmane-online.ru/files/flib/83.pdf" target="_blank">
+                        Соглашения об использовании АСП</a> и <a href="http://www.vkarmane-online.ru/files/flib/45.pdf" target="_blank">
+                        Правилами обработки персональных данных</a>.
+                    </label>
+                </div>
+            </div>)
+    },
+    handleGeneralRulesChange(e) {
+        this.setState({ generalRules: e.target.checked })
+    },
+    handleAspChange(e) {
+        this.setState({ asp: e.target.checked })
+    }
+})

@@ -32,21 +32,21 @@ export default React.createClass({
 
                 <div className={`form-group ${$if(this.state.dateNotValid, 'has-error')}`}>
                     <div className="row">
-                        <div className="col-xs-3">
+                        <div className="col-xs-4">
                             <select className="form-control" value={this.state.day} onChange={this.handleDayChange}>
-                                <option value="" key={0}></option>
+                                <option value="" key={0}>День</option>
                                 {days}
                             </select>
                         </div>
-                        <div className="col-xs-5" style={{paddingLeft: '0px'}}>
+                        <div className="col-xs-4" style={{paddingLeft: '0px'}}>
                             <select className="form-control" value={this.state.month} onChange={this.handleMonthChange}>
-                                <option value="" key={0}></option>
+                                <option value="" key={0}>Месяц</option>
                                 {months}
                             </select>
                         </div>
                         <div className="col-xs-4" style={{paddingLeft: '0px'}}>
                             <select className="form-control" value={this.state.year} onChange={this.handleYearChange}>
-                                <option value="" key={0}></option>
+                                <option value="" key={0}>Год</option>
                                 {years}
                             </select>
                         </div>
@@ -81,6 +81,19 @@ export default React.createClass({
             this.setState({ dateNotValid: day > daysInYear })
         } else {
             this.setState({ dateNotValid: false })
+        }
+
+        defer(this.raiseOnChange)
+    },
+    raiseOnChange() {
+        if(this.state.day && this.state.month && this.state.year && !this.state.dateNotValid) {
+            this.props.onChange({
+                day: this.state.day,
+                month: this.state.month,
+                year: this.state.year
+            })
+        } else {
+            this.props.onChange(null)
         }
     }
 })
