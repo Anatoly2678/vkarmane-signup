@@ -140,7 +140,7 @@ export default React.createClass({
         }
 
         if(result['IsCodeCorrect']) {
-            this.props.onSuccess()
+            this.props.onSuccess(this.props.phone)
             return
         }
 

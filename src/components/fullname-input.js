@@ -1,4 +1,5 @@
-const $if = (cond, result) => cond ? result : ''
+import {$if} from '../react-helpers'
+import defer from 'lodash/defer'
 
 export default React.createClass({
     getInitialState() {
@@ -72,6 +73,8 @@ export default React.createClass({
             lastNameHasError: !this.checkIsValidName(e.target.value),
             lastNameEmpty: e.target.value.trim().length === 0
         })
+
+        defer(this.raiseOnChange)
     },
     handleFirstNameChange(e) {
         this.setState({
@@ -79,6 +82,8 @@ export default React.createClass({
             firstNameHasError: !this.checkIsValidName(e.target.value),
             firstNameEmpty: e.target.value.trim().length === 0
         })
+
+        defer(this.raiseOnChange)
     },
     handleMiddleNameChange(e) {
         this.setState({
@@ -86,11 +91,27 @@ export default React.createClass({
             middleNameHasError: !this.checkIsValidName(e.target.value),
             middleNameEmpty: e.target.value.trim().length === 0
         })
+
+        defer(this.raiseOnChange)
     },
-    handleNoMiddleNameChange() {
-        this.setState({ noMiddleName: !this.state.noMiddleName })
+    handleNoMiddleNameChange(e) {
+        this.setState({ noMiddleName: e.target.checked })
+        defer(this.raiseOnChange)
     },
     checkIsValidName(name) {
         return name.trim().length === 0 || /^([А-Я|а-я])+$/.test(name.trim())
+    },
+    raiseOnChange() {
+        if(this.state.lastName && !this.state.lastNameHasError &&
+            this.state.firstName && !this.state.firstNameHasError &&
+            ((this.state.middleName && !this.state.middleNameHasError) || this.state.noMiddleName)) {
+            this.props.onChange({
+                last: this.state.lastName,
+                first: this.state.firstName,
+                middle: this.state.noMiddleName ? '' : this.state.middleName
+            })
+        } else {
+            this.props.onChange(null)
+        }
     }
 })

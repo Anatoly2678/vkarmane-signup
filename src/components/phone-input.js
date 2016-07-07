@@ -99,11 +99,13 @@ export default React.createClass({
         })
         alert(message)
     },
-    handlePhoneVerificationSuccess() {
+    handlePhoneVerificationSuccess(phone) {
         this.setState({
             phoneVerificationBoxVisible: false,
             phoneVerified: true
         })
+
+        this.props.onChange(phone)
     }
 })
 

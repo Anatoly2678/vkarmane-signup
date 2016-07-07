@@ -80,24 +80,70 @@
 
 	var _emailInput2 = _interopRequireDefault(_emailInput);
 
+	var _agreementBox = __webpack_require__(173);
+
+	var _agreementBox2 = _interopRequireDefault(_agreementBox);
+
+	var _reactHelpers = __webpack_require__(174);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = React.createClass({
 	    displayName: 'signup-form',
+	    getInitialState: function getInitialState() {
+	        return {
+	            phone: null,
+	            fullNameInputVisible: false,
+	            fullName: null,
+	            birthdayInputVisible: false,
+	            birthday: null,
+	            emailInputVisible: false,
+	            email: null,
+	            agreementBoxVisible: false
+	        };
+	    },
 	    render: function render() {
 	        return React.createElement(
 	            'form',
-	            { className: 'form-signin' },
+	            { className: 'form-signin', onSubmit: this.onSubmit },
 	            React.createElement(
 	                'h2',
 	                { className: 'form-signin-heading' },
 	                'Регистрация'
 	            ),
-	            React.createElement(_phoneInput2.default, null),
-	            React.createElement(_fullnameInput2.default, null),
-	            React.createElement(_birthdayInput2.default, null),
-	            React.createElement(_emailInput2.default, null)
+	            React.createElement(_phoneInput2.default, { onChange: this.handlePhoneChange }),
+	            (0, _reactHelpers.$if)(this.state.fullNameInputVisible, React.createElement(_fullnameInput2.default, { onChange: this.handleFullNameChange })),
+	            (0, _reactHelpers.$if)(this.state.birthdayInputVisible, React.createElement(_birthdayInput2.default, { onChange: this.handleBirthdayChange })),
+	            (0, _reactHelpers.$if)(this.state.emailInputVisible, React.createElement(_emailInput2.default, { onChange: this.handleEmailChange })),
+	            (0, _reactHelpers.$if)(this.state.agreementBoxVisible, React.createElement(_agreementBox2.default, null))
 	        );
+	    },
+	    handlePhoneChange: function handlePhoneChange(phone) {
+	        this.setState({
+	            phone: phone,
+	            fullNameInputVisible: this.state.fullNameInputVisible || !!phone
+	        });
+	    },
+	    handleFullNameChange: function handleFullNameChange(fullName) {
+	        this.setState({
+	            fullName: fullName,
+	            birthdayInputVisible: this.state.birthdayInputVisible || !!fullName
+	        });
+	    },
+	    handleBirthdayChange: function handleBirthdayChange(birthday) {
+	        this.setState({
+	            birthday: birthday,
+	            emailInputVisible: this.state.emailInputVisible || !!birthday
+	        });
+	    },
+	    handleEmailChange: function handleEmailChange(email) {
+	        this.setState({
+	            email: email,
+	            agreementBoxVisible: this.state.agreementBoxVisible || !!email
+	        });
+	    },
+	    onSubmit: function onSubmit(e) {
+	        e.preventDefault();
 	    }
 	});
 
@@ -260,11 +306,13 @@
 	        });
 	        alert(message);
 	    },
-	    handlePhoneVerificationSuccess: function handlePhoneVerificationSuccess() {
+	    handlePhoneVerificationSuccess: function handlePhoneVerificationSuccess(phone) {
 	        this.setState({
 	            phoneVerificationBoxVisible: false,
 	            phoneVerified: true
 	        });
+
+	        this.props.onChange(phone);
 	    }
 	});
 
@@ -5797,7 +5845,7 @@
 	        }
 
 	        if (result['IsCodeCorrect']) {
-	            this.props.onSuccess();
+	            this.props.onSuccess(this.props.phone);
 	            return;
 	        }
 
@@ -5814,16 +5862,21 @@
 
 /***/ },
 /* 48 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	var $if = function $if(cond, result) {
-	    return cond ? result : '';
-	};
+
+	var _reactHelpers = __webpack_require__(174);
+
+	var _defer = __webpack_require__(164);
+
+	var _defer2 = _interopRequireDefault(_defer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = React.createClass({
 	    displayName: 'fullname-input',
@@ -5852,15 +5905,15 @@
 	            ),
 	            React.createElement(
 	                'div',
-	                { className: 'form-group ' + $if(this.state.lastNameHasError || this.state.lastNameEmpty, 'has-error') },
+	                { className: 'form-group ' + (0, _reactHelpers.$if)(this.state.lastNameHasError || this.state.lastNameEmpty, 'has-error') },
 	                React.createElement('input', { type: 'text', className: 'form-control', id: 'lastNameInput',
 	                    value: this.state.lastName, placeholder: 'Фамилия', onChange: this.handleLastNameChange }),
-	                $if(this.state.lastNameEmpty, React.createElement(
+	                (0, _reactHelpers.$if)(this.state.lastNameEmpty, React.createElement(
 	                    'span',
 	                    { className: 'help-block' },
 	                    'Пожалуйста, заполните поле'
 	                )),
-	                $if(this.state.lastNameHasError, React.createElement(
+	                (0, _reactHelpers.$if)(this.state.lastNameHasError, React.createElement(
 	                    'span',
 	                    { className: 'help-block' },
 	                    'Пожалуйста, заполните поле корректно'
@@ -5868,15 +5921,15 @@
 	            ),
 	            React.createElement(
 	                'div',
-	                { className: 'form-group ' + $if(this.state.firstNameHasError || this.state.firstNameEmpty, 'has-error') },
+	                { className: 'form-group ' + (0, _reactHelpers.$if)(this.state.firstNameHasError || this.state.firstNameEmpty, 'has-error') },
 	                React.createElement('input', { type: 'text', className: 'form-control',
 	                    value: this.state.firstName, placeholder: 'Имя', onChange: this.handleFirstNameChange }),
-	                $if(this.state.firstNameEmpty, React.createElement(
+	                (0, _reactHelpers.$if)(this.state.firstNameEmpty, React.createElement(
 	                    'span',
 	                    { className: 'help-block' },
 	                    'Пожалуйста, заполните поле'
 	                )),
-	                $if(this.state.firstNameHasError, React.createElement(
+	                (0, _reactHelpers.$if)(this.state.firstNameHasError, React.createElement(
 	                    'span',
 	                    { className: 'help-block' },
 	                    'Пожалуйста, заполните поле корректно'
@@ -5884,16 +5937,16 @@
 	            ),
 	            React.createElement(
 	                'div',
-	                { className: 'form-group ' + $if((this.state.middleNameEmpty || this.state.middleNameHasError) && !this.state.noMiddleName, 'has-error') },
+	                { className: 'form-group ' + (0, _reactHelpers.$if)((this.state.middleNameEmpty || this.state.middleNameHasError) && !this.state.noMiddleName, 'has-error') },
 	                React.createElement('input', { type: 'text', className: 'form-control',
 	                    value: this.state.middleName, placeholder: 'Отчество', onChange: this.handleMiddleNameChange,
 	                    readOnly: this.state.noMiddleName }),
-	                $if(this.state.middleNameEmpty && !this.state.noMiddleName, React.createElement(
+	                (0, _reactHelpers.$if)(this.state.middleNameEmpty && !this.state.noMiddleName, React.createElement(
 	                    'span',
 	                    { className: 'help-block' },
 	                    'Пожалуйста, заполните поле'
 	                )),
-	                $if(this.state.middleNameHasError && !this.state.noMiddleName, React.createElement(
+	                (0, _reactHelpers.$if)(this.state.middleNameHasError && !this.state.noMiddleName, React.createElement(
 	                    'span',
 	                    { className: 'help-block' },
 	                    'Пожалуйста, заполните поле корректно'
@@ -5917,6 +5970,8 @@
 	            lastNameHasError: !this.checkIsValidName(e.target.value),
 	            lastNameEmpty: e.target.value.trim().length === 0
 	        });
+
+	        (0, _defer2.default)(this.raiseOnChange);
 	    },
 	    handleFirstNameChange: function handleFirstNameChange(e) {
 	        this.setState({
@@ -5924,6 +5979,8 @@
 	            firstNameHasError: !this.checkIsValidName(e.target.value),
 	            firstNameEmpty: e.target.value.trim().length === 0
 	        });
+
+	        (0, _defer2.default)(this.raiseOnChange);
 	    },
 	    handleMiddleNameChange: function handleMiddleNameChange(e) {
 	        this.setState({
@@ -5931,12 +5988,26 @@
 	            middleNameHasError: !this.checkIsValidName(e.target.value),
 	            middleNameEmpty: e.target.value.trim().length === 0
 	        });
+
+	        (0, _defer2.default)(this.raiseOnChange);
 	    },
-	    handleNoMiddleNameChange: function handleNoMiddleNameChange() {
-	        this.setState({ noMiddleName: !this.state.noMiddleName });
+	    handleNoMiddleNameChange: function handleNoMiddleNameChange(e) {
+	        this.setState({ noMiddleName: e.target.checked });
+	        (0, _defer2.default)(this.raiseOnChange);
 	    },
 	    checkIsValidName: function checkIsValidName(name) {
 	        return name.trim().length === 0 || /^([А-Я|а-я])+$/.test(name.trim());
+	    },
+	    raiseOnChange: function raiseOnChange() {
+	        if (this.state.lastName && !this.state.lastNameHasError && this.state.firstName && !this.state.firstNameHasError && (this.state.middleName && !this.state.middleNameHasError || this.state.noMiddleName)) {
+	            this.props.onChange({
+	                last: this.state.lastName,
+	                first: this.state.firstName,
+	                middle: this.state.noMiddleName ? '' : this.state.middleName
+	            });
+	        } else {
+	            this.props.onChange(null);
+	        }
 	    }
 	});
 
@@ -6028,21 +6099,29 @@
 	                    { className: 'row' },
 	                    React.createElement(
 	                        'div',
-	                        { className: 'col-xs-3' },
+	                        { className: 'col-xs-4' },
 	                        React.createElement(
 	                            'select',
 	                            { className: 'form-control', value: this.state.day, onChange: this.handleDayChange },
-	                            React.createElement('option', { value: '', key: 0 }),
+	                            React.createElement(
+	                                'option',
+	                                { value: '', key: 0 },
+	                                'День'
+	                            ),
 	                            days
 	                        )
 	                    ),
 	                    React.createElement(
 	                        'div',
-	                        { className: 'col-xs-5', style: { paddingLeft: '0px' } },
+	                        { className: 'col-xs-4', style: { paddingLeft: '0px' } },
 	                        React.createElement(
 	                            'select',
 	                            { className: 'form-control', value: this.state.month, onChange: this.handleMonthChange },
-	                            React.createElement('option', { value: '', key: 0 }),
+	                            React.createElement(
+	                                'option',
+	                                { value: '', key: 0 },
+	                                'Месяц'
+	                            ),
 	                            months
 	                        )
 	                    ),
@@ -6052,7 +6131,11 @@
 	                        React.createElement(
 	                            'select',
 	                            { className: 'form-control', value: this.state.year, onChange: this.handleYearChange },
-	                            React.createElement('option', { value: '', key: 0 }),
+	                            React.createElement(
+	                                'option',
+	                                { value: '', key: 0 },
+	                                'Год'
+	                            ),
 	                            years
 	                        )
 	                    )
@@ -6087,6 +6170,19 @@
 	            this.setState({ dateNotValid: day > daysInYear });
 	        } else {
 	            this.setState({ dateNotValid: false });
+	        }
+
+	        (0, _defer2.default)(this.raiseOnChange);
+	    },
+	    raiseOnChange: function raiseOnChange() {
+	        if (this.state.day && this.state.month && this.state.year && !this.state.dateNotValid) {
+	            this.props.onChange({
+	                day: this.state.day,
+	                month: this.state.month,
+	                year: this.state.year
+	            });
+	        } else {
+	            this.props.onChange(null);
 	        }
 	    }
 	});
@@ -10245,6 +10341,7 @@
 	            emailBlocked: false
 	        });
 
+	        this.raiseOnChange(null);
 	        this.validateEmailDebounced();
 	    },
 	    validateEmail: function validateEmail() {
@@ -10291,6 +10388,11 @@
 	            console.error(result['Message']);
 	            return;
 	        }
+
+	        this.raiseOnChange(this.state.email);
+	    },
+	    raiseOnChange: function raiseOnChange(email) {
+	        this.props.onChange(email);
 	    }
 	});
 
@@ -10507,6 +10609,107 @@
 
 	module.exports = now;
 
+
+/***/ },
+/* 173 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = React.createClass({
+	    displayName: "agreement-box",
+	    getInitialState: function getInitialState() {
+	        return {
+	            generalRules: false,
+	            asp: false
+	        };
+	    },
+	    render: function render() {
+	        return React.createElement(
+	            "div",
+	            null,
+	            React.createElement(
+	                "div",
+	                { className: "checkbox" },
+	                React.createElement(
+	                    "label",
+	                    null,
+	                    React.createElement("input", { type: "checkbox", checked: this.state.generalRules, onChange: this.handleGeneralRulesChange }),
+	                    "Я принимаю ",
+	                    React.createElement(
+	                        "a",
+	                        { href: "http://www.vkarmane-online.ru/files/flib/51.pdf", target: "_blank" },
+	                        "Общие условия договора потребительского займа"
+	                    ),
+	                    ", ",
+	                    React.createElement(
+	                        "a",
+	                        { href: "http://www.vkarmane-online.ru/files/flib/69.pdf", target: "_blank" },
+	                        "Правила предоставления займов"
+	                    ),
+	                    " и ",
+	                    React.createElement(
+	                        "a",
+	                        { href: "http://www.vkarmane-online.ru/files/flib/70.pdf", target: "_blank" },
+	                        "Информацию об условиях предоставления, использования и возврата потребительского микрозайма"
+	                    ),
+	                    ". Предлагаю рассмотреть мое ",
+	                    React.createElement(
+	                        "a",
+	                        { href: "http://www.vkarmane-online.ru/files/flib/84.pdf", target: "_blank" },
+	                        "Заявление о предоставлении микрозайма"
+	                    ),
+	                    "."
+	                )
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "checkbox" },
+	                React.createElement(
+	                    "label",
+	                    null,
+	                    React.createElement("input", { type: "checkbox", checked: this.state.asp, onChange: this.handleAspChange }),
+	                    "Я, подтверждаю принятие ",
+	                    React.createElement(
+	                        "a",
+	                        { href: "http://www.vkarmane-online.ru/files/flib/83.pdf", target: "_blank" },
+	                        "Соглашения об использовании АСП"
+	                    ),
+	                    " и ",
+	                    React.createElement(
+	                        "a",
+	                        { href: "http://www.vkarmane-online.ru/files/flib/45.pdf", target: "_blank" },
+	                        "Правилами обработки персональных данных"
+	                    ),
+	                    "."
+	                )
+	            )
+	        );
+	    },
+	    handleGeneralRulesChange: function handleGeneralRulesChange(e) {
+	        this.setState({ generalRules: e.target.checked });
+	    },
+	    handleAspChange: function handleAspChange(e) {
+	        this.setState({ asp: e.target.checked });
+	    }
+	});
+
+/***/ },
+/* 174 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.$if = $if;
+	function $if(cond, result) {
+	    return cond ? result : '';
+	}
 
 /***/ }
 /******/ ]);
