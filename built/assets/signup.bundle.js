@@ -111,6 +111,7 @@
 	                { className: 'form-signin-heading' },
 	                'Регистрация'
 	            ),
+				React.createElement('div', {className: "form-signin-heading-underline"}, ""),
 	            React.createElement(_phoneInput2.default, { onChange: this.handlePhoneChange }),
 	            (0, _reactHelpers.$if)(this.state.fullNameInputVisible, React.createElement(_fullnameInput2.default, { onChange: this.handleFullNameChange })),
 	            (0, _reactHelpers.$if)(this.state.birthdayInputVisible, React.createElement(_birthdayInput2.default, { onChange: this.handleBirthdayChange })),

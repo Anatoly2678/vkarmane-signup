@@ -5,19 +5,24 @@ body {
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
-
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
   margin-top: 0;
   margin-bottom: 0;
-  line-height: 40px;
+  line-height: 45px;
+}
+
+h2.form-signin-heading {
+  font-family: Arial;
+  font-weight: bold;
+  font-size: 40px;
 }
 
 /* Custom page footer */
 .footer {
   padding-top: 19px;
   color: #777;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid #E5E5E5;
 }
 
 /* Customize container */
@@ -26,11 +31,10 @@ body {
     max-width: 730px;
   }
 }
+
 .container-narrow > hr {
   margin: 30px 0;
 }
-
-
 
 /* Supporting marketing content */
 .marketing {
@@ -38,9 +42,15 @@ body {
 }
 
 .form-signin {
-  max-width: 380px;
-  padding: 15px;
+  max-width: 460px;
+  padding: 25px 60px;
   margin: 0 auto;
+  border: 3px solid #FFB30F;
+  /*+border-radius: 10px;*/
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  border-radius: 10px;
 }
 
 .form-signin .form-signin-heading {
@@ -54,6 +64,7 @@ body {
     padding-right: 0;
     padding-left: 0;
   }
+  
   /* Space out the masthead */
   .header {
     margin-bottom: 30px;
