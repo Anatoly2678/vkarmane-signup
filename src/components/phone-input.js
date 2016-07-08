@@ -1,3 +1,4 @@
+import React from 'react'
 import MaskedInput from 'react-maskedinput'
 import PhoneVerificationBox from './phone-verification-box'
 
@@ -15,10 +16,10 @@ export default React.createClass({
         }
     },
     render () {
-        const sendCodeButton = (
+        const sendCodeButton =
             <button type="button" className="btn btn-primary" onClick={this.handleSendCodeClick}>
                 Подтвердить телефон
-            </button>)
+            </button>
 
         const phoneInput = (
             <div>
@@ -29,14 +30,13 @@ export default React.createClass({
                         <MaskedInput
                             type="tel" id="inputPhone" className="form-control"
                             mask="(111) 111 - 11 - 11" placeholder="(000) 000 - 00 - 00"
-                            onChange={this.handlePhoneChange} />
+                            onChange={this.handlePhoneChange} value={this.state.phone} />
                     </div>
                     <span className="help-block">{this.state.errorMessage}</span>
                     {this.state.phoneAlreadyExists
                         ? <div className="alert alert-warning">
-                        <span className="glyphicon glyphicon-exclamation-sign"></span>
-                        <smal>Такой номер уже зарегистрирован. Пожалуйста, <a href="/login.html">авторизуйтесь</a></smal>
-                    </div> : null}
+                            <smal>Такой номер уже зарегистрирован. Пожалуйста, <a href="/signin.html">авторизуйтесь</a></smal>
+                        </div> : null}
                 </div>
                 {this.state.sendCodeButtonVisible ? sendCodeButton: null}
             </div>)
@@ -57,7 +57,8 @@ export default React.createClass({
                 phone={'+7' + this.state.phone}
                 onError={this.handlePhoneVerificationError}
                 onAlreadyExists={this.handlePhoneVerificationAlreadyExists}
-                onSuccess={this.handlePhoneVerificationSuccess} />
+                onSuccess={this.handlePhoneVerificationSuccess}
+                onClose={this.handlePhoneVerificationClose} />
 
         return (
             <div>
@@ -106,6 +107,12 @@ export default React.createClass({
         })
 
         this.props.onChange(phone)
+    },
+    handlePhoneVerificationClose() {
+        this.setState({
+            phoneVerificationBoxVisible: false,
+            phoneInputVisible: true
+        })
     }
 })
 

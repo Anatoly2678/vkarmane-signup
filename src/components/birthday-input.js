@@ -1,12 +1,9 @@
-/**
- * Created by akarpov on 06.07.2016.
- */
+import React from 'react'
 import range from 'lodash/range'
 import rangeRight from 'lodash/rangeRight'
 import map from 'lodash/map'
 import defer from 'lodash/defer'
-
-const $if = (cond, result) => cond ? result : ''
+import {$if} from '../react-helpers'
 
 export default React.createClass({
     getInitialState() {
@@ -14,7 +11,9 @@ export default React.createClass({
             day: '',
             month: '',
             year:  '',
-            dateNotValid: false
+            showError: false,
+            wasEntered: false,
+            empty: false
         }
     },
     render() {
@@ -22,15 +21,18 @@ export default React.createClass({
             'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
             'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
 
-        const days = map(range(1, 32), n => <option value={n} key={n}>{n}</option>)
+        const days = map(range(1, this.daysInMonth(this.state.month, this.state.year) + 1), n => <option value={n} key={n}>{n}</option>)
         const months = map(range(1, 13), n => <option value={n} key={n}>{monthNames[n-1]}</option>)
-        const years = map(rangeRight(1950, 1996), n => <option value={n} key={n}>{n}</option>)
+
+        const maxYearOfBirth = new Date().getFullYear() - this.props.maxAge - 1
+        const minYearOfBirth = new Date().getFullYear() - this.props.minAge
+        const years = map(rangeRight(maxYearOfBirth, minYearOfBirth + 1), n => <option value={n} key={n}>{n}</option>)
 
         return (
             <div>
                 <label className="control-label">... и дата рождения</label>
 
-                <div className={`form-group ${$if(this.state.dateNotValid, 'has-error')}`}>
+                <div className={`form-group ${$if(this.state.showError || this.state.empty, 'has-error')}`}>
                     <div className="row">
                         <div className="col-xs-4">
                             <select className="form-control" value={this.state.day} onChange={this.handleDayChange}>
@@ -52,48 +54,67 @@ export default React.createClass({
                         </div>
                     </div>
 
-                    {$if(this.state.dateNotValid,
+                    {$if(this.state.showError,
                         <span className="help-block">Пожалуйста, заполните поле корректно</span>)}
+
+                    {$if(this.state.empty,
+                        <span className="help-block">Пожалуйста, заполните поле</span>)}
                 </div>
             </div>)
     },
     handleDayChange(e) {
-        this.setState({ day: e.target.value })
-        defer(this.validateDate)
+        this.setState({
+            day: parseInt(e.target.value),
+            showError: false,
+            empty: false
+        })
 
+        defer(this.raiseChange)
     },
     handleMonthChange(e) {
-        this.setState({ month: e.target.value })
-        defer(this.validateDate)
-    },
-    handleYearChange(e) {
-        this.setState({ year: e.target.value })
-        defer(this.validateDate)
+        const month = parseInt(e.target.value)
+        this.setState({ month })
 
-    },
-    validateDate() {
-        const day = this.state.day
-        const month = this.state.month
-        const year = this.state.year
-
-        if(day && year && month) {
-            var daysInYear = new Date(year, month, 0).getDate()
-            this.setState({ dateNotValid: day > daysInYear })
-        } else {
-            this.setState({ dateNotValid: false })
+        if(this.state.day > this.daysInMonth(month, this.state.year)) {
+            this.setState({
+                day: 0,
+                showError: true
+            })
         }
 
-        defer(this.raiseOnChange)
+        defer(this.raiseChange)
     },
-    raiseOnChange() {
-        if(this.state.day && this.state.month && this.state.year && !this.state.dateNotValid) {
+    handleYearChange(e) {
+        const year = parseInt(e.target.value)
+        this.setState({ year })
+
+        if(this.state.day > this.daysInMonth(this.state.month, year)) {
+            this.setState({
+                day: 0,
+                showError: true })
+        } else {
+            this.setState({ showError: false })
+        }
+
+        defer(this.raiseChange)
+    },
+    raiseChange() {
+        if(this.state.day && this.state.month && this.state.year) {
             this.props.onChange({
                 day: this.state.day,
                 month: this.state.month,
                 year: this.state.year
             })
+
+            this.setState({ wasEntered: true })
         } else {
             this.props.onChange(null)
+            this.setState({ empty: this.state.wasEntered })
         }
+    },
+    daysInMonth(month, year) {
+        if(!month) return 31
+        if(!year) return month == 2 ? 29 : new Date(1950 /* любой год */, month, 0).getDate()
+        return new Date(year, month, 0).getDate()
     }
 })

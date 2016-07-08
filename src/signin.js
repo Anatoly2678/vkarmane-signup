@@ -1,4 +1,8 @@
-const SigninBox = React.createClass({
+import cookie from 'js-cookie'
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+const SigninForm = React.createClass({
     getInitialState() {
         return {
             email:'',
@@ -80,10 +84,17 @@ const SigninBox = React.createClass({
             return
         }
 
-        $.post('/0/rest/LeadGeneratorService/SaveReferralIntoSession', JSON.stringify({
-            param: $.cookie('lead_generator_referral')
-        }))
-            .always(() => location.replace('/0/Nui/ViewModule.aspx'))
+        $.ajax({
+            type: "POST",
+            url: '/0/rest/LeadGeneratorService/SaveReferralIntoSession',
+            data: JSON.stringify({
+                param: cookie.get('lead_generator_referral')
+            }),
+            contentType: 'application/json',
+            dataType: 'json',
+            success: () => location.replace('/0/Nui/ViewModule.aspx'),
+            error: () => location.replace('/0/Nui/ViewModule.aspx')
+        })
     },
     handleLoginError(xhr, status, err) {
         this.setState({
@@ -95,3 +106,5 @@ const SigninBox = React.createClass({
         location.replace('/Recovery.aspx')
     }
 })
+
+ReactDOM.render(<SigninForm />, document.getElementById('content'))

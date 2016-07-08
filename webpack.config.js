@@ -1,8 +1,11 @@
 module.exports = {
-    entry: './src/signup.js',
+    entry: {
+        signin: './src/signin.js',
+        signup: './src/signup.js'
+    },
     output: {
         path: './built/assets',
-        filename: 'signup.bundle.js'
+        filename: '[name].bundle.js'
     },
     module: {
         loaders: [{
