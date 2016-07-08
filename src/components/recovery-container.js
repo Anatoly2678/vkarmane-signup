@@ -1,14 +1,89 @@
 import React from 'react'
 import MaskedInput from 'react-maskedinput'
+import { connect } from 'react-redux'
+import {
+    changePhoneNumber,
+    sendVerificationCode,
+    numberVerified,
+    verificationAborted,
+    verificationFailed
+} from '../actions/recovery'
 import PhoneVerificationBox from './phone-verification-box'
 import {$if} from '../react-helpers'
 
+const PhoneInput = ({phone, message, onChange, onSendCode}) => {
+    return (
+        <div>
+            <div className={`form-group ${$if(message,'has-error')}`}>
+                <label htmlFor="inputPhone">
+                    Введите мобильный телефон, указанный вами при регистрации
+                </label>
+                <div className="input-group">
+                    <div className="input-group-addon">+7</div>
+                    <MaskedInput
+                        type="tel" id="inputPhone" className="form-control"
+                        mask="(111) 111 - 11 - 11" placeholder="(000) 000 - 00 - 00"
+                        value={phone.number.substr('+7'.length)} /* Отрезаем +7 */
+                        onChange={e => onChange('+7' + e.target.value)} />
+                </div>
+                <span className="help-block">{message}</span>
+            </div>
 
-export default React.createClass({
-    render () {
-        return 'OK'
+            {$if(phone.readyToCheck,
+                <button type="button" className="btn btn-primary"
+                        onClick={() => onSendCode(phone.number)}>
+                    Подтвердить телефон
+                </button>
+            )}
+        </div>)
+}
+
+const RecoveryForm = ({
+    phone, verification, onChangePhoneNumber,
+    onSendCode, onVerificationSuccess, onVerificationClose,
+    onVerificationError}) => {
+    return (
+        <form className="form-signin" onSubmit={e => e.preventDefault()}>
+            <h2 className="form-signin-heading">Восстановление пароля</h2>
+
+            {$if(!verification.pending,
+                <PhoneInput
+                    phone={phone}
+                    onChange={onChangePhoneNumber}
+                    onSendCode={onSendCode} />
+            )}
+
+            {$if(verification.pending,
+                <PhoneVerificationBox
+                    phone={verification.number}
+                    onError={onVerificationError}
+                    onAlreadyExists={val => {
+                        alert('exists: ' + val)
+                        return {abort: false}
+                    }}
+                    onSuccess={onVerificationSuccess}
+                    onClose={onVerificationClose} />
+            )}
+        </form>)
+}
+
+export default connect(
+    state => {
+        return {
+            phone: state.phone,
+            verification: state.verification
+        }
+    },
+    dispatch => {
+        return {
+            onChangePhoneNumber: number => dispatch(changePhoneNumber(number)),
+            onSendCode: number => dispatch(sendVerificationCode(number)),
+            onVerificationSuccess: () => dispatch(numberVerified()),
+            onVerificationClose: () => dispatch(verificationAborted()),
+            onVerificationError: message => dispatch(verificationFailed(message))
+        }
     }
-})
+)(RecoveryForm)
 
 
 /*

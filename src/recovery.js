@@ -1,4 +1,16 @@
-import RecoveryForm from './components/recovery-form'
-import ReactDOM from 'react-dom'
+import RecoveryContainer from './components/recovery-container'
+import React from 'react'
+import {render} from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import recovery from './reducers/recovery'
 
-ReactDOM.render(<RecoveryForm />, document.getElementById('content'))
+
+let store = createStore(recovery)
+
+render(
+    <Provider store={store}>
+        <RecoveryContainer />
+    </Provider>,
+    document.getElementById('content')
+)

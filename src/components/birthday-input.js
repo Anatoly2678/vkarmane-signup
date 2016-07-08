@@ -78,7 +78,8 @@ export default React.createClass({
         if(this.state.day > this.daysInMonth(month, this.state.year)) {
             this.setState({
                 day: 0,
-                showError: true
+                showError: true,
+                empty: false
             })
         }
 
@@ -86,7 +87,7 @@ export default React.createClass({
     },
     handleYearChange(e) {
         const year = parseInt(e.target.value)
-        this.setState({ year })
+        this.setState({ year, empty: false })
 
         if(this.state.day > this.daysInMonth(this.state.month, year)) {
             this.setState({
