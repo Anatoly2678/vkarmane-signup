@@ -1,3 +1,4 @@
+import React from 'react'
 import {$if} from '../react-helpers'
 import defer from 'lodash/defer'
 

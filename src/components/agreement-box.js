@@ -1,3 +1,7 @@
+import React from 'react'
+import defer from 'lodash/defer'
+import {$if} from '../react-helpers'
+
 export default React.createClass({
     getInitialState() {
         return {
@@ -30,8 +34,13 @@ export default React.createClass({
     },
     handleGeneralRulesChange(e) {
         this.setState({ generalRules: e.target.checked })
+        defer(this.raiseChange)
     },
     handleAspChange(e) {
         this.setState({ asp: e.target.checked })
+        defer(this.raiseChange)
+    },
+    raiseChange() {
+        this.props.onChange(this.state.generalRules && this.state.asp)
     }
 })

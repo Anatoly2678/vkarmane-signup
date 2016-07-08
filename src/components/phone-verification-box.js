@@ -1,3 +1,6 @@
+import React from 'react'
+import {$if} from '../react-helpers'
+
 export default React.createClass({
     getInitialState() {
         return {
@@ -15,7 +18,7 @@ export default React.createClass({
     render () {
         return (
             <div className="alert alert-info alert-dismissible" role="alert">
-                <button type="button" className="close"><span>&times;</span></button>
+                <button type="button" className="close" onClick={() => this.props.onClose()}><span>&times;</span></button>
                 <h3>Подтверждение номера телефона</h3>
                 <div className="form-group">
                     <p>На указанный вами номер телефона отправлено СМС с кодом подтверждения.</p>
@@ -27,7 +30,7 @@ export default React.createClass({
 
                 {this.state.codeInputVisible ?
                     <div>
-                        <div className="form-group">
+                        <div className={`form-group ${$if(this.state.errorMessage, 'has-error')}`}>
                             <input value={this.state.code} className="form-control"
                                    onChange={this.handleCodeChange} placeholder="Код из СМС"/>
                             <span className="help-block text-danger">{this.state.errorMessage}</span>
