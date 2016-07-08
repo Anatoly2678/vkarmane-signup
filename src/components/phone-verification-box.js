@@ -80,10 +80,8 @@ export default React.createClass({
 
         const result = JSON.parse(res.d)['SendVerificationCodesResult']
 
-        if(result['IsExists']) {
-            this.props.onAlreadyExists()
-            return
-        }
+        const {abort} = this.props.onAlreadyExists(!!result['IsExists'])
+        if(abort) return
 
         if(result['IsInBlockList']) {
             this.props.onError('Номер в черном списке')
