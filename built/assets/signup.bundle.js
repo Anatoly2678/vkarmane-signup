@@ -4502,12 +4502,16 @@
 	            phoneInputVisible: false
 	        });
 	    },
-	    handlePhoneVerificationAlreadyExists: function handlePhoneVerificationAlreadyExists() {
-	        this.setState({
-	            phoneVerificationBoxVisible: false,
-	            phoneInputVisible: true,
-	            phoneAlreadyExists: true
-	        });
+	    handlePhoneVerificationAlreadyExists: function handlePhoneVerificationAlreadyExists(value) {
+	        if (value) {
+	            this.setState({
+	                phoneVerificationBoxVisible: false,
+	                phoneInputVisible: true,
+	                phoneAlreadyExists: true
+	            });
+	        }
+
+	        return { abort: value };
 	    },
 	    handlePhoneVerificationError: function handlePhoneVerificationError(message) {
 	        this.setState({
@@ -9884,10 +9888,11 @@
 
 	        var result = JSON.parse(res.d)['SendVerificationCodesResult'];
 
-	        if (result['IsExists']) {
-	            this.props.onAlreadyExists();
-	            return;
-	        }
+	        var _props$onAlreadyExist = this.props.onAlreadyExists(!!result['IsExists']);
+
+	        var abort = _props$onAlreadyExist.abort;
+
+	        if (abort) return;
 
 	        if (result['IsInBlockList']) {
 	            this.props.onError('Номер в черном списке');

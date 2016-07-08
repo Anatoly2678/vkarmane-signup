@@ -1,7 +1,13 @@
 import React from 'react'
 import MaskedInput from 'react-maskedinput'
 import PhoneVerificationBox from './phone-verification-box'
+import {$if} from '../react-helpers'
 
+
+
+
+
+/*
 export default React.createClass({
     getInitialState() {
         return {
@@ -35,8 +41,8 @@ export default React.createClass({
                     <span className="help-block">{this.state.errorMessage}</span>
                     {this.state.phoneAlreadyExists
                         ? <div className="alert alert-warning">
-                            <smal>Такой номер уже зарегистрирован. Пожалуйста, <a href="/signin.html">авторизуйтесь</a></smal>
-                        </div> : null}
+                        <smal>Такой номер уже зарегистрирован. Пожалуйста, <a href="/signin.html">авторизуйтесь</a></smal>
+                    </div> : null}
                 </div>
                 {this.state.sendCodeButtonVisible ? sendCodeButton: null}
             </div>)
@@ -118,5 +124,4 @@ export default React.createClass({
             phoneInputVisible: true
         })
     }
-})
-
+})*/
