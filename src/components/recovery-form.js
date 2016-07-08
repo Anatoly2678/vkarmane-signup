@@ -4,7 +4,11 @@ import PhoneVerificationBox from './phone-verification-box'
 import {$if} from '../react-helpers'
 
 
-
+export default React.createClass({
+    render () {
+        return 'OK'
+    }
+})
 
 
 /*
