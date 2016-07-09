@@ -23952,6 +23952,8 @@
 	    value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _redux = __webpack_require__(53);
 
 	var _assign = __webpack_require__(201);
@@ -23960,14 +23962,14 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var phoneDefault = {
+	var initialPhone = {
 	    number: '+7(913) 483 - 38 - 9_',
 	    readyToCheck: false
 
 	};
 
 	var phone = function phone() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? phoneDefault : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialPhone : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
@@ -23977,13 +23979,13 @@
 	            };
 	            var digitsInPhone = 11;
 
-	            return (0, _assign2.default)({}, state, {
+	            return _extends({}, state, {
 	                number: action.number,
 	                readyToCheck: countDigits(action.number) === digitsInPhone
 	            });
 
 	        case 'VERIFICATION_FAILED':
-	            return (0, _assign2.default)({}, state, {
+	            return _extends({}, state, {
 	                readyToCheck: false
 	            });
 
@@ -23992,7 +23994,7 @@
 	    }
 	};
 
-	var verificationDefault = {
+	var initialVerification = {
 	    pending: false,
 	    number: null,
 	    verified: false,
@@ -24000,33 +24002,33 @@
 	};
 
 	var verification = function verification() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? verificationDefault : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialVerification : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case 'SEND_VERIFICATION_CODE':
-	            return (0, _assign2.default)({}, state, {
+	            return _extends({}, state, {
 	                pending: true,
 	                number: action.number,
 	                message: ''
 	            });
 
 	        case 'NUMBER_VERIFIED':
-	            return (0, _assign2.default)({}, state, {
+	            return _extends({}, state, {
 	                pending: false,
 	                verified: true,
 	                message: ''
 	            });
 
 	        case 'VERIFICATION_ABORTED':
-	            return (0, _assign2.default)({}, state, {
+	            return _extends({}, state, {
 	                pending: false,
 	                verified: false,
 	                message: ''
 	            });
 
 	        case 'VERIFICATION_FAILED':
-	            return (0, _assign2.default)({}, state, {
+	            return _extends({}, state, {
 	                pending: false,
 	                verified: false,
 	                message: action.message
