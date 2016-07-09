@@ -7,9 +7,11 @@ import AgreementBox from './agreement-box'
 import {$if} from '../react-helpers'
 import cookie from 'js-cookie'
 
-export default React.createClass({
-    getInitialState() {
-        return {
+export default class SigninForm extends React.Component {
+    constructor() {
+        super()
+
+        this.state = {
             phone: null,
             fullNameInputVisible: false,
             fullName: null,
@@ -22,7 +24,8 @@ export default React.createClass({
             continueButtonVisible: false,
             waitingForSignup: false
         }
-    },
+    }
+
     render() {
         const continueEnabled =
             this.state.phone && this.state.fullName &&
@@ -57,35 +60,41 @@ export default React.createClass({
                         <div className="progress-bar progress-bar-striped active" style={{width:'100%'}}></div>
                     </div>)}
             </form>)
-    },
+    }
+
     handlePhoneChange(phone) {
         this.setState({
             phone: phone,
             fullNameInputVisible: this.state.fullNameInputVisible || !!phone
         })
-    },
+    }
+
     handleFullNameChange(fullName) {
         this.setState({
             fullName: fullName,
             birthdayInputVisible: this.state.birthdayInputVisible || !!fullName
         })
-    },
+    }
+
     handleBirthdayChange(birthday) {
         this.setState({
             birthday: birthday,
             emailInputVisible: this.state.emailInputVisible || !!birthday
         })
-    },
+    }
+
     handleEmailChange(email) {
         this.setState({
             email: email,
             agreementBoxVisible: this.state.agreementBoxVisible || !!email,
             continueButtonVisible: this.state.continueButtonVisible || !!email
         })
-    },
+    }
+
     handleAgreeChange(agree) {
         this.setState({ agree: agree })
-    },
+    }
+
     handleContinueClick(e) {
         e.preventDefault()
 
@@ -114,7 +123,8 @@ export default React.createClass({
                 this.setState({ waitingForSignup: false })
             }
         })
-    },
+    }
+
     handleRegisterResult(response) {
         if (!response.d || response.d == "Error") {
             console.error(response)
@@ -141,7 +151,8 @@ export default React.createClass({
             success: this.handleLoginResult,
             error: (xhr, code, err) => console.error(err.toString())
         })
-    },
+    }
+
     handleLoginResult(response) {
         if(response.Code != 0){
             console.error(response.Message)
@@ -161,7 +172,8 @@ export default React.createClass({
             success: () => location.replace('/0/Nui/ViewModule.aspx'),
             error: (xhr, code, err) => console.error(err.toString())
         })
-    },
+    }
+
     // Извлекает из куки значение lead_generator_referral
     // и извлекает из него Url. Решает проблему, когда в lead_generator_referral
     // Url записывался с параметром. Это происходит при регистрации.
@@ -176,5 +188,5 @@ export default React.createClass({
 
         return matchs[0]
     }
-})
+}
 
