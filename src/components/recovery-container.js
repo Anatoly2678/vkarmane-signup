@@ -1,15 +1,15 @@
 import React from 'react'
 import MaskedInput from 'react-maskedinput'
 import { connect } from 'react-redux'
+import PhoneVerificationBox from './phone-verification-box'
+import {$if} from '../react-helpers'
 import {
     changePhoneNumber,
     sendVerificationCode,
     numberVerified,
     verificationAborted,
     verificationFailed
-} from '../actions/recovery'
-import PhoneVerificationBox from './phone-verification-box'
-import {$if} from '../react-helpers'
+} from '../reducers/recovery'
 
 const PhoneInput = ({phone, message, onChange, onSendCode}) => {
     return (
@@ -68,21 +68,17 @@ const RecoveryForm = ({
 }
 
 export default connect(
-    state => {
-        return {
-            phone: state.phone,
-            verification: state.verification
-        }
-    },
-    dispatch => {
-        return {
-            onChangePhoneNumber: number => dispatch(changePhoneNumber(number)),
-            onSendCode: number => dispatch(sendVerificationCode(number)),
-            onVerificationSuccess: () => dispatch(numberVerified()),
-            onVerificationClose: () => dispatch(verificationAborted()),
-            onVerificationError: message => dispatch(verificationFailed(message))
-        }
-    }
+    state => ({
+        phone: state.phone,
+        verification: state.verification
+    }),
+    dispatch => ({
+        onChangePhoneNumber: number => dispatch(changePhoneNumber(number)),
+        onSendCode: number => dispatch(sendVerificationCode(number)),
+        onVerificationSuccess: () => dispatch(numberVerified()),
+        onVerificationClose: () => dispatch(verificationAborted()),
+        onVerificationError: message => dispatch(verificationFailed(message))
+    })
 )(RecoveryForm)
 
 
