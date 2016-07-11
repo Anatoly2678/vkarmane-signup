@@ -1,4 +1,9 @@
 /* Space out content a bit */
+@font-face {
+    font-family: 'M-Geometria-Bold';
+    src: url('../fonts/Geometria-Bold.otf') format('truetype');
+}
+
 body {
     padding-top: 20px;
     padding-bottom: 20px;
@@ -115,12 +120,42 @@ label {
 
 .header-adv {
     padding-top: 35px;
+    padding-bottom: 70px;
 }
 
 div.logo {
     background: url(../images/logo.png) no-repeat !important;
     height: 42px;
     width: 142px;
+}
+
+div.phone {
+    font-family: 'M-Geometria-Bold';
+    font-size: 20px;
+    font-weight: bold;
+}
+
+div.phone span {
+    color: #4385B7;
+}
+
+.phone-info {
+    font-size: x-small;
+}
+
+.nav li .icon-acc,
+.nav li .icon-acc:active {
+    background: url(../images/acc.png) 10px center no-repeat !important;
+    text-decoration: underline dotted #4385B7;
+    color: #4385B7;
+    text-align: left;
+    padding-left: 30px;
+}
+
+.nav li a.icon-acc:focus,
+.nav li a.icon-acc:hover {
+    color: #305A7E;
+    text-decoration: underline dotted #305A7E;
 }
 
 .checkbox-group {
