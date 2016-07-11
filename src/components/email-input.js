@@ -21,7 +21,7 @@ export default React.createClass({
     render() {
         return (
             <div>
-                <label htmlFor="emailInput">Осталось указать email и продолжим</label>
+                <label htmlFor="emailInput" className="newFieldLine">Осталось указать email и продолжим</label>
 
                 <div className={`form-group ${$if(this.state.emailEmpty || this.state.emailExists || this.state.emailNotValid, 'has-error')}`}>
                     <input type="email" className="form-control" id="emailInput"

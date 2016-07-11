@@ -30,7 +30,7 @@ export default React.createClass({
 
         return (
             <div>
-                <label className="control-label">... и дата рождения</label>
+                <label className="control-label newFieldLine">... и дата рождения</label>
 
                 <div className={`form-group ${$if(this.state.showError || this.state.empty, 'has-error')}`}>
                     <div className="row">

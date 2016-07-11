@@ -11,16 +11,16 @@ export default React.createClass({
     getInitialState() {
         return {
             phone: null,
-            fullNameInputVisible: false,
+            fullNameInputVisible: true,
             fullName: null,
-            birthdayInputVisible: false,
+            birthdayInputVisible: true,
             birthday: null,
-            emailInputVisible: false,
+            emailInputVisible: true,
             email: null,
-            agreementBoxVisible: false,
+            agreementBoxVisible: true,
             agree: false,
-            continueButtonVisible: false,
-            waitingForSignup: false
+            continueButtonVisible: true,
+            waitingForSignup: true
         }
     },
     render() {
@@ -32,6 +32,7 @@ export default React.createClass({
         return (
             <form className="form-signin" onSubmit={e => e.preventDefault()}>
                 <h2 className="form-signin-heading">Регистрация</h2>
+                <div className="form-signin-heading-underline"></div>
                 <PhoneInput onChange={this.handlePhoneChange} />
 
                 {$if(this.state.fullNameInputVisible,

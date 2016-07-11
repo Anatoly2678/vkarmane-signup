@@ -20,7 +20,7 @@ export default React.createClass({
     render() {
         return (
             <div>
-                <label htmlFor="lastNameInput">Ваши ФИО...</label>
+                <label htmlFor="lastNameInput" className="newFieldLine">Ваши ФИО...</label>
 
                 {/* Last name */}
                 <div className={`form-group ${$if(this.state.lastNameHasError || this.state.lastNameEmpty, 'has-error')}`}>
@@ -61,8 +61,8 @@ export default React.createClass({
 
                 {/* No Middle name */}
                 <div className="checkbox">
-                    <label>
-                        <input type="checkbox" checked={this.state.noMiddleName} onChange={this.handleNoMiddleNameChange} />
+                    <input id="noMiddleName" type="checkbox" checked={this.state.noMiddleName} onChange={this.handleNoMiddleNameChange} />
+                    <label htmlFor="noMiddleName"> <span></span>                
                         без отчества
                     </label>
                 </div>

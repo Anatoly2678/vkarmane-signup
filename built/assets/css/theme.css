@@ -30,16 +30,28 @@ h2.form-signin-heading {
 
 .form-control {
     padding: 15px;
-    height: auto;
     background-color: #ECF3F9;
+    border-color: #ECF3F9;
+    box-shadow: 0px 0px;
+    height: auto;
 }
 
 .form-control:focus {
-    border-color: #66AFE9;
+    border-color: #4F89B1;
+    background-color: white;
+}
+
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+    background-color: silver;
+    box-shadow: 0px 0px;
+    border-color: silver;
 }
 
 .input-group-addon {
     background-color: #ECF3F9;
+    border-color: #ECF3F9;
 }
 
 .btn {
@@ -48,25 +60,38 @@ h2.form-signin-heading {
     padding-right: 30px;
     padding-left: 30px;
     height: auto;
-    width: auto;
     padding-top: 15px;
     padding-bottom: 15px;
 }
 
-input[type=checkbox] {
-  display: none;
+input[type="checkbox"] {
+    display: none;
 }
 
-/*.checkbox label:before {*/
-  /*border-radius: 3px;*/
-/*}*/
-input[type=checkbox]:checked {
-  content: "\2713";
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
-  font-size: 15px;
-  color: #f3f3f3;
-  text-align: center;
-  line-height: 15px;
+input[type="checkbox"] + label {
+    padding-left: 35px;
+}
+
+input[type="checkbox"] + label span {
+    display: inline-block;
+    width: 21px;
+    height: 21px;
+    margin: -2px 16px 0 -35px;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid #ECF3F9;
+    /*+border-radius: 4px;*/
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -khtml-border-radius: 4px;
+    border-radius: 4px;
+    padding: 8px;
+    font-family: Arial;
+    background: url(../images/tick.png) 0px 0px / 16px 32px no-repeat #ECF3F9 !important;
+}
+
+input[type="checkbox"]:checked + label span {
+    background: url(../images/tick.png) 2px -16px / 16px 32px no-repeat #ECF3F9 !important;
 }
 
 .has-error .form-control {
@@ -75,13 +100,39 @@ input[type=checkbox]:checked {
 }
 
 .has-error .form-control:focus {
-    background-color: #F4DADB;
+    background-color: white;
     border-color: #843534;
 }
 
 label {
     font-family: Arial;
     font-weight: normal;
+}
+
+.newFieldLine {
+    margin-top: 25px;
+}
+
+.header-adv {
+    padding-top: 35px;
+}
+
+div.logo {
+    background: url(../images/logo.png) no-repeat !important;
+    height: 42px;
+    width: 142px;
+}
+
+.checkbox-group {
+    font-size: small;
+    color: #8C949B;
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.checkbox-group div.checkbox {
+    padding-top: 7px;
+    padding-bottom: 7px;
 }
 
 /* Custom page footer */
