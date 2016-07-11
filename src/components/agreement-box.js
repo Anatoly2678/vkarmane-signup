@@ -11,11 +11,11 @@ export default React.createClass({
     },
     render() {
         return (
-            <div>
+            <div className="checkbox-group">
                 <div className="checkbox">
-                    <label>
-                        <input type="checkbox" checked={this.state.generalRules}
-                               onChange={this.handleGeneralRulesChange} disabled={this.props.disabled} />
+                    <input id="iaccept" className="inputcb" type="checkbox" checked={this.state.generalRules}
+                           onChange={this.handleGeneralRulesChange}  disabled={this.props.disabled} />
+                    <label htmlFor="iaccept"> <span></span>
                         Я принимаю <a href="http://www.vkarmane-online.ru/files/flib/51.pdf" target="_blank" >
                         Общие условия договора потребительского займа</a>, <a href="http://www.vkarmane-online.ru/files/flib/69.pdf" target="_blank">
                         Правила предоставления займов</a> и <a href= "http://www.vkarmane-online.ru/files/flib/70.pdf" target="_blank">
@@ -24,9 +24,9 @@ export default React.createClass({
                     </label>
                 </div>
                 <div className="checkbox">
-                    <label>
-                        <input type="checkbox" checked={this.state.asp}
-                               onChange={this.handleAspChange} disabled={this.props.disabled} />
+                    <input id="icomfirm" className="inputcb" type="checkbox" checked={this.state.asp}
+                           onChange={this.handleAspChange} disabled={this.props.disabled} />
+                    <label htmlFor="icomfirm"> <span></span>
                         Я, подтверждаю принятие <a href="http://www.vkarmane-online.ru/files/flib/83.pdf" target="_blank">
                         Соглашения об использовании АСП</a> и <a href="http://www.vkarmane-online.ru/files/flib/45.pdf" target="_blank">
                         Правилами обработки персональных данных</a>.
