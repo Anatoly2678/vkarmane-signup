@@ -31510,21 +31510,25 @@
 
 	exports.default = _react2.default.createClass({
 	    displayName: 'email-input',
+
+	    emailPattern: /^[\w|-|.]+@[\w|-]+(\.\w+)+$/,
 	    getInitialState: function getInitialState() {
 	        return {
 	            email: '',
-	            emailEmpty: false,
 	            emailExists: false,
 	            emailBlocked: false,
 	            waiting: false,
 	            wasEntered: false,
-	            emailNotValid: false
+	            success: false
 	        };
 	    },
 	    componentWillMount: function componentWillMount() {
 	        this.validateEmailDebounced = (0, _debounce2.default)(this.validateEmail, 500);
 	    },
 	    render: function render() {
+	        var showNotEntered = this.state.wasEntered && this.state.email.trim().length === 0;
+	        var emailNotValid = this.state.wasEntered && this.state.email && !this.emailPattern.test(this.state.email);
+
 	        return _react2.default.createElement(
 	            'div',
 	            null,
@@ -31535,15 +31539,16 @@
 	            ),
 	            _react2.default.createElement(
 	                'div',
-	                { className: 'form-group ' + (0, _reactHelpers.$if)(this.state.emailEmpty || this.state.emailExists || this.state.emailNotValid, 'has-error') },
+	                { className: 'form-group ' + (0, _reactHelpers.$if)(showNotEntered || this.state.emailExists || emailNotValid, 'has-error') + ' ' + (0, _reactHelpers.$if)(this.state.success, 'has-success has-feedback') },
 	                _react2.default.createElement('input', { type: 'email', className: 'form-control', id: 'emailInput',
 	                    value: this.state.email, placeholder: 'Укажите ваш email', onChange: this.handleEmailChange }),
-	                (0, _reactHelpers.$if)(this.state.emailEmpty, _react2.default.createElement(
+	                (0, _reactHelpers.$if)(this.state.success, _react2.default.createElement('span', { className: 'glyphicon glyphicon-ok form-control-feedback', 'aria-hidden': 'true' })),
+	                (0, _reactHelpers.$if)(showNotEntered, _react2.default.createElement(
 	                    'span',
 	                    { className: 'help-block' },
 	                    'Пожалуйста, заполните поле'
 	                )),
-	                (0, _reactHelpers.$if)(this.state.emailNotValid, _react2.default.createElement(
+	                (0, _reactHelpers.$if)(emailNotValid, _react2.default.createElement(
 	                    'span',
 	                    { className: 'help-block' },
 	                    'Пожалуйста, заполните поле корректно'
@@ -31569,27 +31574,22 @@
 	    handleEmailChange: function handleEmailChange(e) {
 	        var _this = this;
 
+	        var email = e.target.value;
+
 	        this.setState({
-	            email: e.target.value,
-	            emailEmpty: e.target.value.trim().length === 0,
+	            email: email,
 	            emailExists: false,
 	            emailBlocked: false,
-	            emailNotValid: false,
-	            waiting: false
+	            waiting: false,
+	            success: false
 	        });
 
 	        this.raiseChange(null);
 
 	        (0, _defer2.default)(function () {
-	            var emailPattern = /^[^@]+@[^.]+(\.[^.]+)+$/;
-
-	            if (emailPattern.test(_this.state.email)) {
+	            if (_this.emailPattern.test(_this.state.email.trim())) {
+	                _this.setState({ wasEntered: true });
 	                _this.validateEmailDebounced();
-	                return;
-	            }
-
-	            if (_this.state.wasEntered && _this.state.email.trim().length > 0) {
-	                _this.setState({ emailNotValid: true });
 	            }
 	        });
 	    },
@@ -31639,8 +31639,8 @@
 	            return;
 	        }
 
+	        this.setState({ success: true });
 	        this.raiseChange(this.state.email);
-	        this.setState({ wasEntered: true });
 	    },
 	    raiseChange: function raiseChange(email) {
 	        this.props.onChange(email);

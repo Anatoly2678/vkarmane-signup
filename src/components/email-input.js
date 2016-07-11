@@ -4,33 +4,43 @@ import defer from 'lodash/defer'
 import {$if} from '../react-helpers'
 
 export default React.createClass({
+    emailPattern: /^[\w|-|.]+@[\w|-]+(\.\w+)+$/,
     getInitialState() {
         return {
             email: '',
-            emailEmpty: false,
             emailExists: false,
             emailBlocked: false,
             waiting: false,
             wasEntered: false,
-            emailNotValid: false,
+            success: false
         }
     },
     componentWillMount() {
         this.validateEmailDebounced = debounce(this.validateEmail, 500)
     },
     render() {
+        const showNotEntered = this.state.wasEntered && this.state.email.trim().length === 0
+        const emailNotValid = this.state.wasEntered &&
+            this.state.email && !this.emailPattern.test(this.state.email)
+
         return (
             <div>
                 <label htmlFor="emailInput">Осталось указать email и продолжим</label>
 
-                <div className={`form-group ${$if(this.state.emailEmpty || this.state.emailExists || this.state.emailNotValid, 'has-error')}`}>
+                <div className={`form-group ${
+                        $if(showNotEntered || this.state.emailExists || emailNotValid, 'has-error')} ${
+                        $if(this.state.success, 'has-success has-feedback')}`}>
+
                     <input type="email" className="form-control" id="emailInput"
                            value={this.state.email} placeholder="Укажите ваш email" onChange={this.handleEmailChange} />
 
-                    {$if(this.state.emailEmpty,
+                    {$if(this.state.success,
+                        <span className="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>)}
+
+                    {$if(showNotEntered,
                         <span className="help-block">Пожалуйста, заполните поле</span>)}
 
-                    {$if(this.state.emailNotValid,
+                    {$if(emailNotValid,
                         <span className="help-block">Пожалуйста, заполните поле корректно</span>)}
 
                     {$if(this.state.emailExists,
@@ -47,32 +57,26 @@ export default React.createClass({
             </div>)
     },
     handleEmailChange(e) {
+        const email = e.target.value
+
         this.setState({
-            email: e.target.value,
-            emailEmpty: e.target.value.trim().length === 0,
+            email,
             emailExists: false,
             emailBlocked: false,
-            emailNotValid: false,
-            waiting: false
+            waiting: false,
+            success: false
         })
 
         this.raiseChange(null)
 
         defer(() =>{
-            const emailPattern = /^[^@]+@[^.]+(\.[^.]+)+$/
-
-            if (emailPattern.test(this.state.email)) {
+            if(this.emailPattern.test(this.state.email.trim())) {
+                this.setState({ wasEntered: true })
                 this.validateEmailDebounced()
-                return
-            }
-
-            if (this.state.wasEntered && this.state.email.trim().length > 0) {
-                this.setState({emailNotValid: true})
             }
         })
     },
     validateEmail () {
-
         this.setState({ waiting: true })
 
         $.ajax({
@@ -115,8 +119,8 @@ export default React.createClass({
             return
         }
 
+        this.setState({ success: true })
         this.raiseChange(this.state.email)
-        this.setState({ wasEntered: true })
     },
     raiseChange(email) {
         this.props.onChange(email)
