@@ -26739,7 +26739,7 @@
 	            phone: null,
 	            fullNameInputVisible: false,
 	            fullName: null,
-	            birthdayInputVisible: true,
+	            birthdayInputVisible: false,
 	            birthday: null,
 	            emailInputVisible: false,
 	            email: null,
@@ -26763,10 +26763,14 @@
 	                'Регистрация'
 	            ),
 	            _react2.default.createElement(_phoneInput2.default, { onChange: this.handlePhoneChange }),
-	            (0, _reactHelpers.$if)(this.state.fullNameInputVisible, _react2.default.createElement(_fullnameInput2.default, { onChange: this.handleFullNameChange })),
-	            (0, _reactHelpers.$if)(this.state.birthdayInputVisible, _react2.default.createElement(_birthdayInput2.default, { onChange: this.handleBirthdayChange, maxAge: 65, minAge: 21 })),
-	            (0, _reactHelpers.$if)(this.state.emailInputVisible, _react2.default.createElement(_emailInput2.default, { onChange: this.handleEmailChange })),
-	            (0, _reactHelpers.$if)(this.state.agreementBoxVisible, _react2.default.createElement(_agreementBox2.default, { onChange: this.handleAgreeChange })),
+	            (0, _reactHelpers.$if)(this.state.fullNameInputVisible, _react2.default.createElement(_fullnameInput2.default, { onChange: this.handleFullNameChange,
+	                disabled: this.state.waitingForSignup })),
+	            (0, _reactHelpers.$if)(this.state.birthdayInputVisible, _react2.default.createElement(_birthdayInput2.default, { onChange: this.handleBirthdayChange, maxAge: 65, minAge: 21,
+	                disabled: this.state.waitingForSignup })),
+	            (0, _reactHelpers.$if)(this.state.emailInputVisible, _react2.default.createElement(_emailInput2.default, { onChange: this.handleEmailChange,
+	                disabled: this.state.waitingForSignup })),
+	            (0, _reactHelpers.$if)(this.state.agreementBoxVisible, _react2.default.createElement(_agreementBox2.default, { onChange: this.handleAgreeChange,
+	                disabled: this.state.waitingForSignup })),
 	            (0, _reactHelpers.$if)(this.state.continueButtonVisible && !this.state.waitingForSignup, _react2.default.createElement(
 	                'button',
 	                { type: 'button', className: 'btn btn-primary btn-block',
@@ -26887,7 +26891,8 @@
 	                return location.replace('/0/Nui/ViewModule.aspx');
 	            },
 	            error: function error(xhr, code, err) {
-	                return console.error(err.toString());
+	                console.error(err.toString());
+	                location.replace('/0/Nui/ViewModule.aspx');
 	            }
 	        });
 	    },
@@ -27143,7 +27148,8 @@
 	                'div',
 	                { className: 'form-group ' + (0, _reactHelpers.$if)(this.state.lastNameHasError || this.state.lastNameEmpty, 'has-error') },
 	                _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'lastNameInput',
-	                    value: this.state.lastName, placeholder: 'Фамилия', onChange: this.handleLastNameChange }),
+	                    value: this.state.lastName, placeholder: 'Фамилия',
+	                    onChange: this.handleLastNameChange, disabled: this.props.disabled }),
 	                (0, _reactHelpers.$if)(this.state.lastNameEmpty, _react2.default.createElement(
 	                    'span',
 	                    { className: 'help-block' },
@@ -27159,7 +27165,8 @@
 	                'div',
 	                { className: 'form-group ' + (0, _reactHelpers.$if)(this.state.firstNameHasError || this.state.firstNameEmpty, 'has-error') },
 	                _react2.default.createElement('input', { type: 'text', className: 'form-control',
-	                    value: this.state.firstName, placeholder: 'Имя', onChange: this.handleFirstNameChange }),
+	                    value: this.state.firstName, placeholder: 'Имя',
+	                    onChange: this.handleFirstNameChange, disabled: this.props.disabled }),
 	                (0, _reactHelpers.$if)(this.state.firstNameEmpty, _react2.default.createElement(
 	                    'span',
 	                    { className: 'help-block' },
@@ -27176,7 +27183,7 @@
 	                { className: 'form-group ' + (0, _reactHelpers.$if)((this.state.middleNameEmpty || this.state.middleNameHasError) && !this.state.noMiddleName, 'has-error') },
 	                _react2.default.createElement('input', { type: 'text', className: 'form-control',
 	                    value: this.state.middleName, placeholder: 'Отчество', onChange: this.handleMiddleNameChange,
-	                    readOnly: this.state.noMiddleName }),
+	                    readOnly: this.state.noMiddleName, disabled: this.props.disabled }),
 	                (0, _reactHelpers.$if)(this.state.middleNameEmpty && !this.state.noMiddleName, _react2.default.createElement(
 	                    'span',
 	                    { className: 'help-block' },
@@ -27194,7 +27201,8 @@
 	                _react2.default.createElement(
 	                    'label',
 	                    null,
-	                    _react2.default.createElement('input', { type: 'checkbox', checked: this.state.noMiddleName, onChange: this.handleNoMiddleNameChange }),
+	                    _react2.default.createElement('input', { type: 'checkbox', checked: this.state.noMiddleName,
+	                        onChange: this.handleNoMiddleNameChange, disabled: this.props.disabled }),
 	                    'без отчества'
 	                )
 	            )
@@ -27801,7 +27809,8 @@
 	                        { className: 'col-xs-4' },
 	                        _react2.default.createElement(
 	                            'select',
-	                            { className: 'form-control', value: this.state.day, onChange: this.handleDayChange },
+	                            { className: 'form-control', value: this.state.day,
+	                                onChange: this.handleDayChange, disabled: this.props.disabled },
 	                            _react2.default.createElement(
 	                                'option',
 	                                { value: '', key: 0 },
@@ -27815,7 +27824,8 @@
 	                        { className: 'col-xs-4', style: { paddingLeft: '0px' } },
 	                        _react2.default.createElement(
 	                            'select',
-	                            { className: 'form-control', value: this.state.month, onChange: this.handleMonthChange },
+	                            { className: 'form-control', value: this.state.month,
+	                                onChange: this.handleMonthChange, disabled: this.props.disabled },
 	                            _react2.default.createElement(
 	                                'option',
 	                                { value: '', key: 0 },
@@ -27829,7 +27839,8 @@
 	                        { className: 'col-xs-4', style: { paddingLeft: '0px' } },
 	                        _react2.default.createElement(
 	                            'select',
-	                            { className: 'form-control', value: this.state.year, onChange: this.handleYearChange },
+	                            { className: 'form-control', value: this.state.year,
+	                                onChange: this.handleYearChange, disabled: this.props.disabled },
 	                            _react2.default.createElement(
 	                                'option',
 	                                { value: '', key: 0 },
@@ -31511,12 +31522,12 @@
 	exports.default = _react2.default.createClass({
 	    displayName: 'email-input',
 
-	    emailPattern: /^[\w|-|.]+@[\w|-]+(\.\w+)+$/,
+	    emailPattern: /^[\w|\.|-]+@[\w|\.|-]+(\.\w+)+$/,
 	    getInitialState: function getInitialState() {
 	        return {
 	            email: '',
-	            emailExists: false,
-	            emailBlocked: false,
+	            exists: false,
+	            blocked: false,
 	            waiting: false,
 	            wasEntered: false,
 	            success: false
@@ -31527,7 +31538,7 @@
 	    },
 	    render: function render() {
 	        var showNotEntered = this.state.wasEntered && this.state.email.trim().length === 0;
-	        var emailNotValid = this.state.wasEntered && this.state.email && !this.emailPattern.test(this.state.email);
+	        var showNotValid = this.state.wasEntered && this.state.email && !this.emailPattern.test(this.state.email);
 
 	        return _react2.default.createElement(
 	            'div',
@@ -31539,26 +31550,27 @@
 	            ),
 	            _react2.default.createElement(
 	                'div',
-	                { className: 'form-group ' + (0, _reactHelpers.$if)(showNotEntered || this.state.emailExists || emailNotValid, 'has-error') + ' ' + (0, _reactHelpers.$if)(this.state.success, 'has-success has-feedback') },
+	                { className: 'form-group ' + (0, _reactHelpers.$if)(showNotEntered || this.state.exists || this.state.blocked || showNotValid, 'has-error') + ' ' + (0, _reactHelpers.$if)(this.state.success, 'has-success has-feedback') },
 	                _react2.default.createElement('input', { type: 'email', className: 'form-control', id: 'emailInput',
-	                    value: this.state.email, placeholder: 'Укажите ваш email', onChange: this.handleEmailChange }),
+	                    value: this.state.email, placeholder: 'Укажите ваш email',
+	                    onChange: this.handleEmailChange, disabled: this.props.disabled }),
 	                (0, _reactHelpers.$if)(this.state.success, _react2.default.createElement('span', { className: 'glyphicon glyphicon-ok form-control-feedback', 'aria-hidden': 'true' })),
 	                (0, _reactHelpers.$if)(showNotEntered, _react2.default.createElement(
 	                    'span',
 	                    { className: 'help-block' },
 	                    'Пожалуйста, заполните поле'
 	                )),
-	                (0, _reactHelpers.$if)(emailNotValid, _react2.default.createElement(
+	                (0, _reactHelpers.$if)(showNotValid, _react2.default.createElement(
 	                    'span',
 	                    { className: 'help-block' },
 	                    'Пожалуйста, заполните поле корректно'
 	                )),
-	                (0, _reactHelpers.$if)(this.state.emailExists, _react2.default.createElement(
+	                (0, _reactHelpers.$if)(this.state.exists, _react2.default.createElement(
 	                    'span',
 	                    { className: 'help-block' },
 	                    'Этот email уже зарегистрирован'
 	                )),
-	                (0, _reactHelpers.$if)(this.state.emailBlocked, _react2.default.createElement(
+	                (0, _reactHelpers.$if)(this.state.blocked, _react2.default.createElement(
 	                    'span',
 	                    { className: 'help-block' },
 	                    'Этот email в черном списке'
@@ -31578,8 +31590,8 @@
 
 	        this.setState({
 	            email: email,
-	            emailExists: false,
-	            emailBlocked: false,
+	            exists: false,
+	            blocked: false,
 	            waiting: false,
 	            success: false
 	        });
@@ -31622,14 +31634,14 @@
 
 	        if (result['IsExists']) {
 	            this.setState({
-	                emailExists: true
+	                exists: true
 	            });
 	            return;
 	        }
 
 	        if (result['IsInBlockList']) {
 	            this.setState({
-	                emailBlocked: true
+	                blocked: true
 	            });
 	            return;
 	        }
@@ -31901,7 +31913,8 @@
 	                _react2.default.createElement(
 	                    'label',
 	                    null,
-	                    _react2.default.createElement('input', { type: 'checkbox', checked: this.state.generalRules, onChange: this.handleGeneralRulesChange }),
+	                    _react2.default.createElement('input', { type: 'checkbox', checked: this.state.generalRules,
+	                        onChange: this.handleGeneralRulesChange, disabled: this.props.disabled }),
 	                    'Я принимаю ',
 	                    _react2.default.createElement(
 	                        'a',
@@ -31935,7 +31948,8 @@
 	                _react2.default.createElement(
 	                    'label',
 	                    null,
-	                    _react2.default.createElement('input', { type: 'checkbox', checked: this.state.asp, onChange: this.handleAspChange }),
+	                    _react2.default.createElement('input', { type: 'checkbox', checked: this.state.asp,
+	                        onChange: this.handleAspChange, disabled: this.props.disabled }),
 	                    'Я, подтверждаю принятие ',
 	                    _react2.default.createElement(
 	                        'a',

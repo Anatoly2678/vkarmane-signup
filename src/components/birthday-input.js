@@ -45,19 +45,22 @@ export default React.createClass({
                 <div className={`form-group ${$if(this.state.showError || showNotEntered || tooYoung || toOld, 'has-error')}`}>
                     <div className="row">
                         <div className="col-xs-4">
-                            <select className="form-control" value={this.state.day} onChange={this.handleDayChange}>
+                            <select className="form-control" value={this.state.day}
+                                    onChange={this.handleDayChange} disabled={this.props.disabled} >
                                 <option value="" key={0}>День</option>
                                 {days}
                             </select>
                         </div>
                         <div className="col-xs-4" style={{paddingLeft: '0px'}}>
-                            <select className="form-control" value={this.state.month} onChange={this.handleMonthChange}>
+                            <select className="form-control" value={this.state.month}
+                                    onChange={this.handleMonthChange} disabled={this.props.disabled} >
                                 <option value="" key={0}>Месяц</option>
                                 {months}
                             </select>
                         </div>
                         <div className="col-xs-4" style={{paddingLeft: '0px'}}>
-                            <select className="form-control" value={this.state.year} onChange={this.handleYearChange}>
+                            <select className="form-control" value={this.state.year}
+                                    onChange={this.handleYearChange} disabled={this.props.disabled} >
                                 <option value="" key={0}>Год</option>
                                 {years}
                             </select>

@@ -13,7 +13,7 @@ export default React.createClass({
             phone: null,
             fullNameInputVisible: false,
             fullName: null,
-            birthdayInputVisible: true,
+            birthdayInputVisible: false,
             birthday: null,
             emailInputVisible: false,
             email: null,
@@ -36,20 +36,24 @@ export default React.createClass({
                 <PhoneInput onChange={this.handlePhoneChange} />
 
                 {$if(this.state.fullNameInputVisible,
-                    <FullNameInput onChange={this.handleFullNameChange} />)}
+                    <FullNameInput onChange={this.handleFullNameChange}
+                                   disabled={this.state.waitingForSignup} />)}
 
                 {$if(this.state.birthdayInputVisible,
-                    <BirthdayInput onChange={this.handleBirthdayChange} maxAge={65} minAge={21} />)}
+                    <BirthdayInput onChange={this.handleBirthdayChange} maxAge={65} minAge={21}
+                                   disabled={this.state.waitingForSignup}/>)}
 
                 {$if(this.state.emailInputVisible,
-                    <EmailInput onChange={this.handleEmailChange} />)}
+                    <EmailInput onChange={this.handleEmailChange}
+                                disabled={this.state.waitingForSignup} />)}
 
                 {$if(this.state.agreementBoxVisible,
-                    <AgreementBox onChange={this.handleAgreeChange} />)}
+                    <AgreementBox onChange={this.handleAgreeChange}
+                                  disabled={this.state.waitingForSignup} />)}
 
                 {$if(this.state.continueButtonVisible && !this.state.waitingForSignup,
                     <button type="button" className="btn btn-primary btn-block"
-                            onClick={this.handleContinueClick}disabled={!continueEnabled}>
+                            onClick={this.handleContinueClick} disabled={!continueEnabled}>
                         Продолжить оформление →
                     </button>)}
 
@@ -168,7 +172,10 @@ export default React.createClass({
             contentType: 'application/json',
             dataType: 'json',
             success: () => location.replace('/0/Nui/ViewModule.aspx'),
-            error: (xhr, code, err) => console.error(err.toString())
+            error: (xhr, code, err) => {
+                console.error(err.toString())
+                location.replace('/0/Nui/ViewModule.aspx')
+            }
         })
     },
 
