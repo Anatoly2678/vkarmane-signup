@@ -6,6 +6,7 @@ export const sendVerificationCode = createAction('SEND_VERIFICATION_CODE')
 export const numberVerified = createAction('NUMBER_VERIFIED')
 export const verificationAborted = createAction('VERIFICATION_ABORTED')
 export const verificationFailed = createAction('VERIFICATION_FAILED')
+export const changePassword = createAction('CHANGE_PASSWORD')
 
 const phone = handleActions({
     [changePhoneNumber] (state, action) {
@@ -56,16 +57,22 @@ const verification = handleActions({
         verified: false,
         message: action.payload
     })
-},{
+}, {
     pending: false,
     number: null,
     verified: false,
     message: ''
 })
 
-const password = handleActions({}, {
+const password = handleActions({
+    [changePassword]: (state, action) => ({
+        ...state,
+        repeatedIncorrectly: action.
+    })
+}, {
     value: '',
-    confirmation: ''
+    confirmation: '',
+    repeatedIncorrectly: false
 })
 
 export default combineReducers({ phone, verification, password })

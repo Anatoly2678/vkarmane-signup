@@ -38,22 +38,42 @@ const PhoneInput = ({phone, message, onChange, onSendCode}) => {
         </div>)
 }
 
-const PasswordInput = () => (
-    <div>
-        <div className={`form-group ${$if(message,'has-error')}`}>
-            <label htmlFor="passInput">
-                Новый пароль
-            </label>
-            <div className="input-group">
-                <div className="input-group-addon">+7</div>
+const PasswordInput = (password, onChange, onSend) => {
+    let pass
+    let confirm
+
+    return  (
+        <div>
+            <div className={`form-group`}>
+                <label htmlFor="passInput">
+                    Новый пароль
+                </label>
                 <input
                     type="password" id="passInput" className="form-control"
-                    value={phone.number.substr('+7'.length)} /* Отрезаем +7 */
-                    onChange={e => onChange('+7' + e.target.value)} />
+                    ref={node => pass = node} value={password.value}
+                    onChange={() => onChange(pass.value, confirm.value)} />
+
+                <span className="help-block">{message}</span>
             </div>
-            <span className="help-block">{message}</span>
-        </div>
-    </div>)
+
+            <div className={`form-group`}>
+                <label htmlFor="confirmInput">
+                    Повторите пароль
+                </label>
+                <input
+                    type="password" id="confirmInput" className="form-control"
+                    ref={node => confirm = node} value={password.confirmation}
+                    onChange={() => onChange(pass.value, confirm.value)} />
+
+                <span className="help-block">Пароль повторен неправильно</span>
+            </div>
+
+            <button type="button" className="btn btn-primary"
+                    onClick={() => onSend(pass.value, confirm.value)}>
+                Сохранить
+            </button>
+        </div>)
+}
 
 const RecoveryForm = ({
     phone, verification, onChangePhoneNumber,
