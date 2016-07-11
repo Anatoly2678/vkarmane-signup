@@ -63,5 +63,10 @@ const verification = handleActions({
     message: ''
 })
 
-export default combineReducers({ phone, verification })
+const password = handleActions({}, {
+    value: '',
+    confirmation: ''
+})
+
+export default combineReducers({ phone, verification, password })
 

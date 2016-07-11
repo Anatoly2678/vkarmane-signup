@@ -7,15 +7,13 @@ import AgreementBox from './agreement-box'
 import {$if} from '../react-helpers'
 import cookie from 'js-cookie'
 
-export default class SigninForm extends React.Component {
-    constructor() {
-        super()
-
-        this.state = {
+export default React.createClass({
+    getInitialState() {
+        return {
             phone: null,
             fullNameInputVisible: false,
             fullName: null,
-            birthdayInputVisible: false,
+            birthdayInputVisible: true,
             birthday: null,
             emailInputVisible: false,
             email: null,
@@ -24,7 +22,7 @@ export default class SigninForm extends React.Component {
             continueButtonVisible: false,
             waitingForSignup: false
         }
-    }
+    },
 
     render() {
         const continueEnabled =
@@ -60,28 +58,28 @@ export default class SigninForm extends React.Component {
                         <div className="progress-bar progress-bar-striped active" style={{width:'100%'}}></div>
                     </div>)}
             </form>)
-    }
+    },
 
     handlePhoneChange(phone) {
         this.setState({
             phone: phone,
             fullNameInputVisible: this.state.fullNameInputVisible || !!phone
         })
-    }
+    },
 
     handleFullNameChange(fullName) {
         this.setState({
             fullName: fullName,
             birthdayInputVisible: this.state.birthdayInputVisible || !!fullName
         })
-    }
+    },
 
     handleBirthdayChange(birthday) {
         this.setState({
             birthday: birthday,
             emailInputVisible: this.state.emailInputVisible || !!birthday
         })
-    }
+    },
 
     handleEmailChange(email) {
         this.setState({
@@ -89,11 +87,11 @@ export default class SigninForm extends React.Component {
             agreementBoxVisible: this.state.agreementBoxVisible || !!email,
             continueButtonVisible: this.state.continueButtonVisible || !!email
         })
-    }
+    },
 
     handleAgreeChange(agree) {
         this.setState({ agree: agree })
-    }
+    },
 
     handleContinueClick(e) {
         e.preventDefault()
@@ -123,7 +121,7 @@ export default class SigninForm extends React.Component {
                 this.setState({ waitingForSignup: false })
             }
         })
-    }
+    },
 
     handleRegisterResult(response) {
         if (!response.d || response.d == "Error") {
@@ -151,7 +149,7 @@ export default class SigninForm extends React.Component {
             success: this.handleLoginResult,
             error: (xhr, code, err) => console.error(err.toString())
         })
-    }
+    },
 
     handleLoginResult(response) {
         if(response.Code != 0){
@@ -172,7 +170,7 @@ export default class SigninForm extends React.Component {
             success: () => location.replace('/0/Nui/ViewModule.aspx'),
             error: (xhr, code, err) => console.error(err.toString())
         })
-    }
+    },
 
     // Извлекает из куки значение lead_generator_referral
     // и извлекает из него Url. Решает проблему, когда в lead_generator_referral
@@ -188,5 +186,5 @@ export default class SigninForm extends React.Component {
 
         return matchs[0]
     }
-}
+})
 

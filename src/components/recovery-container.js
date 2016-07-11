@@ -15,13 +15,13 @@ const PhoneInput = ({phone, message, onChange, onSendCode}) => {
     return (
         <div>
             <div className={`form-group ${$if(message,'has-error')}`}>
-                <label htmlFor="inputPhone">
+                <label htmlFor="phoneInput">
                     Введите мобильный телефон, указанный вами при регистрации
                 </label>
                 <div className="input-group">
                     <div className="input-group-addon">+7</div>
                     <MaskedInput
-                        type="tel" id="inputPhone" className="form-control"
+                        type="tel" id="phoneInput" className="form-control"
                         mask="(111) 111 - 11 - 11" placeholder="(000) 000 - 00 - 00"
                         value={phone.number.substr('+7'.length)} /* Отрезаем +7 */
                         onChange={e => onChange('+7' + e.target.value)} />
@@ -37,6 +37,23 @@ const PhoneInput = ({phone, message, onChange, onSendCode}) => {
             )}
         </div>)
 }
+
+const PasswordInput = () => (
+    <div>
+        <div className={`form-group ${$if(message,'has-error')}`}>
+            <label htmlFor="passInput">
+                Новый пароль
+            </label>
+            <div className="input-group">
+                <div className="input-group-addon">+7</div>
+                <input
+                    type="password" id="passInput" className="form-control"
+                    value={phone.number.substr('+7'.length)} /* Отрезаем +7 */
+                    onChange={e => onChange('+7' + e.target.value)} />
+            </div>
+            <span className="help-block">{message}</span>
+        </div>
+    </div>)
 
 const RecoveryForm = ({
     phone, verification, onChangePhoneNumber,
