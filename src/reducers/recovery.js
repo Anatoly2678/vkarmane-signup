@@ -1,12 +1,44 @@
 import { combineReducers } from 'redux'
 import { createAction, handleActions } from 'redux-actions'
+import fetch from 'isomorphic-fetch'
 
 export const changePhoneNumber = createAction('CHANGE_PHONE_NUMBER')
-export const sendVerificationCode = createAction('SEND_VERIFICATION_CODE')
-export const numberVerified = createAction('NUMBER_VERIFIED')
-export const verificationAborted = createAction('VERIFICATION_ABORTED')
-export const verificationFailed = createAction('VERIFICATION_FAILED')
+export const requestCode = createAction('REQUEST_CODE')
+export const failSendCode = createAction('FAIL_SEND_CODE')
+export const receiveCodeId = createAction('RECEIVE_CODE_ID')
 export const changePassword = createAction('CHANGE_PASSWORD')
+
+const post = (url, data) =>
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+
+export const sendCode = (number) => {
+    return dispatch => {
+        dispatch(requestCode())
+
+        return post('/Recovery.aspx/SendCodeForPasswordChange', {
+            number,
+            type: 'phone'
+        }).then(response =>{
+            return response.json()
+        }).then(json => {
+            const result = JSON.parse(json.d).SendCodeForPasswordChangeResult
+
+            if(result.Code == 0) {
+                dispatch(receiveCodeId(result.CodeId))
+            } else {
+                dispatch(failSendCode(result.Message))
+            }
+        }).catch(ex =>
+            dispatch(failSendCode(ex.message || ex.Message || ex.toString())))
+    }
+}
 
 const phone = handleActions({
     [changePhoneNumber] (state, action) {
@@ -16,64 +48,53 @@ const phone = handleActions({
         return {
             ...state,
             number: action.payload,
-            readyToCheck: countDigits(action.payload) === digitsInPhone
+            readyToCheck: countDigits(action.payload) === digitsInPhone,
+            sent: false
         }
     },
 
-    [verificationFailed]: state => ({
-        ...state,
-        readyToCheck: false
-    })
+    [requestCode] (state) {
+        return {
+            ...state,
+            sent: true
+        }
+    }
 }, {
     number: '+7(913) 483 - 38 - 9_',
-    readyToCheck: false
+    readyToCheck: false,
+    sent: false
 })
 
 const verification = handleActions({
-    [sendVerificationCode]: (state, action) => ({
+    [requestCode]: state => ({
         ...state,
-        pending: true,
-        number: action.payload,
-        message: ''
+        sendingCode: true,
+        codeId: '',
+        code: '',
+        message: '',
+        verified: false,
     }),
     
-    [numberVerified]: state => ({
+    [receiveCodeId]: (state, action) => ({
         ...state,
-        pending: false,
+        sendingCode: false,
         verified: true,
-        message: ''
+        codeId: action.payload
     }),
 
-    [verificationAborted]: state => ({
+    [failSendCode]: (state, action) => ({
         ...state,
-        pending: false,
-        verified: false,
-        message: ''
-    }),
-
-    [verificationFailed]: (state, action) => ({
-        ...state,
-        pending: false,
-        verified: false,
+        sendingCode: false,
         message: action.payload
     })
 }, {
-    pending: false,
+    sendingCode: false,
+    codeId: '',
+    code: '',
     number: null,
     verified: false,
     message: ''
 })
 
-const password = handleActions({
-    [changePassword]: (state, action) => ({
-        ...state,
-        repeatedIncorrectly: action.
-    })
-}, {
-    value: '',
-    confirmation: '',
-    repeatedIncorrectly: false
-})
-
-export default combineReducers({ phone, verification, password })
+export default combineReducers({ phone, verification })
 
