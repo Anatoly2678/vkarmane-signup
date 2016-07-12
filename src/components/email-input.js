@@ -4,39 +4,50 @@ import defer from 'lodash/defer'
 import {$if} from '../react-helpers'
 
 export default React.createClass({
+    emailPattern: /^[\w|\.|-]+@[\w|\.|-]+(\.\w+)+$/,
     getInitialState() {
         return {
             email: '',
-            emailEmpty: false,
-            emailExists: false,
-            emailBlocked: false,
+            exists: false,
+            blocked: false,
             waiting: false,
             wasEntered: false,
-            emailNotValid: false,
+            success: false
         }
     },
     componentWillMount() {
         this.validateEmailDebounced = debounce(this.validateEmail, 500)
     },
     render() {
+        const showNotEntered = this.state.wasEntered && this.state.email.trim().length === 0
+        const showNotValid = this.state.wasEntered &&
+            this.state.email && !this.emailPattern.test(this.state.email)
+
         return (
             <div>
                 <label htmlFor="emailInput" className="newFieldLine">Осталось указать email и продолжим</label>
 
-                <div className={`form-group ${$if(this.state.emailEmpty || this.state.emailExists || this.state.emailNotValid, 'has-error')}`}>
-                    <input type="email" className="form-control" id="emailInput"
-                           value={this.state.email} placeholder="Укажите ваш email" onChange={this.handleEmailChange} />
+                <div className={`form-group ${
+                        $if(showNotEntered || this.state.exists || this.state.blocked || showNotValid, 'has-error')} ${
+                        $if(this.state.success, 'has-success has-feedback')}`}>
 
-                    {$if(this.state.emailEmpty,
+                    <input type="email" className="form-control" id="emailInput"
+                           value={this.state.email} placeholder="Укажите ваш email"
+                           onChange={this.handleEmailChange} disabled={this.props.disabled} />
+
+                    {$if(this.state.success,
+                        <span className="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>)}
+
+                    {$if(showNotEntered,
                         <span className="help-block">Пожалуйста, заполните поле</span>)}
 
-                    {$if(this.state.emailNotValid,
+                    {$if(showNotValid,
                         <span className="help-block">Пожалуйста, заполните поле корректно</span>)}
 
-                    {$if(this.state.emailExists,
+                    {$if(this.state.exists,
                         <span className="help-block">Этот email уже зарегистрирован</span>)}
 
-                    {$if(this.state.emailBlocked,
+                    {$if(this.state.blocked,
                         <span className="help-block">Этот email в черном списке</span>)}
 
                     {$if(this.state.waiting,
@@ -47,32 +58,26 @@ export default React.createClass({
             </div>)
     },
     handleEmailChange(e) {
+        const email = e.target.value
+
         this.setState({
-            email: e.target.value,
-            emailEmpty: e.target.value.trim().length === 0,
-            emailExists: false,
-            emailBlocked: false,
-            emailNotValid: false,
-            waiting: false
+            email,
+            exists: false,
+            blocked: false,
+            waiting: false,
+            success: false
         })
 
         this.raiseChange(null)
 
         defer(() =>{
-            const emailPattern = /^[^@]+@[^.]+(\.[^.]+)+$/
-
-            if (emailPattern.test(this.state.email)) {
+            if(this.emailPattern.test(this.state.email.trim())) {
+                this.setState({ wasEntered: true })
                 this.validateEmailDebounced()
-                return
-            }
-
-            if (this.state.wasEntered && this.state.email.trim().length > 0) {
-                this.setState({emailNotValid: true})
             }
         })
     },
     validateEmail () {
-
         this.setState({ waiting: true })
 
         $.ajax({
@@ -98,14 +103,14 @@ export default React.createClass({
 
         if(result['IsExists']) {
             this.setState({
-                emailExists: true
+                exists: true
             })
             return
         }
 
         if(result['IsInBlockList']) {
             this.setState({
-                emailBlocked: true
+                blocked: true
             })
             return
         }
@@ -115,8 +120,8 @@ export default React.createClass({
             return
         }
 
+        this.setState({ success: true })
         this.raiseChange(this.state.email)
-        this.setState({ wasEntered: true })
     },
     raiseChange(email) {
         this.props.onChange(email)

@@ -23,6 +23,7 @@ export default React.createClass({
             waitingForSignup: false
         }
     },
+
     render() {
         const continueEnabled =
             this.state.phone && this.state.fullName &&
@@ -36,20 +37,24 @@ export default React.createClass({
                 <PhoneInput onChange={this.handlePhoneChange} />
 
                 {$if(this.state.fullNameInputVisible,
-                    <FullNameInput onChange={this.handleFullNameChange} />)}
+                    <FullNameInput onChange={this.handleFullNameChange}
+                                   disabled={this.state.waitingForSignup} />)}
 
                 {$if(this.state.birthdayInputVisible,
-                    <BirthdayInput onChange={this.handleBirthdayChange} maxAge={65} minAge={21} />)}
+                    <BirthdayInput onChange={this.handleBirthdayChange} maxAge={65} minAge={21}
+                                   disabled={this.state.waitingForSignup}/>)}
 
                 {$if(this.state.emailInputVisible,
-                    <EmailInput onChange={this.handleEmailChange} />)}
+                    <EmailInput onChange={this.handleEmailChange}
+                                disabled={this.state.waitingForSignup} />)}
 
                 {$if(this.state.agreementBoxVisible,
-                    <AgreementBox onChange={this.handleAgreeChange} />)}
+                    <AgreementBox onChange={this.handleAgreeChange}
+                                  disabled={this.state.waitingForSignup} />)}
 
                 {$if(this.state.continueButtonVisible && !this.state.waitingForSignup,
                     <button type="button" className="btn btn-primary btn-block"
-                            onClick={this.handleContinueClick}disabled={!continueEnabled}>
+                            onClick={this.handleContinueClick} disabled={!continueEnabled}>
                         Продолжить оформление →
                     </button>)}
 
@@ -59,24 +64,28 @@ export default React.createClass({
                     </div>)}
             </form>)
     },
+
     handlePhoneChange(phone) {
         this.setState({
             phone: phone,
             fullNameInputVisible: this.state.fullNameInputVisible || !!phone
         })
     },
+
     handleFullNameChange(fullName) {
         this.setState({
             fullName: fullName,
             birthdayInputVisible: this.state.birthdayInputVisible || !!fullName
         })
     },
+
     handleBirthdayChange(birthday) {
         this.setState({
             birthday: birthday,
             emailInputVisible: this.state.emailInputVisible || !!birthday
         })
     },
+
     handleEmailChange(email) {
         this.setState({
             email: email,
@@ -84,9 +93,11 @@ export default React.createClass({
             continueButtonVisible: this.state.continueButtonVisible || !!email
         })
     },
+
     handleAgreeChange(agree) {
         this.setState({ agree: agree })
     },
+
     handleContinueClick(e) {
         e.preventDefault()
 
@@ -116,6 +127,7 @@ export default React.createClass({
             }
         })
     },
+
     handleRegisterResult(response) {
         if (!response.d || response.d == "Error") {
             console.error(response)
@@ -143,6 +155,7 @@ export default React.createClass({
             error: (xhr, code, err) => console.error(err.toString())
         })
     },
+
     handleLoginResult(response) {
         if(response.Code != 0){
             console.error(response.Message)
@@ -160,9 +173,13 @@ export default React.createClass({
             contentType: 'application/json',
             dataType: 'json',
             success: () => location.replace('/0/Nui/ViewModule.aspx'),
-            error: (xhr, code, err) => console.error(err.toString())
+            error: (xhr, code, err) => {
+                console.error(err.toString())
+                location.replace('/0/Nui/ViewModule.aspx')
+            }
         })
     },
+
     // Извлекает из куки значение lead_generator_referral
     // и извлекает из него Url. Решает проблему, когда в lead_generator_referral
     // Url записывался с параметром. Это происходит при регистрации.
