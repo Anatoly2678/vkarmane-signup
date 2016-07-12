@@ -13,7 +13,8 @@ export default React.createClass({
         return (
             <div className="checkbox-group">
                 <div className="checkbox">
-                    <input id="iaccept" className="inputcb" type="checkbox" checked={this.state.generalRules} onChange={this.handleGeneralRulesChange} />
+                    <input id="iaccept" className="inputcb" type="checkbox" checked={this.state.generalRules}
+                           onChange={this.handleGeneralRulesChange}  disabled={this.props.disabled} />
                     <label htmlFor="iaccept"> <span></span>
                         Я принимаю <a href="http://www.vkarmane-online.ru/files/flib/51.pdf" target="_blank" >
                         Общие условия договора потребительского займа</a>, <a href="http://www.vkarmane-online.ru/files/flib/69.pdf" target="_blank">
@@ -23,7 +24,8 @@ export default React.createClass({
                     </label>
                 </div>
                 <div className="checkbox">
-                    <input id="icomfirm" className="inputcb" type="checkbox" checked={this.state.asp} onChange={this.handleAspChange} />
+                    <input id="icomfirm" className="inputcb" type="checkbox" checked={this.state.asp}
+                           onChange={this.handleAspChange} disabled={this.props.disabled} />
                     <label htmlFor="icomfirm"> <span></span>
                         Я, подтверждаю принятие <a href="http://www.vkarmane-online.ru/files/flib/83.pdf" target="_blank">
                         Соглашения об использовании АСП</a> и <a href="http://www.vkarmane-online.ru/files/flib/45.pdf" target="_blank">

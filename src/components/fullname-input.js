@@ -25,7 +25,8 @@ export default React.createClass({
                 {/* Last name */}
                 <div className={`form-group ${$if(this.state.lastNameHasError || this.state.lastNameEmpty, 'has-error')}`}>
                     <input type="text" className="form-control" id="lastNameInput"
-                           value={this.state.lastName} placeholder="Фамилия" onChange={this.handleLastNameChange} />
+                           value={this.state.lastName} placeholder="Фамилия"
+                           onChange={this.handleLastNameChange} disabled={this.props.disabled} />
 
                     {$if(this.state.lastNameEmpty,
                         <span className="help-block">Пожалуйста, заполните поле</span>)}
@@ -37,7 +38,8 @@ export default React.createClass({
                 {/* First name */}
                 <div className={`form-group ${$if(this.state.firstNameHasError || this.state.firstNameEmpty, 'has-error')}`}>
                     <input type="text" className="form-control"
-                           value={this.state.firstName} placeholder="Имя" onChange={this.handleFirstNameChange} />
+                           value={this.state.firstName} placeholder="Имя"
+                           onChange={this.handleFirstNameChange} disabled={this.props.disabled} />
 
                     {$if(this.state.firstNameEmpty,
                         <span className="help-block">Пожалуйста, заполните поле</span>)}
@@ -50,7 +52,7 @@ export default React.createClass({
                 <div className={`form-group ${$if((this.state.middleNameEmpty || this.state.middleNameHasError) && !this.state.noMiddleName, 'has-error')}`}>
                     <input type="text" className="form-control"
                            value={this.state.middleName} placeholder="Отчество" onChange={this.handleMiddleNameChange}
-                           readOnly={this.state.noMiddleName} />
+                           readOnly={this.state.noMiddleName} disabled={this.props.disabled} />
 
                     {$if(this.state.middleNameEmpty && !this.state.noMiddleName,
                         <span className="help-block">Пожалуйста, заполните поле</span>)}
@@ -61,7 +63,8 @@ export default React.createClass({
 
                 {/* No Middle name */}
                 <div className="checkbox">
-                    <input id="noMiddleName" type="checkbox" checked={this.state.noMiddleName} onChange={this.handleNoMiddleNameChange} />
+                    <input id="noMiddleName" type="checkbox" checked={this.state.noMiddleName}
+                           onChange={this.handleNoMiddleNameChange} disabled={this.props.disabled} />
                     <label htmlFor="noMiddleName"> <span></span>                
                         без отчества
                     </label>
