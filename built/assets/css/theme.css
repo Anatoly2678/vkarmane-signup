@@ -139,6 +139,19 @@ div.phone span {
     color: #4385B7;
 }
 
+div#register-info {
+    height: 206px;
+    width: auto;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-size: contain;
+    background-image: url(../images/info.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-top: 80px;
+    margin-bottom: 20px;
+}
+
 .phone-info {
     font-size: x-small;
 }
