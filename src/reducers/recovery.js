@@ -4,9 +4,14 @@ import fetch from 'isomorphic-fetch'
 
 export const changePhoneNumber = createAction('CHANGE_PHONE_NUMBER')
 export const requestCode = createAction('REQUEST_CODE')
-export const failSendCode = createAction('FAIL_SEND_CODE')
+export const invalidNumber = createAction('INVALID_NUMBER')
 export const receiveCodeId = createAction('RECEIVE_CODE_ID')
-export const changePassword = createAction('CHANGE_PASSWORD')
+export const requestConfirmation = createAction('REQUEST_CONFIRMATION')
+export const codeConfirmed = createAction('SUCCESS_CONFIRMATION')
+export const failConfirmation = createAction('FAIL_CONFIRMATION')
+export const requestChangePassword = createAction('REQUEST_CHANGE_PASSWORD')
+export const failChangePassword = createAction('FAIL_CHANGE_PASSWORD')
+export const passwordEmpty = createAction('PASSWORD_EMPTY')
 
 const post = (url, data) =>
     fetch(url, {
@@ -33,68 +38,164 @@ export const sendCode = (number) => {
             if(result.Code == 0) {
                 dispatch(receiveCodeId(result.CodeId))
             } else {
-                dispatch(failSendCode(result.Message))
+                dispatch(invalidNumber(result.Message))
             }
         }).catch(ex =>
-            dispatch(failSendCode(ex.message || ex.Message || ex.toString())))
+            console.error(ex))
+    }
+}
+
+export const confirmCode = code => {
+    return (dispatch, getState) => {
+        dispatch(requestConfirmation(code))
+
+        return post('/Recovery.aspx/VerifyCodeForPasswordChange', {
+            codeId: getState().phone.codeId,
+            code
+        }).then(response =>{
+            return response.json()
+        }).then(json => {
+            const result = JSON.parse(json.d).VerifyCodeForPasswordChangeResult
+
+            if(result.Code == 0) {
+                dispatch(codeConfirmed())
+                return
+            }
+
+            if(result.MaxAttemptsReached) {
+                dispatch(failConfirmation('Превышено максимальное к-ство попыток'))
+                return
+            }
+
+            if(result.CodeExpired) {
+                dispatch(failConfirmation('Время жизни кода истекло'))
+                return
+            }
+
+            dispatch(failConfirmation('Неправильный код подтверждения'))
+        }).catch(ex =>
+            console.error(ex))
+    }
+}
+
+export const changePassword = ({pass, repeat}) => {
+    return (dispatch, getState) => {
+        if(pass.trim().length == 0) {
+            dispatch(passwordEmpty(true))
+            return
+        }
+
+        dispatch(passwordEmpty(false))
+
+        if(pass !== repeat) {
+            dispatch(failChangePassword('Пароль повторен неправильно'))
+            return
+        }
+
+        dispatch(requestChangePassword())
+
+        const state = getState()
+        return post('/Recovery.aspx/ChangePassword', {
+            code: state.verification.code,
+            codeId: state.phone.codeId,
+            password: pass,
+            type: 'phone'
+        }).then(response => {
+            return response.json()
+        }).then(json => {
+            const result = JSON.parse(json.d).ChangePasswordResult
+
+            if (result.Code == 0) {
+                location.replace('signin.html');
+            } else {
+                dispatch(failChangePassword(result.Message))
+            }
+        }).catch(ex =>
+            console.error(ex))
     }
 }
 
 const phone = handleActions({
     [changePhoneNumber] (state, action) {
-        const countDigits = text => (text.match(/\d/g) || []).length
-        const digitsInPhone = 11
-
         return {
             ...state,
             number: action.payload,
-            readyToCheck: countDigits(action.payload) === digitsInPhone,
-            sent: false
+            message: ''
         }
     },
 
     [requestCode] (state) {
         return {
             ...state,
-            sent: true
+            waiting: true
+        }
+    },
+
+    [invalidNumber] (state, action) {
+        return {
+            ...state,
+            message: action.payload,
+            waiting: false
+        }
+    },
+
+    [receiveCodeId] (state, action) {
+        return {
+            ...state,
+            codeId: action.payload,
+            waiting: false
         }
     }
+
 }, {
     number: '+7(913) 483 - 38 - 9_',
-    readyToCheck: false,
-    sent: false
+    sent: false,
+    message: '',
+    codeId: '',
+    waiting: false
 })
 
 const verification = handleActions({
-    [requestCode]: state => ({
+    [requestConfirmation]: (state, action) => ({
         ...state,
-        sendingCode: true,
-        codeId: '',
-        code: '',
-        message: '',
-        verified: false,
+        waiting: true,
+        code: action.payload
     }),
-    
-    [receiveCodeId]: (state, action) => ({
+    [codeConfirmed]: (state) => ({
         ...state,
-        sendingCode: false,
-        verified: true,
-        codeId: action.payload
+        waiting: false,
+        confirmed: true,
+        message: ''
     }),
-
-    [failSendCode]: (state, action) => ({
+    [failConfirmation]: (state, action) => ({
         ...state,
-        sendingCode: false,
+        waiting: false,
         message: action.payload
     })
+
 }, {
-    sendingCode: false,
-    codeId: '',
     code: '',
-    number: null,
-    verified: false,
-    message: ''
+    confirmed: false,
+    message: '',
+    waiting: false
 })
 
-export default combineReducers({ phone, verification })
+const password = handleActions({
+    [failChangePassword]: (state, action) => ({
+        ...state,
+        message: action.payload
+    }),
+
+    [passwordEmpty] (state, action) {
+        return {
+            ...state,
+            trySendEmpty: action.payload
+        }
+    }
+}, {
+    trySendEmpty: false,
+    message: '',
+})
+
+export default combineReducers({ phone, verification, password })
 

@@ -1,3 +1,3 @@
-export function $if(cond, result) {
-    return cond ? result : ''
+export function $if(cond, result, alt = '') {
+    return cond ? result : alt
 } 
