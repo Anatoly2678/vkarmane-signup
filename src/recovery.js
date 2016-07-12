@@ -1,5 +1,6 @@
 import RecoveryContainer from './components/recovery-container'
 import React from 'react'
+import Header from './components/vk-master'
 import {render} from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
@@ -14,7 +15,12 @@ let store = createStore(recovery,
 
 render(
     <Provider store={store}>
-        <RecoveryContainer />
+		<div>
+            <div className="header clearfix">
+                < Header />
+            </div>
+        	<RecoveryContainer />
+        </div>
     </Provider>,
     document.getElementById('content')
 )
