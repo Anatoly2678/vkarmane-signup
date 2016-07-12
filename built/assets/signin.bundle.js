@@ -89,6 +89,7 @@
 	                { className: 'form-signin-heading' },
 	                'Вход'
 	            ),
+	            _react2.default.createElement('div', { className: 'form-signin-heading-underline' }),
 	            this.state.showAlert ? alert : null,
 	            _react2.default.createElement(
 	                'div',

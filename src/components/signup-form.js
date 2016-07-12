@@ -11,16 +11,16 @@ export default React.createClass({
     getInitialState() {
         return {
             phone: null,
-            fullNameInputVisible: true,
+            fullNameInputVisible: false,
             fullName: null,
-            birthdayInputVisible: true,
+            birthdayInputVisible: false,
             birthday: null,
-            emailInputVisible: true,
+            emailInputVisible: false,
             email: null,
-            agreementBoxVisible: true,
+            agreementBoxVisible: false,
             agree: false,
-            continueButtonVisible: true,
-            waitingForSignup: true
+            continueButtonVisible: false,
+            waitingForSignup: false
         }
     },
     render() {

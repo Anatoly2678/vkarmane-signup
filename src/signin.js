@@ -20,6 +20,7 @@ const SigninForm = React.createClass({
         return (
             <form className="form-signin" onSubmit={this.handleSubmit}>
                 <h2 className="form-signin-heading">Вход</h2>
+                <div className="form-signin-heading-underline"></div>
 
                 {this.state.showAlert ? alert : null}
 
