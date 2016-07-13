@@ -109,6 +109,7 @@ webpackJsonp([0],{
 	            { className: 'form-signin-heading' },
 	            'Восстановление пароля'
 	        ),
+	        _react2.default.createElement('div', { className: 'form-signin-heading-underline' }),
 	        (0, _reactHelpers.$if)(!verification.confirmed, _react2.default.createElement(_phoneInput2.default, {
 	            number: phone.number,
 	            waiting: phone.waiting,

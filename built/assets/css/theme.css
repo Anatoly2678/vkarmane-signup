@@ -3,6 +3,11 @@
     font-family: 'M-Geometria-Bold';
     src: url('../fonts/Geometria-Bold.otf') format('truetype');
 }
+@font-face {
+    font-family: 'M-Geometria-ExtaBlack';
+    src: url('../fonts/Geometria-ExtaBlack.otf') format('truetype');
+}
+
 
 body {
     padding-top: 20px;
@@ -18,7 +23,7 @@ body {
 }
 
 h2.form-signin-heading {
-    font-family: Arial;
+    font-family: 'M-Geometria-ExtaBlack';
     font-weight: bold;
     font-size: 40px;
     text-overflow: clip;
@@ -193,13 +198,6 @@ div#register-info {
     padding-top: 19px;
     color: #777;
     border-top: 1px solid #E5E5E5;
-}
-
-/* Customize container */
-@media (min-width: 768px) {
-    .container {
-        max-width: 730px;
-    }
 }
 
 .container-narrow > hr {
