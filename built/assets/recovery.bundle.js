@@ -13,7 +13,11 @@ webpackJsonp([0],{
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(80);
+	var _vkMaster = __webpack_require__(80);
+
+	var _vkMaster2 = _interopRequireDefault(_vkMaster);
+
+	var _reactDom = __webpack_require__(82);
 
 	var _reactRedux = __webpack_require__(33);
 
@@ -23,11 +27,11 @@ webpackJsonp([0],{
 
 	var _recovery2 = _interopRequireDefault(_recovery);
 
-	var _reduxThunk = __webpack_require__(209);
+	var _reduxThunk = __webpack_require__(211);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _reduxLogger = __webpack_require__(210);
+	var _reduxLogger = __webpack_require__(212);
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
@@ -40,7 +44,16 @@ webpackJsonp([0],{
 	(0, _reactDom.render)(_react2.default.createElement(
 	    _reactRedux.Provider,
 	    { store: store },
-	    _react2.default.createElement(_recoveryContainer2.default, null)
+	    _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'header clearfix' },
+	            _react2.default.createElement(_vkMaster2.default, null)
+	        ),
+	        _react2.default.createElement(_recoveryContainer2.default, null)
+	    )
 		), document.getElementById('content'));
 
 /***/ },
@@ -3601,7 +3614,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 209:
+/***/ 211:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -3630,7 +3643,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 210:
+/***/ 212:
 /***/ function(module, exports) {
 
 	"use strict";

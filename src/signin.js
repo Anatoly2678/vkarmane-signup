@@ -105,7 +105,7 @@ const SigninForm = React.createClass({
         })
     },
     handleRecovery() {
-        location.replace('/Recovery.aspx')
+        location.replace('/recovery.html')
     }
 });
 
