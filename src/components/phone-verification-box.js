@@ -9,7 +9,7 @@ export default React.createClass({
             codeExpired: false,
             errorMessage: null,
             waiting: false,
-            codeInputVisible: true
+            codeInputVisible: false
         }
     },
     componentDidMount() {
@@ -84,7 +84,7 @@ export default React.createClass({
         this.setState({
             codeExpired: false,
             waiting: true,
-            codeInputVisible: true  
+            codeInputVisible: false  
         })
     },
     handleSendCodeResult(res) {
