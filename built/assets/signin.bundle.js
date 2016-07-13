@@ -159,7 +159,7 @@ webpackJsonp([1],[
 	        });
 	    },
 	    handleRecovery: function handleRecovery() {
-	        location.replace('/Recovery.aspx');
+	        location.replace('/recovery.html');
 	    }
 	});
 

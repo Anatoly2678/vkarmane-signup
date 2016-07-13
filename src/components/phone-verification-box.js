@@ -17,38 +17,51 @@ export default React.createClass({
     },
     render () {
         return (
-            <div className="alert alert-info alert-dismissible" role="alert">
-                <button type="button" className="close" onClick={() => this.props.onClose()}><span>&times;</span></button>
-                <h3>Подтверждение номера телефона</h3>
-                <div className="form-group">
-                    <p>На указанный вами номер телефона отправлено СМС с кодом подтверждения.</p>
-                    <p>Введите полученный код чтобы продолжить оформление заявки.</p>
+        <div className="modal fade in" id="myModal" style={{display: 'block'}} tabIndex="-1" role="dialog">
+            <div className="modal-dialog" style={{ width: '480px'}} role="document">
+                <div className="modal-content">
+                    <button
+                        type="button" className="close" style={{margin:'20px'}}
+                        onClick={() => this.props.onClose()}><span>&times;</span></button>
+                <div
+                    className="alert alert-info alert-dismissible" role="alert"
+                    style={{marginBottom:'0px', padding:'60px 40px'}}>
+
+                    <h3>Подтверждение номера телефона</h3>
+                    <div className="form-group">
+                        <p>На указанный вами номер телефона отправлено СМС с кодом подтверждения.</p>
+                        <p>Введите полученный код чтобы продолжить оформление заявки.</p>
+                    </div>
+                    <div className="form-group">
+                        <input value={this.props.phone} readOnly style={{backgroundColor:'#FFF', borderColor:'#FFF'}} type="tel" className="form-control" />
+                    </div>
+
+                    {this.state.codeInputVisible ?
+                        <div>
+                            <div className={`form-group ${$if(this.state.errorMessage, 'has-error')}`}>
+                                <input value={this.state.code} className="form-control"
+                                       onChange={this.handleCodeChange} placeholder="Код из СМС"/>
+                                <span className="help-block text-danger">{this.state.errorMessage}</span>
+                            </div>
+                            <button type="button" className="btn btn-primary btn-block" onClick={this.handleVerifyCodeClick}>
+                                Подтвердить телефон
+                            </button>
+                        </div>: null}
+
+                    {this.state.codeExpired ?
+                        <small>Время жизни кода истекло. <a href="#" onClick={this.handleSendNewCode}>Отправить еще сообщение</a></small> : null}
+
+                    {this.state.waiting ?
+                        <div className="progress">
+                            <div className="progress-bar progress-bar-striped active" style={{width:'100%'}}></div>
+                        </div>: null}
+
                 </div>
-                <div className="form-group">
-                    <input value={this.props.phone} readOnly type="tel" className="form-control" />
+
                 </div>
-
-                {this.state.codeInputVisible ?
-                    <div>
-                        <div className={`form-group ${$if(this.state.errorMessage, 'has-error')}`}>
-                            <input value={this.state.code} className="form-control"
-                                   onChange={this.handleCodeChange} placeholder="Код из СМС"/>
-                            <span className="help-block text-danger">{this.state.errorMessage}</span>
-                        </div>
-                        <button type="button" className="btn btn-primary" onClick={this.handleVerifyCodeClick}>
-                            Подтвердить телефон
-                        </button>
-                    </div>: null}
-
-                {this.state.codeExpired ?
-                    <small>Время жизни кода истекло. <a href="#" onClick={this.handleSendNewCode}>Отправить еще сообщение</a></small> : null}
-
-                {this.state.waiting ?
-                    <div className="progress">
-                        <div className="progress-bar progress-bar-striped active" style={{width:'100%'}}></div>
-                    </div>: null}
-
-            </div>)
+            </div>
+        </div>
+            )
     },
     sendCode () {
         $.ajax({
