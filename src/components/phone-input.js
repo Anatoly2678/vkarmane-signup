@@ -34,7 +34,7 @@ export default React.createClass({
                     </div>
                     <span className="help-block">{this.state.errorMessage}</span>
                     {this.state.phoneAlreadyExists
-                        ? <div className="alert alert-warning">
+                        ? <div className="alert alert-warning gly">
                             <smal>Такой номер уже зарегистрирован.
                                 Пожалуйста, <a href="#" onClick={e => {e.preventDefault(); this.props.onSignin()}}>авторизуйтесь</a></smal>
                         </div> : null}
