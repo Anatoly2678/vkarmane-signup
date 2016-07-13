@@ -19,6 +19,7 @@ const RecoveryForm = ({phone, verification, password,
     onChangePhoneNumber, onSendCode, onConfirmCode, onChangePassword}) =>
     <form className="form-signin" onSubmit={e => e.preventDefault()}>
         <h2 className="form-signin-heading">Восстановление пароля</h2>
+        <div className="form-signin-heading-underline"></div>
 
         {$if(!verification.confirmed,
             <PhoneInput

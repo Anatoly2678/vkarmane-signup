@@ -102,11 +102,16 @@ input[type="checkbox"]:checked + label span {
 .has-error .form-control {
     background-color: #F4DADB;
     border-color: #F4DADB;
+    box-shadow: none;
 }
 
 .has-error .form-control:focus {
     background-color: white;
     border-color: #843534;
+}
+.has-error .input-group-addon {
+	background-color: #F4DADB;
+	border-color: #F4DADB;
 }
 
 label {
