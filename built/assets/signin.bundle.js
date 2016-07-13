@@ -1,12 +1,9 @@
-webpackJsonp([1],[
-/* 0 */
+webpackJsonp([1],{
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-
-	var _jsCookie = __webpack_require__(81);
-
-	var _jsCookie2 = _interopRequireDefault(_jsCookie);
 
 	var _react = __webpack_require__(2);
 
@@ -20,16 +17,61 @@ webpackJsonp([1],[
 
 	var _vkMaster2 = _interopRequireDefault(_vkMaster);
 
+	var _signinForm = __webpack_require__(213);
+
+	var _signinForm2 = _interopRequireDefault(_signinForm);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var SigninForm = _react2.default.createClass({
-	    displayName: 'SigninForm',
+	var SigninPage = _react2.default.createClass({
+	    displayName: 'SigninPage',
+
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'header clearfix' },
+	                _react2.default.createElement(_vkMaster2.default, null)
+	            ),
+	            _react2.default.createElement(_signinForm2.default, null)
+	        );
+	    }
+	});
+
+		_reactDom2.default.render(_react2.default.createElement(SigninPage, null), document.getElementById('content'));
+
+/***/ },
+
+/***/ 213:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _jsCookie = __webpack_require__(81);
+
+	var _jsCookie2 = _interopRequireDefault(_jsCookie);
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _react2.default.createClass({
+	    displayName: 'signin-form',
 	    getInitialState: function getInitialState() {
 	        return {
 	            email: '',
 	            password: '',
 	            showAlert: false,
-	            aalertText: ''
+	            alertText: '',
+	            waiting: false
 	        };
 	    },
 	    render: function render() {
@@ -61,9 +103,11 @@ webpackJsonp([1],[
 	                    { htmlFor: 'inputEmail' },
 	                    'Ваш email'
 	                ),
-	                _react2.default.createElement('input', { type: 'email', id: 'inputEmail', className: 'form-control',
+	                _react2.default.createElement('input', {
+	                    type: 'email', id: 'inputEmail', className: 'form-control',
 	                    placeholder: 'Укажите ваш email', required: true, autoFocus: true,
-	                    value: this.state.email, onChange: this.handleEmailChange })
+	                    value: this.state.email, onChange: this.handleEmailChange,
+	                    readOnly: this.state.waiting })
 	            ),
 	            _react2.default.createElement(
 	                'div',
@@ -73,9 +117,11 @@ webpackJsonp([1],[
 	                    { htmlFor: 'inputPassword' },
 	                    'Пароль'
 	                ),
-	                _react2.default.createElement('input', { type: 'password', id: 'inputPassword', className: 'form-control',
+	                _react2.default.createElement('input', {
+	                    type: 'password', id: 'inputPassword', className: 'form-control',
 	                    placeholder: 'Введите пароль', required: true,
-	                    value: this.state.password, onChange: this.handlePasswordChange })
+	                    value: this.state.password, onChange: this.handlePasswordChange,
+	                    readOnly: this.state.waiting })
 	            ),
 	            _react2.default.createElement(
 	                'div',
@@ -85,8 +131,10 @@ webpackJsonp([1],[
 	                    { className: 'col-sm-6' },
 	                    _react2.default.createElement(
 	                        'button',
-	                        { type: 'submit', className: 'btn btn-primary btn-block' },
-	                        'Войти'
+	                        {
+	                            type: 'submit', className: 'btn btn-primary btn-block',
+	                            readOnly: this.state.waiting },
+	                        !this.state.waiting ? 'Войти' : 'Вход...'
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -110,6 +158,8 @@ webpackJsonp([1],[
 	    handleSubmit: function handleSubmit(e) {
 	        e.preventDefault();
 
+	        this.setState({ waiting: true });
+
 	        $.ajax({
 	            type: "POST",
 	            url: '/ServiceModel/AuthService.svc/Login',
@@ -126,6 +176,8 @@ webpackJsonp([1],[
 	        });
 	    },
 	    handleLoginResult: function handleLoginResult(result) {
+	        this.setState({ waiting: false });
+
 	        if (result['Code'] != 0) {
 	            this.setState({
 	                password: '',
@@ -155,33 +207,16 @@ webpackJsonp([1],[
 	    handleLoginError: function handleLoginError(xhr, status, err) {
 	        this.setState({
 	            showAlert: true,
-	            alertText: err.toString()
+	            alertText: err.toString(),
+	            waiting: false
 	        });
 	    },
 	    handleRecovery: function handleRecovery() {
 	        location.replace('/recovery.html');
 	    }
-	});
-
-	var SigninPage = _react2.default.createClass({
-	    displayName: 'SigninPage',
-
-	    render: function render() {
-	        return _react2.default.createElement(
-	            'div',
-	            null,
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'header clearfix' },
-	                _react2.default.createElement(_vkMaster2.default, null)
-	            ),
-	            _react2.default.createElement(SigninForm, null)
-	        );
-	    }
-	});
-
-		_reactDom2.default.render(_react2.default.createElement(SigninPage, null), document.getElementById('content'));
+		});
 
 /***/ }
-]);
+
+});
 //# sourceMappingURL=signin.bundle.js.map

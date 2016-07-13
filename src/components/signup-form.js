@@ -6,6 +6,7 @@ import EmailInput from './email-input'
 import AgreementBox from './agreement-box'
 import {$if} from '../react-helpers'
 import cookie from 'js-cookie'
+import SigninForm from './signin-form'
 
 export default React.createClass({
     getInitialState() {
@@ -20,11 +21,16 @@ export default React.createClass({
             agreementBoxVisible: false,
             agree: false,
             continueButtonVisible: false,
-            waitingForSignup: false
+            waitingForSignup: false,
+            signin: false
         }
     },
 
     render() {
+        if(this.state.signin) {
+            return <SigninForm />
+        }
+
         const continueEnabled =
             this.state.phone && this.state.fullName &&
             this.state.birthday && this.state.email &&
@@ -34,7 +40,9 @@ export default React.createClass({
             <form className="form-signin" onSubmit={e => e.preventDefault()}>
                 <h2 className="form-signin-heading">Регистрация</h2>
                 <div className="form-signin-heading-underline"></div>
-                <PhoneInput onChange={this.handlePhoneChange} />
+                <PhoneInput
+                    onChange={this.handlePhoneChange}
+                    onSignin={() => {this.setState({signin: true})}} />
 
                 {$if(this.state.fullNameInputVisible,
                     <FullNameInput onChange={this.handleFullNameChange}
