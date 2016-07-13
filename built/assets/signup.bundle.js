@@ -1343,7 +1343,6 @@ webpackJsonp([2],[
 	    displayName: 'phone-input',
 	    getInitialState: function getInitialState() {
 	        return {
-	            phoneInputVisible: true,
 	            phone: '',
 	            sendCodeButtonVisible: false,
 	            phoneVerificationBoxVisible: false,
@@ -1438,7 +1437,7 @@ webpackJsonp([2],[
 	        return _react2.default.createElement(
 	            'div',
 	            null,
-	            this.state.phoneInputVisible ? phoneInput : null,
+	            !this.state.phoneVerified ? phoneInput : null,
 	            this.state.phoneVerificationBoxVisible ? phoneVerificationBox : null,
 	            this.state.phoneVerified ? verifiedPhoneInput : null
 	        );
@@ -1460,15 +1459,13 @@ webpackJsonp([2],[
 	    },
 	    handleSendCodeClick: function handleSendCodeClick() {
 	        this.setState({
-	            phoneVerificationBoxVisible: true,
-	            phoneInputVisible: false
+	            phoneVerificationBoxVisible: true
 	        });
 	    },
 	    handlePhoneVerificationAlreadyExists: function handlePhoneVerificationAlreadyExists(value) {
 	        if (value) {
 	            this.setState({
 	                phoneVerificationBoxVisible: false,
-	                phoneInputVisible: true,
 	                phoneAlreadyExists: true
 	            });
 	        }
@@ -1477,8 +1474,7 @@ webpackJsonp([2],[
 	    },
 	    handlePhoneVerificationError: function handlePhoneVerificationError(message) {
 	        this.setState({
-	            phoneVerificationBoxVisible: false,
-	            phoneInputVisible: true
+	            phoneVerificationBoxVisible: false
 	        });
 	        alert(message);
 	    },
@@ -1492,8 +1488,7 @@ webpackJsonp([2],[
 	    },
 	    handlePhoneVerificationClose: function handlePhoneVerificationClose() {
 	        this.setState({
-	            phoneVerificationBoxVisible: false,
-	            phoneInputVisible: true
+	            phoneVerificationBoxVisible: false
 	        });
 	    }
 		});
@@ -1536,77 +1531,89 @@ webpackJsonp([2],[
 
 	        return _react2.default.createElement(
 	            'div',
-	            { className: 'alert alert-info alert-dismissible', role: 'alert' },
-	            _react2.default.createElement(
-	                'button',
-	                { type: 'button', className: 'close', onClick: function onClick() {
-	                        return _this.props.onClose();
-	                    } },
-	                _react2.default.createElement(
-	                    'span',
-	                    null,
-	                    '×'
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'h3',
-	                null,
-	                'Подтверждение номера телефона'
-	            ),
+	            { className: 'modal fade in', id: 'myModal', style: { display: 'block', backgroundColor: 'rgba(0,0,0,.5)' }, tabIndex: '-1', role: 'dialog' },
 	            _react2.default.createElement(
 	                'div',
-	                { className: 'form-group' },
-	                _react2.default.createElement(
-	                    'p',
-	                    null,
-	                    'На указанный вами номер телефона отправлено СМС с кодом подтверждения.'
-	                ),
-	                _react2.default.createElement(
-	                    'p',
-	                    null,
-	                    'Введите полученный код чтобы продолжить оформление заявки.'
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                _react2.default.createElement('input', { value: this.props.phone, readOnly: true, type: 'tel', className: 'form-control' })
-	            ),
-	            this.state.codeInputVisible ? _react2.default.createElement(
-	                'div',
-	                null,
+	                { className: 'modal-dialog', style: { width: '360px' }, role: 'document' },
 	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'form-group ' + (0, _reactHelpers.$if)(this.state.errorMessage, 'has-error') },
-	                    _react2.default.createElement('input', { value: this.state.code, className: 'form-control',
-	                        onChange: this.handleCodeChange, placeholder: 'Код из СМС' }),
+	                    { className: 'modal-content' },
 	                    _react2.default.createElement(
-	                        'span',
-	                        { className: 'help-block text-danger' },
-	                        this.state.errorMessage
+	                        'div',
+	                        { className: 'alert alert-info alert-dismissible', role: 'alert', style: { marginBottom: '0px' } },
+	                        _react2.default.createElement(
+	                            'button',
+	                            { type: 'button', className: 'close', onClick: function onClick() {
+	                                    return _this.props.onClose();
+	                                } },
+	                            _react2.default.createElement(
+	                                'span',
+	                                null,
+	                                '×'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'h3',
+	                            null,
+	                            'Подтверждение номера телефона'
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'form-group' },
+	                            _react2.default.createElement(
+	                                'p',
+	                                null,
+	                                'На указанный вами номер телефона отправлено СМС с кодом подтверждения.'
+	                            ),
+	                            _react2.default.createElement(
+	                                'p',
+	                                null,
+	                                'Введите полученный код чтобы продолжить оформление заявки.'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'form-group' },
+	                            _react2.default.createElement('input', { value: this.props.phone, readOnly: true, type: 'tel', className: 'form-control' })
+	                        ),
+	                        this.state.codeInputVisible ? _react2.default.createElement(
+	                            'div',
+	                            null,
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'form-group ' + (0, _reactHelpers.$if)(this.state.errorMessage, 'has-error') },
+	                                _react2.default.createElement('input', { value: this.state.code, className: 'form-control',
+	                                    onChange: this.handleCodeChange, placeholder: 'Код из СМС' }),
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    { className: 'help-block text-danger' },
+	                                    this.state.errorMessage
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'button',
+	                                { type: 'button', className: 'btn btn-primary', onClick: this.handleVerifyCodeClick },
+	                                'Подтвердить телефон'
+	                            )
+	                        ) : null,
+	                        this.state.codeExpired ? _react2.default.createElement(
+	                            'small',
+	                            null,
+	                            'Время жизни кода истекло. ',
+	                            _react2.default.createElement(
+	                                'a',
+	                                { href: '#', onClick: this.handleSendNewCode },
+	                                'Отправить еще сообщение'
+	                            )
+	                        ) : null,
+	                        this.state.waiting ? _react2.default.createElement(
+	                            'div',
+	                            { className: 'progress' },
+	                            _react2.default.createElement('div', { className: 'progress-bar progress-bar-striped active', style: { width: '100%' } })
+	                        ) : null
 	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'button',
-	                    { type: 'button', className: 'btn btn-primary', onClick: this.handleVerifyCodeClick },
-	                    'Подтвердить телефон'
 	                )
-	            ) : null,
-	            this.state.codeExpired ? _react2.default.createElement(
-	                'small',
-	                null,
-	                'Время жизни кода истекло. ',
-	                _react2.default.createElement(
-	                    'a',
-	                    { href: '#', onClick: this.handleSendNewCode },
-	                    'Отправить еще сообщение'
-	                )
-	            ) : null,
-	            this.state.waiting ? _react2.default.createElement(
-	                'div',
-	                { className: 'progress' },
-	                _react2.default.createElement('div', { className: 'progress-bar progress-bar-striped active', style: { width: '100%' } })
-	            ) : null
+	            )
 	        );
 	    },
 	    sendCode: function sendCode() {
@@ -2433,7 +2440,7 @@ webpackJsonp([2],[
 	                    { className: 'row' },
 	                    _react2.default.createElement(
 	                        'div',
-	                        { className: 'col-xs-4' },
+	                        { className: 'col-xs-4', style: { paddingRight: '10px' } },
 	                        _react2.default.createElement(
 	                            'select',
 	                            { className: 'form-control', value: this.state.day,
@@ -2448,7 +2455,7 @@ webpackJsonp([2],[
 	                    ),
 	                    _react2.default.createElement(
 	                        'div',
-	                        { className: 'col-xs-4', style: { paddingLeft: '0px' } },
+	                        { className: 'col-xs-4', style: { paddingLeft: '0px', paddingRight: '10px' } },
 	                        _react2.default.createElement(
 	                            'select',
 	                            { className: 'form-control', value: this.state.month,

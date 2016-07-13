@@ -2894,7 +2894,7 @@ webpackJsonp([0],{
 	        waiting: false
 	    });
 	}), _handleActions), {
-	    number: '+7(913) 483 - 38 - 9_',
+	    number: '',
 	    sent: false,
 	    message: '',
 	    codeId: '',

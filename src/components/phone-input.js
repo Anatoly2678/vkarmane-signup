@@ -5,7 +5,6 @@ import PhoneVerificationBox from './phone-verification-box'
 export default React.createClass({
     getInitialState() {
         return {
-            phoneInputVisible: true,
             phone: '',
             sendCodeButtonVisible: false,
             phoneVerificationBoxVisible: false,
@@ -62,7 +61,7 @@ export default React.createClass({
 
         return (
             <div>
-                {this.state.phoneInputVisible ? phoneInput: null}
+                {!this.state.phoneVerified ? phoneInput: null}
                 {this.state.phoneVerificationBoxVisible ? phoneVerificationBox: null}
                 {this.state.phoneVerified ? verifiedPhoneInput: null}
             </div>)
@@ -82,15 +81,13 @@ export default React.createClass({
     },
     handleSendCodeClick() {
         this.setState({
-            phoneVerificationBoxVisible: true,
-            phoneInputVisible: false
+            phoneVerificationBoxVisible: true
         })
     },
     handlePhoneVerificationAlreadyExists(value) {
         if(value) {
             this.setState({
                 phoneVerificationBoxVisible: false,
-                phoneInputVisible: true,
                 phoneAlreadyExists: true
             })
         }
@@ -99,8 +96,7 @@ export default React.createClass({
     },
     handlePhoneVerificationError(message) {
         this.setState({
-            phoneVerificationBoxVisible: false,
-            phoneInputVisible: true
+            phoneVerificationBoxVisible: false
         })
         alert(message)
     },
@@ -114,8 +110,7 @@ export default React.createClass({
     },
     handlePhoneVerificationClose() {
         this.setState({
-            phoneVerificationBoxVisible: false,
-            phoneInputVisible: true
+            phoneVerificationBoxVisible: false
         })
     }
 })
