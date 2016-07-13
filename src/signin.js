@@ -1,6 +1,7 @@
 import cookie from 'js-cookie'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Header from './components/vk-master'
 
 const SigninForm = React.createClass({
     getInitialState() {
@@ -106,6 +107,19 @@ const SigninForm = React.createClass({
     handleRecovery() {
         location.replace('/Recovery.aspx')
     }
-})
+});
 
-ReactDOM.render(<SigninForm />, document.getElementById('content'))
+const SigninPage = React.createClass({
+        render: function() {
+            return (
+                <div>
+                    <div className="header clearfix">
+                        < Header />
+                    </div>
+                    < SigninForm />
+                </div>
+            );
+        }
+    });
+
+ReactDOM.render( < SigninPage />, document.getElementById('content'))
