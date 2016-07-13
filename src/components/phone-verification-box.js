@@ -19,15 +19,15 @@ export default React.createClass({
         return (
         <div className="modal fade in" id="myModal" style={{display: 'block'}} tabIndex="-1" role="dialog">
             <div className="modal-dialog" style={{ width: '480px'}} role="document">
-                <div className="modal-content">
+                <div className="modal-content" style={{ boxShadow: 'none' }}>
                     <button
                         type="button" className="close" style={{margin:'20px'}}
                         onClick={() => this.props.onClose()}><span>&times;</span></button>
                 <div
-                    className="alert alert-info alert-dismissible" role="alert"
-                    style={{marginBottom:'0px', padding:'60px 40px'}}>
+                    className="alert alert-dismissible" role="alert"
+                    style={{marginBottom:'0px', padding:'60px 40px', backgroundColor: '#ECF3F9', borderColor: '#d3e1ed' }}>
 
-                    <h2 className="form-signin-heading"  style={{ color: '#000' }}>Подтверждение номера телефона</h2>
+                    <h2 className="form-signin-heading">Подтверждение номера телефона</h2>
                     <div className="form-signin-heading-underline"></div>
                     <div className="form-group">
                         <p style={{ fontSize: '13px' }}>На указанный вами номер телефона отправлено СМС с кодом подтверждения.</p>
