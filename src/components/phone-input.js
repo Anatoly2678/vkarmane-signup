@@ -42,13 +42,13 @@ export default React.createClass({
             </div>)
 
         const verifiedPhoneInput = (
-            <div className="form-group has-success has-feedback">
+            <div className="form-group has-feedback">
                 <label htmlFor="inputPhone">Мобильный телефон</label>
-                <div className="input-group">
+                <div className="input-group has-feedback">
                     <div className="input-group-addon">+7</div>
                     <input type="tel" id="inputPhone" className="form-control" value={this.state.phone} readOnly />
+                    <span className="glyphicon glyphicon-ok form-control-feedback"></span>
                 </div>
-                <span className="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
             </div>)
 
 
