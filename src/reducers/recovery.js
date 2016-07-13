@@ -11,7 +11,7 @@ export const codeConfirmed = createAction('SUCCESS_CONFIRMATION')
 export const failConfirmation = createAction('FAIL_CONFIRMATION')
 export const requestChangePassword = createAction('REQUEST_CHANGE_PASSWORD')
 export const failChangePassword = createAction('FAIL_CHANGE_PASSWORD')
-export const passwordEmpty = createAction('PASSWORD_EMPTY')
+export const validatePassword = createAction('VALIDATE_PASSWORD')
 
 const post = (url, data) =>
     fetch(url, {
@@ -80,15 +80,9 @@ export const confirmCode = code => {
 
 export const changePassword = ({pass, repeat}) => {
     return (dispatch, getState) => {
-        if(pass.trim().length == 0) {
-            dispatch(passwordEmpty(true))
-            return
-        }
+        dispatch(validatePassword({pass, repeat}))
 
-        dispatch(passwordEmpty(false))
-
-        if(pass !== repeat) {
-            dispatch(failChangePassword('Пароль повторен неправильно'))
+        if(pass.trim().length === 0 || pass !== repeat) {
             return
         }
 
@@ -186,15 +180,33 @@ const password = handleActions({
         message: action.payload
     }),
 
-    [passwordEmpty] (state, action) {
+    [validatePassword] (state, action) {
         return {
             ...state,
-            trySendEmpty: action.payload
+            passwordEmpty: action.payload.pass.trim().length === 0,
+            repeatIncorrectly: action.payload.pass !== action.payload.repeat
+        }
+    },
+
+    [requestChangePassword] (state) {
+        return {
+            ...state,
+            waiting: true
+        }
+    },
+
+    [failChangePassword] (state, action) {
+        return {
+            ...state,
+            waiting: false,
+            failMessage: action.payload
         }
     }
 }, {
-    trySendEmpty: false,
-    message: '',
+    passwordEmpty: false,
+    repeatIncorrectly: false,
+    failMessage: '',
+    waiting: false
 })
 
 export default combineReducers({ phone, verification, password })

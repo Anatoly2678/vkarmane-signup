@@ -24,8 +24,8 @@ const RecoveryForm = ({phone, verification, password,
             <PhoneInput
                 number={phone.number}
                 waiting={phone.waiting}
-                message={phone.message}
-                disabled={phone.codeId}
+                message={phone.message == 'User Not found' ? 'Пользователь не найден' : phone.message}
+                disabled={!!phone.codeId}
                 onChange={onChangePhoneNumber}
                 onSend={onSendCode} />
         )}
@@ -39,9 +39,11 @@ const RecoveryForm = ({phone, verification, password,
 
         {$if(verification.confirmed,
             <PasswordInput
-                message={password.message}
+                passMessage={password.passwordEmpty
+                ? 'Пожалуйста, заполните поле'
+                : password.failMessage}
+                repeatMessage={password.repeatIncorrectly ? 'Пароль повторен неправильно' : ''}
                 waiting={password.waiting}
-                trySendEmpty={password.trySendEmpty}
                 onSend={onChangePassword} />
         )}
 

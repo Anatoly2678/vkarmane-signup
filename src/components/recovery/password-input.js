@@ -1,37 +1,38 @@
 import React from 'react'
 import {$if} from '../../react-helpers'
 
-export default function ({message, trySendEmpty, waiting, onSend}) {
+export default function ({passMessage, repeatMessage, waiting, onSend}) {
     let pass
     let repeat
 
     return  (
         <div>
-            <div className={`form-group ${$if(trySendEmpty, 'has-error')}`}>
-                <label htmlFor="passInput">
+            <div className={`form-group ${$if(passMessage, 'has-error')}`}>
+                <label htmlFor="pass">
                     Новый пароль
                 </label>
                 <input
-                    type="password" id="passInput" className="form-control"
+                    type="password" id="pass" className="form-control"
                     ref={node => pass = node} />
 
-                {$if(trySendEmpty,
-                    <span className="help-block">Пожалуйста, заполните поле</span>)}
+                <span className="help-block">{passMessage}</span>
             </div>
 
-            <div className={`form-group ${$if(message, 'has-error')}`}>
-                <label htmlFor="confirmInput">
+            <div className={`form-group ${$if(repeatMessage, 'has-error')}`}>
+                <label htmlFor="repeatPass">
                     Повторите пароль
                 </label>
                 <input
-                    type="password" id="confirmInput" className="form-control"
+                    type="password" id="repeatPass" className="form-control"
                     ref={node => repeat = node} />
 
-                    <span className="help-block">{message}</span>
+                <span className="help-block">{repeatMessage}</span>
             </div>
 
-            <button type="button" className="btn btn-primary"
-                    onClick={() => onSend(pass.value, repeat.value)}>
+            <button
+                type="button" className="btn btn-primary"
+                onClick={() => onSend(pass.value, repeat.value)}
+                disabled={waiting}>
                 {$if(!waiting, 'Сохранить', 'Сохранение...')}
             </button>
         </div>)

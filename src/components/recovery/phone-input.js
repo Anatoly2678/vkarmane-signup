@@ -22,7 +22,7 @@ export default function ({number, waiting, message, disabled, onChange, onSend})
                         mask="(111) 111 - 11 - 11" placeholder="(000) 000 - 00 - 00"
                         value={number.substr('+7'.length)} /* Отрезаем +7 */
                         onChange={e => onChange('+7' + e.target.value)}
-                        disabled={disabled && waiting} />
+                        disabled={disabled || waiting} />
                 </div>
                 <span className="help-block">{message}</span>
             </div>
