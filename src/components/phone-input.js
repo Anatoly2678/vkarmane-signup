@@ -34,9 +34,8 @@ export default React.createClass({
                     </div>
                     <span className="help-block">{this.state.errorMessage}</span>
                     {this.state.phoneAlreadyExists
-                        ? <div className="alert alert-warning">
-                            <smal>Такой номер уже зарегистрирован.
-                                Пожалуйста, <a href="#" onClick={e => {e.preventDefault(); this.props.onSignin()}}>авторизуйтесь</a></smal>
+                        ? <div style={{backgroundImage:'url(/assets/images/ialert.png)', backgroundPosition: 'left center', backgroundRepeat: 'no-repeat', padding: '5px 0px 2px 38px', display: 'block', backgroundColor: '#fff', borderColor:'#fff'}}>
+                            Такой номер уже зарегистрирован. Пожалуйста, <a href="#" onClick={e => {e.preventDefault(); this.props.onSignin()}}>авторизуйтесь</a>
                         </div> : null}
                 </div>
                 {this.state.sendCodeButtonVisible ? sendCodeButton: null}
