@@ -11,9 +11,9 @@ export default React.createClass({
     getInitialState() {
         return {
             phone: null,
-            fullNameInputVisible: false,
+            fullNameInputVisible: true,
             fullName: null,
-            birthdayInputVisible: false,
+            birthdayInputVisible: true,
             birthday: null,
             emailInputVisible: false,
             email: null,
