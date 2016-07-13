@@ -1352,7 +1352,7 @@ webpackJsonp([2],[
 	                'Регистрация'
 	            ),
 	            _react2.default.createElement('div', { className: 'form-signin-heading-underline' }),
-	            _react2.default.createElement(_phoneInput2.default, {
+	            _react2.default.createElement(_phoneInput2.default, { autoFocus: true,
 	                onChange: this.handlePhoneChange,
 	                onSignin: function onSignin() {
 	                    _this.setState({ signin: true });
@@ -1574,6 +1574,7 @@ webpackJsonp([2],[
 	                        '+7'
 	                    ),
 	                    _react2.default.createElement(_reactMaskedinput2.default, {
+	                        autoFocus: this.props.autoFocus,
 	                        type: 'tel', id: 'inputPhone', className: 'form-control',
 	                        mask: '(111) 111 - 11 - 11', placeholder: '(000) 000 - 00 - 00',
 	                        onChange: this.handlePhoneChange, value: this.state.phone })

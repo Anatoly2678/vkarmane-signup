@@ -40,7 +40,7 @@ export default React.createClass({
             <form className="form-signin" onSubmit={e => e.preventDefault()}>
                 <h2 className="form-signin-heading">Регистрация</h2>
                 <div className="form-signin-heading-underline"></div>
-                <PhoneInput
+                <PhoneInput autoFocus={true}
                     onChange={this.handlePhoneChange}
                     onSignin={() => {this.setState({signin: true})}} />
 

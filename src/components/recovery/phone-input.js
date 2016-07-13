@@ -31,7 +31,7 @@ export default function ({number, waiting, message, disabled, onChange, onSend})
                 <button
                     type="button" className="btn btn-primary"
                     onClick={() => onSend(number)} disabled={waiting}>
-                    {$if(!waiting, "Отправить", "Отправка...")}
+                    {$if(!waiting, "Подтвердите", "Подтверждение...")}
                 </button>
             )}
         </div>)
