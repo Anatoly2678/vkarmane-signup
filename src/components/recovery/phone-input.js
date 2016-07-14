@@ -15,11 +15,12 @@ export default function ({number, waiting, message, disabled, onChange, onSend})
                 </label>
             </div>
             <div className={`form-group ${$if(message, 'has-error')}`}>
-                <div className="input-group">
-                    <div className="input-group-addon">+7</div>
+                <div>
+                    <span className="form-control country-code">+7</span>
                     <MaskedInput
+                        autoFocus={true}
                         type="tel" id="phoneInput" className="form-control"
-                        mask="(111) 111 - 11 - 11" placeholder="(000) 000 - 00 - 00"
+                        mask="(111) 111 - 11 - 11" placeholder="(___) ___ - __ - __"
                         value={number.substr('+7'.length)} /* Отрезаем +7 */
                         onChange={e => onChange('+7' + e.target.value)}
                         disabled={disabled || waiting} />

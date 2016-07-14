@@ -34,7 +34,7 @@ export default React.createClass({
                         <p style={{ fontSize: '13px' }}>Введите полученный код чтобы продолжить оформление заявки.</p>
                     </div>
                     <div className="form-group">
-                        <input value={this.props.phone} readOnly style={{backgroundColor:'#FFF', borderColor:'#FFF'}} type="tel" className="form-control" />
+                        <input value={'+7 ' + this.props.phone.substr(2)} readOnly style={{backgroundColor:'#FFF', borderColor:'#FFF'}} type="tel" className="form-control" />
                     </div>
 
                     {this.state.codeInputVisible ?
@@ -125,7 +125,7 @@ export default React.createClass({
             success: this.handleVerifyCodeResult,
             error: (xhr, code, err) => {
                 this.setState({ waiting: false })
-                alert(err.toString())
+                console.error(err)
             }
         })
 

@@ -24,12 +24,12 @@ export default React.createClass({
             <div>
                 <div className={"form-group" + (this.state.error ? " has-error": "")}>
                     <label htmlFor="inputPhone">Мобильный телефон</label>
-                    <div className="input-group">
-                        <div className="input-group-addon">+7</div>
+                    <div>
+                        <span className="form-control country-code">+7</span>
                         <MaskedInput
                             autoFocus={this.props.autoFocus}
                             type="tel" id="inputPhone" className="form-control"
-                            mask="(111) 111 - 11 - 11" placeholder="(000) 000 - 00 - 00"
+                            mask="(111) 111 - 11 - 11" placeholder="(___) ___ - __ - __"
                             onChange={this.handlePhoneChange} value={this.state.phone} />
                     </div>
                     <span className="help-block">{this.state.errorMessage}</span>
