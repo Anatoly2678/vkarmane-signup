@@ -3,7 +3,7 @@ import InputMask from 'react-input-mask'
 
 import {$if} from '../../react-helpers'
 
-export default function ({number, waiting, message, disabled, onSend}) {
+export default function ({number, waiting, message, disabled, onChange, onSend}) {
     const countDigits = text => (text.match(/\d/g) || []).length
     const digitsInPhone = 11
     const sendAvailable = countDigits(number) === digitsInPhone && !disabled
@@ -23,7 +23,8 @@ export default function ({number, waiting, message, disabled, onSend}) {
                     type="tel" id="phoneInput" className="form-control"
                     mask="+7 (999) 999 - 99 - 99" placeholder="+7 (___) ___ - __ - __" maskChar="_"
                     onKeyPress={e => onSend(normalize(e.target.value))}
-                    disabled={disabled || waiting} />
+                    disabled={disabled || waiting}
+                    onChange={e => onChange(e.target.value)} />
                 <span className="help-block">{message}</span>
             </div>
 

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { createAction, handleActions } from 'redux-actions'
+import { createAction, handleActions, handleAction } from 'redux-actions'
 import fetch from 'isomorphic-fetch'
 
 export const requestCode = createAction('REQUEST_CODE')
@@ -11,6 +11,8 @@ export const failConfirmation = createAction('FAIL_CONFIRMATION')
 export const requestChangePassword = createAction('REQUEST_CHANGE_PASSWORD')
 export const failChangePassword = createAction('FAIL_CHANGE_PASSWORD')
 export const validatePassword = createAction('VALIDATE_PASSWORD')
+export const chooseWay = createAction('CHOOSE_WAY')
+export const changeNumber = createAction('CHANGE_NUMBER')
 
 const post = (url, data) =>
     fetch(url, {
@@ -109,6 +111,13 @@ export const changePassword = ({pass, repeat}) => {
 }
 
 const phone = handleActions({
+    [changeNumber] (state, action) {
+        return {
+            ...state,
+            number: action.payload,
+        }
+    },
+
     [requestCode] (state, action) {
         return {
             ...state,
@@ -202,5 +211,11 @@ const password = handleActions({
     waiting: false
 })
 
-export default combineReducers({ phone, verification, password })
+
+const way = handleAction(
+    chooseWay,
+    (state, action) => action.payload || state,
+    'email')
+
+export default combineReducers({ phone, verification, password, way })
 
