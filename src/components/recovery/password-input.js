@@ -1,5 +1,5 @@
 import React from 'react'
-import {$if} from '../../react-helpers'
+import {$if, $ifEnter} from '../../react-helpers'
 
 export default function ({passMessage, repeatMessage, waiting, onSend}) {
     let pass
@@ -13,7 +13,8 @@ export default function ({passMessage, repeatMessage, waiting, onSend}) {
                 </label>
                 <input
                     type="password" id="pass" className="form-control"
-                    ref={node => pass = node} />
+                    ref={node => pass = node}
+                    onKeyPress={$ifEnter(() => {if(!waiting) onSend(pass.value, repeat.value)})} />
 
                 <span className="help-block">{passMessage}</span>
             </div>
@@ -24,7 +25,8 @@ export default function ({passMessage, repeatMessage, waiting, onSend}) {
                 </label>
                 <input
                     type="password" id="repeatPass" className="form-control"
-                    ref={node => repeat = node} />
+                    ref={node => repeat = node}
+                    onKeyPress={$ifEnter(() => {if(!waiting) onSend(pass.value, repeat.value)})} />
 
                 <span className="help-block">{repeatMessage}</span>
             </div>

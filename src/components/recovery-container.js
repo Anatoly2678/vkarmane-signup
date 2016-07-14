@@ -7,7 +7,6 @@ import CodeInput from './recovery/code-input'
 import PasswordInput from './recovery/password-input'
 
 import {
-    changePhoneNumber,
     sendCode,
     confirmCode,
     changePassword
@@ -16,7 +15,7 @@ import {
 
 
 const RecoveryForm = ({phone, verification, password,
-    onChangePhoneNumber, onSendCode, onConfirmCode, onChangePassword}) =>
+    onSendCode, onConfirmCode, onChangePassword}) =>
     <form className="form-signin" onSubmit={e => e.preventDefault()}>
         <h2 className="form-signin-heading">Восстановление пароля</h2>
         <div className="form-signin-heading-underline"></div>
@@ -27,7 +26,6 @@ const RecoveryForm = ({phone, verification, password,
                 waiting={phone.waiting}
                 message={phone.message == 'User Not found' ? 'Пользователь не найден' : phone.message}
                 disabled={!!phone.codeId}
-                onChange={onChangePhoneNumber}
                 onSend={onSendCode} />
         )}
 
@@ -64,7 +62,6 @@ export default connect(
         password: state.password
     }),
     dispatch => ({
-        onChangePhoneNumber: number => dispatch(changePhoneNumber(number)),
         onSendCode: number => dispatch(sendCode(number)),
         onConfirmCode: code => dispatch(confirmCode(code)),
         onChangePassword: (pass, repeat) => dispatch(changePassword({pass, repeat}))

@@ -1,7 +1,7 @@
 import React from 'react'
 import debounce from 'lodash/debounce'
 import defer from 'lodash/defer'
-import {$if} from '../react-helpers'
+import {$if, $ifEnter} from '../react-helpers'
 
 export default React.createClass({
     emailPattern: /^[\w|\.|-]+@[\w|\.|-]+(\.\w+)+$/,

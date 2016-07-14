@@ -7,6 +7,7 @@ import AgreementBox from './agreement-box'
 import {$if} from '../react-helpers'
 import cookie from 'js-cookie'
 import SigninForm from './signin-form'
+import assign from 'lodash/assign'
 
 export default React.createClass({
     getInitialState() {
@@ -19,7 +20,10 @@ export default React.createClass({
             emailInputVisible: false,
             email: null,
             agreementBoxVisible: false,
-            agree: false,
+            agree: {
+                rules: true,
+                asp: true
+            },
             continueButtonVisible: false,
             waitingForSignup: false,
             signin: false
@@ -34,10 +38,14 @@ export default React.createClass({
         const continueEnabled =
             this.state.phone && this.state.fullName &&
             this.state.birthday && this.state.email &&
-            this.state.agree
+            this.state.agree.rules && this.state.agree.asp &&
+            !this.state.waitingForSignup
 
         return (
-            <form className="form-signin" onSubmit={e => e.preventDefault()}>
+            <form className="form-signin" onSubmit={e => {
+                e.preventDefault()
+                if(continueEnabled) this.handleContinueClick(e)
+            }}>
                 <h2 className="form-signin-heading">Регистрация</h2>
                 <div className="form-signin-heading-underline"></div>
                 <PhoneInput autoFocus={true}
@@ -57,12 +65,15 @@ export default React.createClass({
                                 disabled={this.state.waitingForSignup} />)}
 
                 {$if(this.state.agreementBoxVisible,
-                    <AgreementBox onChange={this.handleAgreeChange}
-                                  disabled={this.state.waitingForSignup} />)}
+                    <AgreementBox
+                        rules={this.state.agree.rules}
+                        asp={this.state.agree.asp}
+                        onChange={e => this.setState({agree: assign({}, this.state.agree, e)})}
+                        disabled={this.state.waitingForSignup} />)}
 
                 {$if(this.state.continueButtonVisible && !this.state.waitingForSignup,
-                    <button type="button" className="btn btn-primary btn-block"
-                            onClick={this.handleContinueClick} disabled={!continueEnabled}>
+                    <button type="submit" className="btn btn-primary btn-block"
+                            disabled={!continueEnabled}>
                         Продолжить оформление →
                     </button>)}
 
@@ -107,8 +118,6 @@ export default React.createClass({
     },
 
     handleContinueClick(e) {
-        e.preventDefault()
-
         const s = this.state
         const token = {
             Fname: s.fullName.first,

@@ -246,14 +246,3 @@ div#register-info {
         margin-bottom: 30px;
     }
 }
-
-.country-code {
-    position: absolute;
-    background-color:transparent;
-    width: 0;
-    border-color:transparent;
-}
-
-.country-code + input.form-control {
-    padding-left: 35px;
-}

@@ -1,5 +1,5 @@
 import React from 'react'
-import {$if} from '../react-helpers'
+import {$if, $ifEnter} from '../react-helpers'
 
 export default React.createClass({
     getInitialState() {
@@ -40,8 +40,11 @@ export default React.createClass({
                     {this.state.codeInputVisible ?
                         <div>
                             <div className={`form-group ${$if(this.state.errorMessage, 'has-error')}`}>
-                                <input value={this.state.code} className="form-control" style={{ backgroundColor:'#FFF'}}
-                                       onChange={this.handleCodeChange} placeholder="Код из СМС"/>
+                                <input
+                                    value={this.state.code} className="form-control" autoFocus={true}
+                                    style={{ backgroundColor:'#FFF'}} placeholder="Код из СМС"
+                                    onChange={this.handleCodeChange}
+                                    onKeyPress={$ifEnter(this.handleVerifyCodeClick)} />
                                 <span className="help-block text-danger">{this.state.errorMessage}</span>
                             </div>
                             <button type="button" className="btn btn-primary btn-block" onClick={this.handleVerifyCodeClick}>

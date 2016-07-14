@@ -1,12 +1,13 @@
 import React from 'react'
-import MaskedInput from 'react-maskedinput'
+import InputMask from 'react-input-mask'
 import PhoneVerificationBox from './phone-verification-box'
+
+import {$if} from '../react-helpers'
 
 export default React.createClass({
     getInitialState() {
         return {
             phone: '',
-            sendCodeButtonVisible: false,
             phoneVerificationBoxVisible: false,
             phoneVerified: false,
             error: false,
@@ -15,37 +16,40 @@ export default React.createClass({
         }
     },
     render () {
-        const sendCodeButton =
-            <button type="button" className="btn btn-primary" onClick={this.handleSendCodeClick}>
-                Подтвердить телефон
-            </button>
+        const normalize = number => '+7' + number.substr('+7 '.length)
+        const digitsInPhone = 11
+        const countDigits = text => (text.match(/\d/g) || []).length
+        const sendVisible =
+            countDigits(this.state.phone) === digitsInPhone &&
+            !this.state.phoneAlreadyExists
 
         const phoneInput = (
-            <div>
-                <div className={"form-group" + (this.state.error ? " has-error": "")}>
-                    <label htmlFor="inputPhone">Мобильный телефон</label>
-                    <div>
-                        <span className="form-control country-code">+7</span>
-                        <MaskedInput
-                            autoFocus={this.props.autoFocus}
-                            type="tel" id="inputPhone" className="form-control"
-                            mask="(111) 111 - 11 - 11" placeholder="(___) ___ - __ - __"
-                            onChange={this.handlePhoneChange} value={this.state.phone} />
-                    </div>
-                    <span className="help-block">{this.state.errorMessage}</span>
-                    {this.state.phoneAlreadyExists
-                        ? <div style={{backgroundImage:'url(/assets/images/ialert.png)', backgroundPosition: 'left center', backgroundRepeat: 'no-repeat', padding: '5px 0px 2px 38px', display: 'block', backgroundColor: '#fff', borderColor:'#fff'}}>
-                            Такой номер уже зарегистрирован. Пожалуйста, <a href="#" onClick={e => {e.preventDefault(); this.props.onSignin()}}>авторизуйтесь</a>
-                        </div> : null}
-                </div>
-                {this.state.sendCodeButtonVisible ? sendCodeButton: null}
+            <div className={"form-group" + (this.state.error ? " has-error": "")}>
+                <label htmlFor="inputPhone">Мобильный телефон</label>
+                <InputMask
+                    autoFocus={true}
+                    type="tel" id="phoneInput" className="form-control"
+                    mask="+7 (999) 999 - 99 - 99" placeholder="+7 (___) ___ - __ - __" maskChar="_"
+                    onKeyPress={this.handleSendCodeClick}
+                    onChange={this.handlePhoneChange} value={this.state.phone} />
+
+                <span className="help-block">{this.state.errorMessage}</span>
+
+                {$if(this.state.phoneAlreadyExists,
+                    <div style={{backgroundImage:'url(/assets/images/ialert.png)', backgroundPosition: 'left center', backgroundRepeat: 'no-repeat', padding: '5px 0px 2px 38px', display: 'block', backgroundColor: '#fff', borderColor:'#fff'}}>
+                        Такой номер уже зарегистрирован. Пожалуйста, <a href="#" onClick={e => {e.preventDefault(); this.props.onSignin()}}>авторизуйтесь</a>
+                    </div>)}
+
+                {$if(sendVisible,
+                    <button type="button" className="btn btn-primary" onClick={this.handleSendCodeClick}>
+                        Подтвердить телефон
+                    </button>)}
             </div>)
 
         const verifiedPhoneInput = (
             <div className="form-group has-feedback">
                 <label htmlFor="inputPhone">Мобильный телефон</label>
-                <div className="input-group has-feedback">
-                    <div className="input-group-addon">+7</div>
+                <div className="has-feedback">
                     <input type="tel" id="inputPhone" className="form-control" value={this.state.phone} readOnly />
                     <span className="glyphicon glyphicon-ok form-control-feedback"></span>
                 </div>
@@ -54,7 +58,7 @@ export default React.createClass({
 
         const phoneVerificationBox  =
             <PhoneVerificationBox
-                phone={'+7' + this.state.phone}
+                phone={normalize(this.state.phone)}
                 onError={this.handlePhoneVerificationError}
                 onAlreadyExists={this.handlePhoneVerificationAlreadyExists}
                 onSuccess={this.handlePhoneVerificationSuccess}
@@ -68,16 +72,11 @@ export default React.createClass({
             </div>)
     },
     handlePhoneChange(e) {
-        const phone = e.target.value
-        const digitsInPhone = 10
-        const countDigits = text => (text.match(/\d/g) || []).length
-
         this.setState({
-            phone: phone,
+            phone: e.target.value,
             phoneAlreadyExists: false,
             error: false,
             errorMessage: '',
-            sendCodeButtonVisible: countDigits(phone) === digitsInPhone
         })
     },
     handleSendCodeClick() {

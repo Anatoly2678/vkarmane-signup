@@ -1,11 +1,14 @@
 import React from 'react'
-import MaskedInput from 'react-maskedinput'
+import InputMask from 'react-input-mask'
+
 import {$if} from '../../react-helpers'
 
-export default function ({number, waiting, message, disabled, onChange, onSend}) {
+export default function ({number, waiting, message, disabled, onSend}) {
     const countDigits = text => (text.match(/\d/g) || []).length
     const digitsInPhone = 11
     const sendAvailable = countDigits(number) === digitsInPhone && !disabled
+    const normalize = number => '+7' + number.substr('+7 '.length)
+    let input
 
     return (
         <div>
@@ -15,23 +18,19 @@ export default function ({number, waiting, message, disabled, onChange, onSend})
                 </label>
             </div>
             <div className={`form-group ${$if(message, 'has-error')}`}>
-                <div>
-                    <span className="form-control country-code">+7</span>
-                    <MaskedInput
-                        autoFocus={true}
-                        type="tel" id="phoneInput" className="form-control"
-                        mask="(111) 111 - 11 - 11" placeholder="(___) ___ - __ - __"
-                        value={number.substr('+7'.length)} /* Отрезаем +7 */
-                        onChange={e => onChange('+7' + e.target.value)}
-                        disabled={disabled || waiting} />
-                </div>
+                <InputMask
+                    ref={node => input = node} autoFocus={true}
+                    type="tel" id="phoneInput" className="form-control"
+                    mask="+7 (999) 999 - 99 - 99" placeholder="+7 (___) ___ - __ - __" maskChar="_"
+                    onKeyPress={e => onSend(normalize(e.target.value))}
+                    disabled={disabled || waiting} />
                 <span className="help-block">{message}</span>
             </div>
 
             {$if(sendAvailable,
                 <button
                     type="button" className="btn btn-primary"
-                    onClick={() => onSend(number)} disabled={waiting}>
+                    onClick={() => onSend(normalize(input.value))} disabled={waiting}>
                     {$if(!waiting, "Подтвердите", "Подтверждение...")}
                 </button>
             )}
