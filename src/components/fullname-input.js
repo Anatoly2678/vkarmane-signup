@@ -24,7 +24,8 @@ export default React.createClass({
 
                 {/* Last name */}
                 <div className={`form-group ${$if(this.state.lastNameHasError || this.state.lastNameEmpty, 'has-error')}`}>
-                    <input type="text" className="form-control" id="lastNameInput"
+                    <input type="text" className="form-control"
+                           id="lastNameInput" autoFocus={true}
                            value={this.state.lastName} placeholder="Фамилия"
                            onChange={this.handleLastNameChange} disabled={this.props.disabled} />
 

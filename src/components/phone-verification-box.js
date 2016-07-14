@@ -1,5 +1,5 @@
 import React from 'react'
-import {$if} from '../react-helpers'
+import {$if, $ifEnter} from '../react-helpers'
 
 export default React.createClass({
     getInitialState() {
@@ -34,14 +34,17 @@ export default React.createClass({
                         <p style={{ fontSize: '13px' }}>Введите полученный код чтобы продолжить оформление заявки.</p>
                     </div>
                     <div className="form-group">
-                        <input value={this.props.phone} readOnly style={{backgroundColor:'#FFF', borderColor:'#FFF'}} type="tel" className="form-control" />
+                        <input value={'+7 ' + this.props.phone.substr(2)} readOnly style={{backgroundColor:'#FFF', borderColor:'#FFF'}} type="tel" className="form-control" />
                     </div>
 
                     {this.state.codeInputVisible ?
                         <div>
                             <div className={`form-group ${$if(this.state.errorMessage, 'has-error')}`}>
-                                <input value={this.state.code} className="form-control" style={{ backgroundColor:'#FFF'}}
-                                       onChange={this.handleCodeChange} placeholder="Код из СМС"/>
+                                <input
+                                    value={this.state.code} className="form-control" autoFocus={true}
+                                    style={{ backgroundColor:'#FFF'}} placeholder="Код из СМС"
+                                    onChange={this.handleCodeChange}
+                                    onKeyPress={$ifEnter(this.handleVerifyCodeClick)} />
                                 <span className="help-block text-danger">{this.state.errorMessage}</span>
                             </div>
                             <button type="button" className="btn btn-primary btn-block" onClick={this.handleVerifyCodeClick}>
@@ -125,7 +128,7 @@ export default React.createClass({
             success: this.handleVerifyCodeResult,
             error: (xhr, code, err) => {
                 this.setState({ waiting: false })
-                alert(err.toString())
+                console.error(err)
             }
         })
 

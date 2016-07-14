@@ -2,7 +2,6 @@ import { combineReducers } from 'redux'
 import { createAction, handleActions } from 'redux-actions'
 import fetch from 'isomorphic-fetch'
 
-export const changePhoneNumber = createAction('CHANGE_PHONE_NUMBER')
 export const requestCode = createAction('REQUEST_CODE')
 export const invalidNumber = createAction('INVALID_NUMBER')
 export const receiveCodeId = createAction('RECEIVE_CODE_ID')
@@ -25,7 +24,7 @@ const post = (url, data) =>
 
 export const sendCode = (number) => {
     return dispatch => {
-        dispatch(requestCode())
+        dispatch(requestCode(number))
 
         return post('/Recovery.aspx/SendCodeForPasswordChange', {
             number,
@@ -110,18 +109,12 @@ export const changePassword = ({pass, repeat}) => {
 }
 
 const phone = handleActions({
-    [changePhoneNumber] (state, action) {
+    [requestCode] (state, action) {
         return {
             ...state,
+            waiting: true,
             number: action.payload,
             message: ''
-        }
-    },
-
-    [requestCode] (state) {
-        return {
-            ...state,
-            waiting: true
         }
     },
 
@@ -142,7 +135,7 @@ const phone = handleActions({
     }
 
 }, {
-    number: '+7(913) 483 - 38 - 9_',
+    number: '',
     sent: false,
     message: '',
     codeId: '',

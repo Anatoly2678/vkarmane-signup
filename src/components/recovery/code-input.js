@@ -1,5 +1,5 @@
 import React from 'react'
-import {$if} from '../../react-helpers'
+import {$if, $ifEnter} from '../../react-helpers'
 
 export default function ({waiting, message, onConfirm}) {
     let code
@@ -12,8 +12,11 @@ export default function ({waiting, message, onConfirm}) {
             </div>
 
             <div className={`form-group ${$if(message, 'has-error')}`}>
-                <input className="form-control" placeholder="Код из СМС"
-                       ref={node => code = node} />
+                <input
+                    autofocus={true}
+                    className="form-control" placeholder="Код из СМС"
+                    ref={node => code = node}
+                    onKeyPress={$ifEnter(e => {if(!waiting) onConfirm(e.target.value)})} />
 
                 <span className="help-block">{message}</span>
             </div>

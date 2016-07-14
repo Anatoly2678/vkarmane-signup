@@ -1,7 +1,7 @@
 import React from 'react'
 import debounce from 'lodash/debounce'
 import defer from 'lodash/defer'
-import {$if} from '../react-helpers'
+import {$if, $ifEnter} from '../react-helpers'
 
 export default React.createClass({
     emailPattern: /^[\w|\.|-]+@[\w|\.|-]+(\.\w+)+$/,
@@ -29,7 +29,7 @@ export default React.createClass({
 
                 <div className={`form-group ${
                         $if(showNotEntered || this.state.exists || this.state.blocked || showNotValid, 'has-error')} ${
-                        $if(this.state.success, 'has-success has-feedback')}`}>
+                        $if(this.state.success, 'has-feedback')}`}>
 
                     <input type="email" className="form-control" id="emailInput"
                            value={this.state.email} placeholder="Укажите ваш email"

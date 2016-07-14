@@ -58,9 +58,17 @@ h2.form-signin-heading {
 .form-control[disabled],
 .form-control[readonly],
 fieldset[disabled] .form-control {
-    background-color: silver;
     box-shadow: 0px 0px;
-    border-color: silver;
+    background-color: #ECF3F9;
+    border-color: #ECF3F9;
+}
+
+.glyphicon {
+    color: #4385B7;
+}
+
+.form-control-feedback {
+    top: 8px;
 }
 
 .input-group-addon {
