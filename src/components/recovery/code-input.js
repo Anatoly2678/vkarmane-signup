@@ -1,20 +1,22 @@
 import React from 'react'
 import {$if, $ifEnter} from '../../react-helpers'
 
-export default function ({waiting, message, onConfirm}) {
+export default function ({waiting, message, way, onConfirm}) {
     let code
 
     return (
         <div>
             <div className="form-group">
-                <p>На указанный вами номер телефона отправлено СМС с кодом подтверждения.</p>
+                <p>На указанный вами {way === 'phone'
+                    ? 'номер телефона отправлено СМС'
+                    : 'адрес отправлено сообщение'} с кодом подтверждения.</p>
                 <p>Введите полученный код чтобы продолжить восстановление пароля.</p>
             </div>
 
             <div className={`form-group ${$if(message, 'has-error')}`}>
                 <input
-                    autofocus={true}
-                    className="form-control" placeholder="Код из СМС"
+                    autoFocus={true}
+                    className="form-control" placeholder="Код из сообщения"
                     ref={node => code = node}
                     onKeyPress={$ifEnter(e => {if(!waiting) onConfirm(e.target.value)})} />
 

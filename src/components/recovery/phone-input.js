@@ -8,7 +8,6 @@ export default function ({number, waiting, message, disabled, onChange, onSend})
     const digitsInPhone = 11
     const sendAvailable = countDigits(number) === digitsInPhone && !disabled
     const normalize = number => '+7' + number.substr('+7 '.length)
-    let input
 
     return (
         <div>
@@ -19,21 +18,23 @@ export default function ({number, waiting, message, disabled, onChange, onSend})
             </div>
             <div className={`form-group ${$if(message, 'has-error')}`}>
                 <InputMask
-                    ref={node => input = node} autoFocus={true}
+                    autoFocus={true}
                     type="tel" id="phoneInput" className="form-control"
                     mask="+7 (999) 999 - 99 - 99" placeholder="+7 (___) ___ - __ - __" maskChar="_"
-                    onKeyPress={e => onSend(normalize(e.target.value))}
+                    onKeyPress={e => onSend(number)}
                     disabled={disabled || waiting}
-                    onChange={e => onChange(e.target.value)} />
+                    onChange={e => onChange(normalize(e.target.value))} />
                 <span className="help-block">{message}</span>
             </div>
 
             {$if(sendAvailable,
-                <button
-                    type="button" className="btn btn-primary"
-                    onClick={() => onSend(normalize(input.value))} disabled={waiting}>
-                    {$if(!waiting, "Подтвердите", "Подтверждение...")}
-                </button>
+                <div className="form-group">
+                    <button
+                        type="button" className="btn btn-primary"
+                        onClick={() => onSend(number)} disabled={waiting}>
+                        {$if(!waiting, "Подтвердите", "Подтверждение...")}
+                    </button>
+                </div>
             )}
         </div>)
 }
