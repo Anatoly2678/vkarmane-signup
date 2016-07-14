@@ -142,7 +142,7 @@ const phone = handleActions({
     }
 
 }, {
-    number: '',
+    number: '+7(913) 483 - 38 - 9_',
     sent: false,
     message: '',
     codeId: '',

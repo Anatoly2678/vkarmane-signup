@@ -22,7 +22,7 @@ module.exports = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            'process.env': {'NODE_ENV': JSON.stringify('development')} // production
+            'process.env': {'NODE_ENV': JSON.stringify('production')} // development
         }),
         new CommonsChunkPlugin("commons.bundle.js"),
         new webpack.optimize.AggressiveMergingPlugin()

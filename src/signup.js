@@ -8,9 +8,13 @@ const SignupPage = React.createClass({
  			return (
  				<div>
 	                <div className="header clearfix">
-	                    < Header />
+	                    <Header />
 	                </div>
                 	<SignupForm />
+
+					<div>
+						<div id="register-info"></div>
+					</div>
             	</div>
             );
  		}

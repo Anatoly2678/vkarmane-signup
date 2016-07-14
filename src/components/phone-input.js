@@ -27,14 +27,15 @@ export default React.createClass({
                     <div className="input-group">
                         <div className="input-group-addon">+7</div>
                         <MaskedInput
+                            autoFocus={this.props.autoFocus}
                             type="tel" id="inputPhone" className="form-control"
                             mask="(111) 111 - 11 - 11" placeholder="(000) 000 - 00 - 00"
                             onChange={this.handlePhoneChange} value={this.state.phone} />
                     </div>
                     <span className="help-block">{this.state.errorMessage}</span>
                     {this.state.phoneAlreadyExists
-                        ? <div className="alert alert-warning">
-                            <smal>Такой номер уже зарегистрирован. Пожалуйста, <a href="/signin.html">авторизуйтесь</a></smal>
+                        ? <div style={{backgroundImage:'url(/assets/images/ialert.png)', backgroundPosition: 'left center', backgroundRepeat: 'no-repeat', padding: '5px 0px 2px 38px', display: 'block', backgroundColor: '#fff', borderColor:'#fff'}}>
+                            Такой номер уже зарегистрирован. Пожалуйста, <a href="#" onClick={e => {e.preventDefault(); this.props.onSignin()}}>авторизуйтесь</a>
                         </div> : null}
                 </div>
                 {this.state.sendCodeButtonVisible ? sendCodeButton: null}

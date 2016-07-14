@@ -19,18 +19,19 @@ export default React.createClass({
         return (
         <div className="modal fade in" id="myModal" style={{display: 'block'}} tabIndex="-1" role="dialog">
             <div className="modal-dialog" style={{ width: '480px'}} role="document">
-                <div className="modal-content">
+                <div className="modal-content" style={{ boxShadow: 'none' }}>
                     <button
                         type="button" className="close" style={{margin:'20px'}}
                         onClick={() => this.props.onClose()}><span>&times;</span></button>
                 <div
-                    className="alert alert-info alert-dismissible" role="alert"
-                    style={{marginBottom:'0px', padding:'60px 40px'}}>
+                    className="alert alert-dismissible" role="alert"
+                    style={{marginBottom:'0px', padding:'60px 40px', backgroundColor: '#ECF3F9', borderColor: '#d3e1ed' }}>
 
-                    <h3>Подтверждение номера телефона</h3>
+                    <h2 className="form-signin-heading">Подтверждение номера телефона</h2>
+                    <div className="form-signin-heading-underline"></div>
                     <div className="form-group">
-                        <p>На указанный вами номер телефона отправлено СМС с кодом подтверждения.</p>
-                        <p>Введите полученный код чтобы продолжить оформление заявки.</p>
+                        <p style={{ fontSize: '13px' }}>На указанный вами номер телефона отправлено СМС с кодом подтверждения.</p>
+                        <p style={{ fontSize: '13px' }}>Введите полученный код чтобы продолжить оформление заявки.</p>
                     </div>
                     <div className="form-group">
                         <input value={this.props.phone} readOnly style={{backgroundColor:'#FFF', borderColor:'#FFF'}} type="tel" className="form-control" />
@@ -39,7 +40,7 @@ export default React.createClass({
                     {this.state.codeInputVisible ?
                         <div>
                             <div className={`form-group ${$if(this.state.errorMessage, 'has-error')}`}>
-                                <input value={this.state.code} className="form-control"
+                                <input value={this.state.code} className="form-control" style={{ backgroundColor:'#FFF'}}
                                        onChange={this.handleCodeChange} placeholder="Код из СМС"/>
                                 <span className="help-block text-danger">{this.state.errorMessage}</span>
                             </div>
@@ -83,7 +84,7 @@ export default React.createClass({
         this.setState({
             codeExpired: false,
             waiting: true,
-            codeInputVisible: false
+            codeInputVisible: false  
         })
     },
     handleSendCodeResult(res) {
