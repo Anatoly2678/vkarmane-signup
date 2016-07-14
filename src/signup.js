@@ -1,5 +1,6 @@
 import SignupForm from './components/signup-form'
 import Header from './components/vk-master'
+import Footer from './components/signup-footer'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -11,10 +12,8 @@ const SignupPage = React.createClass({
 	                    <Header />
 	                </div>
                 	<SignupForm />
-
-					<div>
-						<div id="register-info"></div>
-					</div>
+                	<div className="adaptive-space" ></div>
+					<Footer />
             	</div>
             );
  		}

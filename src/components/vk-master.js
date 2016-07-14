@@ -27,5 +27,3 @@ export default React.createClass({
         )
     }
 })
-
-//ReactDOM.render(<MasterPage loginPage="/signin.html" />, document.getElementById('vkmaster'))
