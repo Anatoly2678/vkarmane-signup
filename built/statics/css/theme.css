@@ -141,8 +141,8 @@ label {
 }
 
 .header-adv {
-    padding-top: 35px;
-    padding-bottom: 70px;
+    padding-top: 5px;
+    padding-bottom: 60px;
 }
 
 div.logo {
@@ -301,7 +301,7 @@ div#register-info {
 		width: 100%;
 	}
 }
-@media (max-width: 580px) {
+@media (max-width: 592px) {
 	.step-group {
     	font-size: 12px;
     }
@@ -313,8 +313,8 @@ div#register-info {
 	}
 
 	.header-adv {
-	    padding-top: 15px;
-	    padding-bottom: 20px;
+	    padding-top: 0px;
+	    padding-bottom: 15px;
 	}
 
 	.adaptive-space {
