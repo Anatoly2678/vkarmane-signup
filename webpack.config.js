@@ -9,8 +9,8 @@ module.exports = {
         recovery: './src/recovery.js'
     },
     output: {
-        path: './built/assets',
-        publicPath: '/assets/',
+        path: './built/statics',
+        publicPath: '/statics/',
         filename: '[name].bundle.js'
     },
     module: {
