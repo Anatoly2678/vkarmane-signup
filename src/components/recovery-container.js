@@ -9,13 +9,36 @@ import PasswordInput from './recovery/password-input'
 import {
     sendCode,
     confirmCode,
-    changePassword
+    changePassword,
+    chooseWay,
+    changeNumber
 } from '../reducers/recovery'
 
 
+const WayChooser = () =>
+    <div>
+        <div className="radio">
+            <label>
+                <input
+                    type="radio" name="optionsRadios"
+                    id="useEmail" value="option1" checked={way === 'email'}
+                    onChange={e => {if(e.target.checked) onChangeWay('email')}}/>
+                По e-mail
+            </label>
+        </div>
+        <div className="radio">
+            <label>
+                <input
+                    type="radio" name="optionsRadios"
+                    id="usePhone" value="option2" checked={way === 'phone'}
+                    onChange={e => {if(e.target.checked) onChangeWay('phone')}} />
+                По номеру мобильного телефона
+            </label>
+        </div>
+    </div>
 
-const RecoveryForm = ({phone, verification, password,
-    onSendCode, onConfirmCode, onChangePassword}) =>
+const RecoveryForm = ({phone, verification, password, way,
+    onChangeNumber, onSendCode, onConfirmCode, onChangePassword, onChangeWay}) =>
     <form className="form-signin" onSubmit={e => e.preventDefault()}>
         <h2 className="form-signin-heading">Восстановление пароля</h2>
         <div className="form-signin-heading-underline"></div>
@@ -26,6 +49,7 @@ const RecoveryForm = ({phone, verification, password,
                 waiting={phone.waiting}
                 message={phone.message == 'User Not found' ? 'Пользователь не найден' : phone.message}
                 disabled={!!phone.codeId}
+                onChange={onChangeNumber}
                 onSend={onSendCode} />
         )}
 
@@ -59,11 +83,14 @@ export default connect(
     state => ({
         phone: state.phone,
         verification: state.verification,
-        password: state.password
+        password: state.password,
+        way: state.way
     }),
     dispatch => ({
         onSendCode: number => dispatch(sendCode(number)),
         onConfirmCode: code => dispatch(confirmCode(code)),
-        onChangePassword: (pass, repeat) => dispatch(changePassword({pass, repeat}))
+        onChangePassword: (pass, repeat) => dispatch(changePassword({pass, repeat})),
+        onChangeNumber: number => dispatch(changeNumber(number)),
+        onChangeWay: way => dispatch(chooseWay(way))
     })
 )(RecoveryForm)
