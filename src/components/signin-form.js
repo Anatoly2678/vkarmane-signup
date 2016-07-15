@@ -25,10 +25,10 @@ export default React.createClass({
                 {this.state.showAlert ? alert : null}
 
                 <div className="form-group">
-                    <label htmlFor="inputEmail">Ваш email</label>
+                    <label htmlFor="inputEmail">Ваш e-mail</label>
                     <input
                         type="email" id="inputEmail" className="form-control"
-                        placeholder="Укажите ваш email" required autoFocus
+                        placeholder="Укажите ваш e-mail" required autoFocus
                         value={this.state.email} onChange={this.handleEmailChange}
                         readOnly={this.state.waiting} />
                 </div>
