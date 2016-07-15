@@ -71,10 +71,10 @@ export default React.createClass({
                         onChange={e => this.setState({agree: assign({}, this.state.agree, e)})}
                         disabled={this.state.waitingForSignup} />)}
 
-                {$if(this.state.continueButtonVisible && !this.state.waitingForSignup,
+                {$if(true || this.state.continueButtonVisible && !this.state.waitingForSignup,
                     <button type="submit" className="btn btn-primary btn-block"
                             disabled={!continueEnabled}>
-                        Продолжить оформление →
+                        Продолжить&nbsp;оформление<img src="/statics/images/arrow.png" style={{marginLeft: '15px', marginTop: '-2px'}} />
                     </button>)}
 
                 {$if(this.state.waitingForSignup,

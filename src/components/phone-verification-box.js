@@ -61,7 +61,7 @@ export default React.createClass({
                                     <div className="col-xs-6">
                                         {$if(this.state.secsToResend,
                                             <div style={{fontSize: '13px', lineHeight: "1.3", padding: '2px 5px', color:'#8C949B'}}>
-                                                Повторнеое сообщение можно будет отправить через {this.state.secsToResend} сек
+                                                Повторное сообщение можно будет отправить через {this.state.secsToResend} сек
                                             </div>,
                                             <div style={{marginTop: '15px'}}>
                                                 <a href="#" onClick={this.sendCode}>Отправить еще сообщение</a>
