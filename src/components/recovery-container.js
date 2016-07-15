@@ -20,7 +20,7 @@ import {
 const RecoveryForm = ({phone, verification, password, way,
     onChangeNumber, onSendCode, onConfirmCode, onChangePassword, onChangeWay}) =>
     <form className="form-signin" onSubmit={e => e.preventDefault()}>
-        <h2 className="form-signin-heading">Восстановление пароля</h2>
+        <h2 className="form-signin-heading">Восстановить пароль</h2>
         <div className="form-signin-heading-underline"></div>
 
         <WayChooser way={way} onChange={onChangeWay} />

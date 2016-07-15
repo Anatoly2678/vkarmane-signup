@@ -25,14 +25,14 @@ export default React.createClass({
 
         return (
             <div className="newFieldLine">
-                <label htmlFor="emailInput">Осталось указать email и продолжим :)</label>
+                <label htmlFor="emailInput">Осталось указать e-mail и продолжим :)</label>
 
                 <div className={`form-group ${
                         $if(showNotEntered || this.state.exists || this.state.blocked || showNotValid, 'has-error')} ${
                         $if(this.state.success, 'has-feedback')}`}>
 
                     <input type="email" className="form-control" id="emailInput"
-                           value={this.state.email} placeholder="Укажите ваш email"
+                           value={this.state.email} placeholder="Укажите ваш e-mail"
                            onChange={this.handleEmailChange} disabled={this.props.disabled} />
 
                     {$if(this.state.success,
