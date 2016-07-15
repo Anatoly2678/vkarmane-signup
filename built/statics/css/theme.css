@@ -394,3 +394,13 @@ div#register-info {
     }
 }
 
+.country-code {
+    position: absolute;
+    width: 0;
+    background: transparent;
+    border-color: transparent;
+}
+
+.country-code + input.form-control {
+    padding-left: 35px;
+}

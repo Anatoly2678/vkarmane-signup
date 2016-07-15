@@ -5,9 +5,8 @@ import {$if} from '../../react-helpers'
 
 export default function ({number, waiting, message, disabled, onChange, onSend}) {
     const countDigits = text => (text.match(/\d/g) || []).length
-    const digitsInPhone = 11
+    const digitsInPhone = 1 + 3 + 3 + 4
     const sendAvailable = countDigits(number) === digitsInPhone && !disabled
-    const normalize = number => '+7' + number.substr('+7 '.length)
 
     return (
         <div>
@@ -17,13 +16,14 @@ export default function ({number, waiting, message, disabled, onChange, onSend})
                 </label>
             </div>
             <div className={`form-group ${$if(message, 'has-error')}`}>
+                <span className="form-control country-code">+7</span>
                 <InputMask
                     autoFocus={true}
                     type="tel" id="phoneInput" className="form-control"
-                    mask="+7 (999) 999 - 99 - 99" placeholder="+7 (___) ___ - __ - __" maskChar="_"
+                    mask="(999) 999 - 99 - 99" placeholder="(___) ___ - __ - __" maskChar={null}
                     onKeyPress={e => onSend(number)}
                     disabled={disabled || waiting}
-                    onChange={e => onChange(normalize(e.target.value))} />
+                    onChange={e => onChange('+7' + e.target.value)} />
                 <span className="help-block">{message}</span>
             </div>
 

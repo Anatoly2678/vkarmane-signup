@@ -15,9 +15,12 @@ export default React.createClass({
             phoneAlreadyExists: false
         }
     },
+    normalize(number) {
+        return '+7' + number
+    },
     render () {
-        const normalize = number => '+7' + number.substr('+7 '.length)
-        const digitsInPhone = 11
+
+        const digitsInPhone = 3 + 3 + 4
         const countDigits = text => (text.match(/\d/g) || []).length
         const sendVisible =
             countDigits(this.state.phone) === digitsInPhone &&
@@ -26,12 +29,15 @@ export default React.createClass({
         const phoneInput = (
             <div className={"form-group" + (this.state.error ? " has-error": "")}>
                 <label htmlFor="inputPhone">Мобильный телефон</label>
-                <InputMask
-                    autoFocus={true}
-                    type="tel" id="phoneInput" className="form-control"
-                    mask="+7 (999) 999 - 99 - 99" placeholder="+7 (___) ___ - __ - __" maskChar="_"
-                    onKeyPress={this.handleSendCodeClick}
-                    onChange={this.handlePhoneChange} value={this.state.phone} />
+                <div>
+                    <span className="form-control country-code">+7</span>
+                    <InputMask
+                        autoFocus={true}
+                        type="tel" id="phoneInput" className="form-control"
+                        mask="(999) 999 - 99 - 99" placeholder="(___) ___ - __ - __" maskChar={null}
+                        onKeyPress={this.handleSendCodeClick}
+                        onChange={this.handlePhoneChange} value={this.state.phone} />
+                </div>
 
                 <span className="help-block">{this.state.errorMessage}</span>
 
@@ -58,7 +64,7 @@ export default React.createClass({
 
         const phoneVerificationBox  =
             <PhoneVerificationBox
-                phone={normalize(this.state.phone)}
+                phone={this.normalize(this.state.phone)}
                 onError={this.handlePhoneVerificationError}
                 onAlreadyExists={this.handlePhoneVerificationAlreadyExists}
                 onSuccess={this.handlePhoneVerificationSuccess}
@@ -72,11 +78,8 @@ export default React.createClass({
             </div>)
     },
     handlePhoneChange(e) {
-        // Фикс пролемы ввода лишних символов в браузерах
-        let phone = e.target.value.substr(0, '+7 (999) 999 - 99 - 99'.length)
-
         this.setState({
-            phone,
+            phone: e.target.value.substr(0, '(999) 999 - 99 - 99'.length), // Фикс пролемы ввода лишних символов в браузерах
             phoneAlreadyExists: false,
             error: false,
             errorMessage: '',
@@ -109,7 +112,7 @@ export default React.createClass({
             phoneVerified: true
         })
 
-        this.props.onChange(phone)
+        this.props.onChange(this.normalize(this.state.phone))
     },
     handlePhoneVerificationClose() {
         this.setState({
