@@ -321,6 +321,10 @@ div#register-info {
     .font-size-adaptive {
         font-size: 16px;
     }
+
+    .form-signin-heading-underline {
+        margin-bottom: 10px;
+    }
 }
 @media (max-width: 592px) {
 	.step-group {
@@ -346,6 +350,10 @@ div#register-info {
 @media (max-width: 425px) {
 	.step-group {
     	font-size: 10px;
+    }
+
+    .alert-padding-adaptive {
+        padding: 20px 10px;
     }
 }
 

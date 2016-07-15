@@ -33,8 +33,7 @@ export default React.createClass({
                         type="button" className="close" style={{margin:'20px'}}
                         onClick={() => this.props.onClose()}><span>&times;</span></button>
                 <div
-                    className="alert alert-dismissible alert-padding-adaptive" role="alert"
-                    style={{marginBottom:'0px', padding:'60px 40px', backgroundColor: '#ECF3F9', borderColor: '#d3e1ed' }}>
+                    className="alert alert-dismissible alert-padding-adaptive" role="alert">
 
                     <h2 className="form-signin-heading">Подтверждение номера телефона</h2>
                     <div className="form-signin-heading-underline"></div>
