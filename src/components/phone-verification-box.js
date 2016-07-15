@@ -51,32 +51,33 @@ export default React.createClass({
                             <div className={`form-group ${$if(this.state.errorMessage, 'has-error')}`}>
 
                                 <div className="row">
-                                    <div className="col-sm-6">
+                                    <div className="col-xs-6">
                                         <input
                                             value={this.state.code} className="form-control" autoFocus={true}
                                             style={{ backgroundColor:'#FFF'}} placeholder="Код из СМС"
                                             onChange={this.handleCodeChange}
                                             onKeyPress={$ifEnter(this.handleVerifyCodeClick)} />
                                     </div>
-                                    <div className="col-sm-6">
-                                        {$if(this.secsToResend === 0,
-                                            <p style={{marginTop: '15px'}}>
-                                                Отправить еще сообщение
-                                            </p>,
-                                            <div style={{fontSize: '13px', lineHeight: "1.3", padding: '2px 5px'}}>
+                                    <div className="col-xs-6">
+                                        {$if(this.state.secsToResend,
+                                            <div style={{fontSize: '13px', lineHeight: "1.3", padding: '2px 5px', color:'#8C949B'}}>
                                                 Повторнеое сообщение можно будет отправить через {this.state.secsToResend} сек
+                                            </div>,
+                                            <div style={{marginTop: '15px'}}>
+                                                <a href="#" onClick={this.sendCode}>Отправить еще сообщение</a>
                                             </div>
                                         )}
-
                                     </div>
                                 </div>
 
                                 <span className="help-block text-danger">{this.state.errorMessage}</span>
                             </div>
 
-                            <button type="button" className="btn btn-primary btn-block" onClick={this.handleVerifyCodeClick}>
-                                Подтвердить телефон
-                            </button>
+                            {!this.state.waiting ?
+                                <button type="button" className="btn btn-primary btn-block" onClick={this.handleVerifyCodeClick}>
+                                    Подтвердить телефон
+                                </button>: null}
+
                         </div>: null}
 
                     {this.state.codeExpired ?

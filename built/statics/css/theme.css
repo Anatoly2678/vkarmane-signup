@@ -84,6 +84,8 @@ fieldset[disabled] .form-control {
     height: auto;
     padding-top: 15px;
     padding-bottom: 15px;
+    font-family: 'M-Geometria';
+    font-size: 16px;
 }
 
 input[type="checkbox"] {
