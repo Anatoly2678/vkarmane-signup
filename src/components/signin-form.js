@@ -50,7 +50,9 @@ export default React.createClass({
                         </button>
                     </div>
                     <div className="col-sm-6">
-                        <button type="button" onClick={this.handleRecovery} className="btn btn-link btn-block">
+                        <button
+                            type="button" onClick={this.handleRecovery}
+                            className="btn btn-link btn-block" style={{paddingLeft:'0', paddingRight:'0' }}>
                             Забыли пароль?
                         </button>
                     </div>

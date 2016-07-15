@@ -13,8 +13,6 @@ export const failChangePassword = createAction('FAIL_CHANGE_PASSWORD')
 export const validatePassword = createAction('VALIDATE_PASSWORD')
 export const chooseWay = createAction('CHOOSE_WAY')
 export const changeNumber = createAction('CHANGE_NUMBER')
-export const requestEmailExist = createAction('REQUEST_EMAIL_EXIST')
-export const saveEmailExistence = createAction('SAVE_EMAIL_EXISTENCE')
 
 const post = (url, data) =>
     fetch(url, {
@@ -111,8 +109,6 @@ export const changePassword = ({pass, repeat}) => {
             console.error(ex))
     }
 }
-
-const verifyEmail = (email) => {}
 
 const phone = handleActions({
     [changeNumber] (state, action) {
@@ -219,28 +215,7 @@ const password = handleActions({
 const way = handleAction(
     chooseWay,
     (state, action) => action.payload || state,
-    'email')
-
-const email = handleActions({
-    [requestEmailExist] (state) {
-        return {
-            ...state,
-            waiting: true
-        }
-    },
-    [saveEmailExistence] (state, action) {
-        return {
-            ...state,
-            existingEmail: action.payload.exists
-                ? action.payload.email
-                : state.email.existingEmail,
-            message: action.payload.message
-        }
-    }
-}, {
-    existingEmail: '',
-    message: ''
-})
+    'phone')
 
 export default combineReducers({ phone, verification, password, way })
 
