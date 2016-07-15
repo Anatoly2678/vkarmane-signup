@@ -24,8 +24,8 @@ export default React.createClass({
             this.state.email && !this.emailPattern.test(this.state.email)
 
         return (
-            <div>
-                <label htmlFor="emailInput" className="newFieldLine">Осталось указать email и продолжим</label>
+            <div className="newFieldLine">
+                <label htmlFor="emailInput">Осталось указать email и продолжим :)</label>
 
                 <div className={`form-group ${
                         $if(showNotEntered || this.state.exists || this.state.blocked || showNotValid, 'has-error')} ${

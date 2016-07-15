@@ -1,10 +1,7 @@
-import cookie from 'js-cookie'
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 export default React.createClass({
     render() {
-
         return (
             <div className="row header-adv">
                 <div className="col-xs-9">
@@ -13,9 +10,9 @@ export default React.createClass({
                         </div>
                         <h3 className="text-muted" hidden="hidden">ВКармане</h3>
                     </div>
-                    <div className="col-xs-12 col-sm-7">
-                        <div className="phone"><span>8 800</span> 500-35-85</div> 
-                        <p className="text-muted phone-info">ежедневно с 6:00 до 19:00 (мск) по России бесплатно</p>
+                    <div className="col-xs-12 col-sm-7 phone-in-header">
+                        <div className="phone"><span>8 800</span> 500-35-85</div>
+                        <p className="text-muted phone-info">ежедневно с 6:00 до 18:00 (мск) по России бесплатно</p>
                     </div>
                 </div>
                 <div className="col-xs-3">

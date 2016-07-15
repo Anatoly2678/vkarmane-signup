@@ -36,7 +36,7 @@ export default React.createClass({
                 <span className="help-block">{this.state.errorMessage}</span>
 
                 {$if(this.state.phoneAlreadyExists,
-                    <div style={{backgroundImage:'url(/assets/images/ialert.png)', backgroundPosition: 'left center', backgroundRepeat: 'no-repeat', padding: '5px 0px 2px 38px', display: 'block', backgroundColor: '#fff', borderColor:'#fff'}}>
+                    <div style={{backgroundImage:'url(/statics/images/ialert.png)', backgroundPosition: 'left center', backgroundRepeat: 'no-repeat', padding: '5px 0px 2px 38px', display: 'block', backgroundColor: '#fff', borderColor:'#fff'}}>
                         Такой номер уже зарегистрирован. Пожалуйста, <a href="#" onClick={e => {e.preventDefault(); this.props.onSignin()}}>авторизуйтесь</a>
                     </div>)}
 
@@ -72,8 +72,11 @@ export default React.createClass({
             </div>)
     },
     handlePhoneChange(e) {
+        // Фикс пролемы ввода лишних символов в браузерах
+        let phone = e.target.value.substr(0, '+7 (999) 999 - 99 - 99'.length)
+
         this.setState({
-            phone: e.target.value,
+            phone,
             phoneAlreadyExists: false,
             error: false,
             errorMessage: '',

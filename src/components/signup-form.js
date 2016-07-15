@@ -74,13 +74,16 @@ export default React.createClass({
                 {$if(this.state.continueButtonVisible && !this.state.waitingForSignup,
                     <button type="submit" className="btn btn-primary btn-block"
                             disabled={!continueEnabled}>
-                        Продолжить оформление →
+                        Продолжить&nbsp;оформление<img src="/statics/images/arrow.png" style={{marginLeft: '15px', marginTop: '-2px'}} />
                     </button>)}
 
                 {$if(this.state.waitingForSignup,
-                    <div className="progress">
-                        <div className="progress-bar progress-bar-striped active" style={{width:'100%'}}></div>
-                    </div>)}
+                    <div className="form-group">
+                        <div className="progress">
+                            <div className="progress-bar progress-bar-striped active" style={{width:'100%'}}></div>
+                        </div>
+                    </div>
+                )}
             </form>)
     },
 

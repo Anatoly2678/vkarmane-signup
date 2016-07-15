@@ -16,6 +16,7 @@ export default function ({waiting, message, way, onConfirm}) {
             <div className={`form-group ${$if(message, 'has-error')}`}>
                 <input
                     autoFocus={true}
+                    type={way === 'phone' ? 'number' : 'email'}
                     className="form-control" placeholder="Код из сообщения"
                     ref={node => code = node}
                     onKeyPress={$ifEnter(e => {if(!waiting) onConfirm(e.target.value)})} />
