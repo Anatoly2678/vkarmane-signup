@@ -281,16 +281,14 @@ div#register-info {
 	width: 8%;
 	height: auto;
 	background-size: contain;
-    background-image: url(../images/arrow-right.png);
-    background-position: center;
-    background-repeat: no-repeat;
+    background: url(../images/arrow-right.png) no-repeat center;
 }
 .step-group-image {
 	width: 100%;
 	padding-bottom:  85.45%;
 	background-size: contain;
-	background-position: center;
     background-repeat: no-repeat;
+    background-position: center;
 }
 .signup-footer-step-one {
 	background-image: url(../images/step-signup.png);
@@ -363,6 +361,34 @@ div#register-info {
     }
 }
 
+@media (max-height: 740px) {
+    .header-adv {
+        padding-top: 0px;
+        padding-bottom: 25px;
+    }
+
+    .adaptive-space {
+        height: 30px;
+        width: 100%;
+    }
+}
+@media (max-height: 640px) {
+    .header-adv {
+        padding-top: 0px;
+        padding-bottom: 15px;
+    }
+
+    .adaptive-space {
+        height: 30px;
+        width: 100%;
+    }
+
+    .form-signin {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
     /* Remove the padding we set earlier */
@@ -393,7 +419,6 @@ div#register-info {
         margin-left: -40px;
     }
 }
-
 .country-code {
     position: absolute;
     width: 0;
