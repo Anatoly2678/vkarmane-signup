@@ -143,6 +143,7 @@ label {
 .header-adv {
     padding-top: 5px;
     padding-bottom: 60px;
+    white-space: nowrap;
 }
 
 div.logo {
