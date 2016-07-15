@@ -78,9 +78,12 @@ export default React.createClass({
                     </button>)}
 
                 {$if(this.state.waitingForSignup,
-                    <div className="progress">
-                        <div className="progress-bar progress-bar-striped active" style={{width:'100%'}}></div>
-                    </div>)}
+                    <div className="form-group">
+                        <div className="progress">
+                            <div className="progress-bar progress-bar-striped active" style={{width:'100%'}}></div>
+                        </div>
+                    </div>
+                )}
             </form>)
     },
 

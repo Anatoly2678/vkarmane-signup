@@ -45,12 +45,12 @@ export default React.createClass({
                         <input value={'+7 ' + this.props.phone.substr(2)} readOnly style={{backgroundColor:'#FFF', borderColor:'#FFF'}} type="tel" className="form-control" />
                     </div>
 
-                    {this.state.codeInputVisible  || true?
+                    {this.state.codeInputVisible ?
                         <div>
                             <div className={`form-group ${$if(this.state.errorMessage, 'has-error')}`}>
 
                                 <div className="row">
-                                    <div className="col-xs-6">
+                                    <div className="col-sm-6">
                                         <input
                                             value={this.state.code} className="form-control"
                                             autoFocus={true} type="number"
@@ -58,13 +58,13 @@ export default React.createClass({
                                             onChange={this.handleCodeChange}
                                             onKeyPress={$ifEnter(this.handleVerifyCodeClick)} />
                                     </div>
-                                    <div className="col-xs-6">
+                                    <div className="col-sm-6">
                                         {$if(this.state.secsToResend,
-                                            <div style={{fontSize: '13px', lineHeight: "1.3", padding: '2px 5px', color:'#8C949B'}}>
+                                            <div className="help-block" style={{fontSize: '13px', lineHeight: "1.3", paddingRight: '5px', paddingLeft: '5px', color:'#8C949B'}}>
                                                 Повторное сообщение можно будет отправить через {this.state.secsToResend} сек
                                             </div>,
                                             <div style={{marginTop: '15px'}}>
-                                                <a href="#" onClick={this.sendCode}>Отправить еще сообщение</a>
+                                                <a href="#" onClick={this.sendCode}>Отправить&nbsp;еще&nbsp;сообщение</a>
                                             </div>
                                         )}
                                     </div>
