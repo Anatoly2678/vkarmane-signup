@@ -3,8 +3,10 @@ import { connect } from 'react-redux'
 import {$if} from '../react-helpers'
 
 import PhoneInput from './recovery/phone-input'
+import EmailInput from './recovery/email-input'
 import CodeInput from './recovery/code-input'
 import PasswordInput from './recovery/password-input'
+import WayChooser from './recovery/way-chooser'
 
 import {
     sendCode,
@@ -15,42 +17,31 @@ import {
 } from '../reducers/recovery'
 
 
-const WayChooser = () =>
-    <div>
-        <div className="radio">
-            <label>
-                <input
-                    type="radio" name="optionsRadios"
-                    id="useEmail" value="option1" checked={way === 'email'}
-                    onChange={e => {if(e.target.checked) onChangeWay('email')}}/>
-                По e-mail
-            </label>
-        </div>
-        <div className="radio">
-            <label>
-                <input
-                    type="radio" name="optionsRadios"
-                    id="usePhone" value="option2" checked={way === 'phone'}
-                    onChange={e => {if(e.target.checked) onChangeWay('phone')}} />
-                По номеру мобильного телефона
-            </label>
-        </div>
-    </div>
-
 const RecoveryForm = ({phone, verification, password, way,
     onChangeNumber, onSendCode, onConfirmCode, onChangePassword, onChangeWay}) =>
     <form className="form-signin" onSubmit={e => e.preventDefault()}>
         <h2 className="form-signin-heading">Восстановление пароля</h2>
         <div className="form-signin-heading-underline"></div>
 
+        <WayChooser way={way} onChange={onChangeWay} />
+
         {$if(!verification.confirmed,
-            <PhoneInput
-                number={phone.number}
-                waiting={phone.waiting}
-                message={phone.message == 'User Not found' ? 'Пользователь не найден' : phone.message}
-                disabled={!!phone.codeId}
-                onChange={onChangeNumber}
-                onSend={onSendCode} />
+            $if(way === 'phone',
+                <PhoneInput
+                    number={phone.number}
+                    waiting={phone.waiting}
+                    message={phone.message == 'User Not found' ? 'Пользователь не найден' : phone.message}
+                    disabled={!!phone.codeId}
+                    onChange={onChangeNumber}
+                    onSend={onSendCode} />,
+                <EmailInput
+                    email={phone.number}
+                    waiting={phone.waiting}
+                    message={phone.message == 'User Not found' ? 'Пользователь не найден' : phone.message}
+                    disabled={!!phone.codeId}
+                    onSend={onSendCode}
+                    onChange={onChangeNumber} />
+            )
         )}
 
         {$if(phone.codeId && !verification.confirmed,
