@@ -238,7 +238,7 @@ div#register-info {
 
 .form-signin {
     max-width: 482px;
-    padding: 25px 59px;
+    padding: 25px 59px 30px 59px;
     margin: 0 auto;
     border: 3px solid #FFB30F;
     /*+border-radius: 10px;*/
@@ -356,6 +356,10 @@ div#register-info {
 
     .alert-padding-adaptive {
         padding: 20px 10px;
+    }
+
+    .form-signin {
+        padding: 15px 15px 15px 15px;
     }
 }
 
