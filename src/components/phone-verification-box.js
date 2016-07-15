@@ -18,20 +18,20 @@ export default React.createClass({
     render () {
         return (
         <div className="modal fade in" id="myModal" style={{display: 'block'}} tabIndex="-1" role="dialog">
-            <div className="modal-dialog" style={{ width: '480px'}} role="document">
+            <div className="modal-dialog modal-width" role="document">
                 <div className="modal-content" style={{ boxShadow: 'none' }}>
                     <button
                         type="button" className="close" style={{margin:'20px'}}
                         onClick={() => this.props.onClose()}><span>&times;</span></button>
                 <div
-                    className="alert alert-dismissible" role="alert"
+                    className="alert alert-dismissible alert-padding-adaptive" role="alert"
                     style={{marginBottom:'0px', padding:'60px 40px', backgroundColor: '#ECF3F9', borderColor: '#d3e1ed' }}>
 
                     <h2 className="form-signin-heading">Подтверждение номера телефона</h2>
                     <div className="form-signin-heading-underline"></div>
-                    <div className="form-group">
-                        <p style={{ fontSize: '13px' }}>На указанный вами номер телефона отправлено СМС с кодом подтверждения.</p>
-                        <p style={{ fontSize: '13px' }}>Введите полученный код чтобы продолжить оформление заявки.</p>
+                    <div className="form-group font-size-adaptive">
+                        <p>На указанный вами номер телефона отправлено СМС с кодом подтверждения.</p>
+                        <p>Введите полученный код чтобы продолжить оформление заявки.</p>
                     </div>
                     <div className="form-group">
                         <input value={'+7 ' + this.props.phone.substr(2)} readOnly style={{backgroundColor:'#FFF', borderColor:'#FFF'}} type="tel" className="form-control" />
