@@ -9,11 +9,20 @@ export default React.createClass({
             codeExpired: false,
             errorMessage: null,
             waiting: false,
-            codeInputVisible: false
+            codeInputVisible: false,
+            secsToResend: 0
         }
     },
     componentDidMount() {
         this.sendCode()
+    },
+    tick() {
+        const {secsToResend} = this.state
+        this.setState({secsToResend: secsToResend - 1})
+
+        if(secsToResend - 1 === 0) {
+            clearInterval(this.timerId)
+        }
     },
     render () {
         return (
@@ -37,16 +46,34 @@ export default React.createClass({
                         <input value={'+7 ' + this.props.phone.substr(2)} readOnly style={{backgroundColor:'#FFF', borderColor:'#FFF'}} type="tel" className="form-control" />
                     </div>
 
-                    {this.state.codeInputVisible ?
+                    {this.state.codeInputVisible  || true?
                         <div>
                             <div className={`form-group ${$if(this.state.errorMessage, 'has-error')}`}>
-                                <input
-                                    value={this.state.code} className="form-control" autoFocus={true}
-                                    style={{ backgroundColor:'#FFF'}} placeholder="Код из СМС"
-                                    onChange={this.handleCodeChange}
-                                    onKeyPress={$ifEnter(this.handleVerifyCodeClick)} />
+
+                                <div className="row">
+                                    <div className="col-sm-6">
+                                        <input
+                                            value={this.state.code} className="form-control" autoFocus={true}
+                                            style={{ backgroundColor:'#FFF'}} placeholder="Код из СМС"
+                                            onChange={this.handleCodeChange}
+                                            onKeyPress={$ifEnter(this.handleVerifyCodeClick)} />
+                                    </div>
+                                    <div className="col-sm-6">
+                                        {$if(this.secsToResend === 0,
+                                            <p style={{marginTop: '15px'}}>
+                                                Отправить еще сообщение
+                                            </p>,
+                                            <div style={{fontSize: '13px', lineHeight: "1.3", padding: '2px 5px'}}>
+                                                Повторнеое сообщение можно будет отправить через {this.state.secsToResend} сек
+                                            </div>
+                                        )}
+
+                                    </div>
+                                </div>
+
                                 <span className="help-block text-danger">{this.state.errorMessage}</span>
                             </div>
+
                             <button type="button" className="btn btn-primary btn-block" onClick={this.handleVerifyCodeClick}>
                                 Подтвердить телефон
                             </button>
@@ -87,8 +114,11 @@ export default React.createClass({
         this.setState({
             codeExpired: false,
             waiting: true,
-            codeInputVisible: false  
+            codeInputVisible: false,
+            secsToResend: 60
         })
+
+        this.timerId = setInterval(this.tick, 1000)
     },
     handleSendCodeResult(res) {
         this.setState({
