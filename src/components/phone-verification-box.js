@@ -52,7 +52,8 @@ export default React.createClass({
                                 <div className="row">
                                     <div className="col-xs-6">
                                         <input
-                                            value={this.state.code} className="form-control" autoFocus={true}
+                                            value={this.state.code} className="form-control"
+                                            autoFocus={true} type="number"
                                             style={{ backgroundColor:'#FFF'}} placeholder="Код из СМС"
                                             onChange={this.handleCodeChange}
                                             onKeyPress={$ifEnter(this.handleVerifyCodeClick)} />

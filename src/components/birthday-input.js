@@ -45,7 +45,7 @@ export default React.createClass({
                 <div className={`form-group ${$if(this.state.showError || showNotEntered || tooYoung || toOld, 'has-error')}`}>
                     <div className="row">
 
-                        <div className="col-sm-4" style={{paddingRight: '10px'}}>
+                        <div className="col-sm-4 form-group birthday-day">
                             <select className="form-control" value={this.state.day}
                                     onChange={this.handleDayChange} disabled={this.props.disabled} >
                                 <option value="" key={0}>День</option>
@@ -53,7 +53,7 @@ export default React.createClass({
                             </select>
                         </div>
 
-                        <div className="col-sm-4" style={{paddingLeft: '0px', paddingRight: '10px'}}>
+                        <div className="col-sm-4 form-group birthday-month">
                             <select className="form-control" value={this.state.month}
                                     onChange={this.handleMonthChange} disabled={this.props.disabled} >
                                 <option value="" key={0}>Месяц</option>
@@ -61,7 +61,7 @@ export default React.createClass({
                             </select>
                         </div>
 
-                        <div className="col-sm-4" style={{paddingLeft: '0px'}}>
+                        <div className="col-sm-4 form-group birthday-year">
                             <select className="form-control" value={this.state.year}
                                     onChange={this.handleYearChange} disabled={this.props.disabled} >
                                 <option value="" key={0}>Год</option>
