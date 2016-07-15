@@ -41,7 +41,19 @@ h2.form-signin-heading {
     margin-bottom: 30px;
     content: none;
 }
+.modal-width {
+    width: 480px;
+}
+.font-size-adaptive {
+    font-size: 14px;
+}
 
+.alert-padding-adaptive {
+    margin-bottom: 0;
+    padding: 60px 40px;
+    background-color: #ECF3F9;
+    border-color: #d3e1ed;
+}
 .form-control {
     padding: 15px;
     background-color: #ECF3F9;
@@ -303,6 +315,18 @@ div#register-info {
 		height: 60px;
 		width: 100%;
 	}
+
+    .modal-width {
+        width: auto;
+    }
+
+    .font-size-adaptive {
+        font-size: 16px;
+    }
+
+    .form-signin-heading-underline {
+        margin-bottom: 10px;
+    }
 }
 @media (max-width: 592px) {
 	.step-group {
@@ -328,6 +352,10 @@ div#register-info {
 @media (max-width: 425px) {
 	.step-group {
     	font-size: 10px;
+    }
+
+    .alert-padding-adaptive {
+        padding: 20px 10px;
     }
 }
 
