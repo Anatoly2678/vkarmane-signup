@@ -1,3 +1,4180 @@
-webpackJsonp([2],{0:function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}var o=n(151),a=r(o),i=n(4),s=r(i),u=n(54),l=r(u),c=n(28),f=n(107),h=n(81),d=n(82),p=r(d),m=n(334),v=r(m),y=n(333),g=r(y),b=(0,g["default"])(),w=(0,h.createStore)(p["default"],(0,h.applyMiddleware)(v["default"],b));(0,c.render)(s["default"].createElement(f.Provider,{store:w},s["default"].createElement("div",null,s["default"].createElement("div",{className:"header clearfix"},s["default"].createElement(l["default"],null)),s["default"].createElement(a["default"],null))),document.getElementById("content"))},8:function(e,t){"use strict";function n(e,t){var n=arguments.length<=2||void 0===arguments[2]?"":arguments[2];return e?t:n}function r(e){return function(t){"Enter"===t.key&&e(t)}}Object.defineProperty(t,"__esModule",{value:!0}),t.$if=n,t.$ifEnter=r},21:function(e,t){function n(e){return!!e&&"object"==typeof e}e.exports=n},37:function(e,t){function n(e){var t=!1;if(null!=e&&"function"!=typeof e.toString)try{t=!!(e+"")}catch(n){}return t}e.exports=n},56:function(e,t){function n(e){return r(Object(e))}var r=Object.getPrototypeOf;e.exports=n},61:function(e,t,n){function r(e){if(!i(e)||h.call(e)!=s||a(e))return!1;var t=o(e);if(null===t)return!0;var n=c.call(t,"constructor")&&t.constructor;return"function"==typeof n&&n instanceof n&&l.call(n)==f}var o=n(56),a=n(37),i=n(21),s="[object Object]",u=Object.prototype,l=Function.prototype.toString,c=u.hasOwnProperty,f=l.call(Object),h=u.toString;e.exports=r},63:function(e,t,n){"use strict";function r(e,t){var n={};for(var r in e)t.indexOf(r)>=0||Object.prototype.hasOwnProperty.call(e,r)&&(n[r]=e[r]);return n}var o=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)Object.prototype.hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e},a=n(4),i=a.createClass({displayName:"InputElement",defaultCharsRules:{9:"[0-9]",a:"[A-Za-z]","*":"[A-Za-z0-9]"},defaultMaskChar:"_",lastCaretPos:null,isAndroidBrowser:function(){var e=new RegExp("windows","i"),t=new RegExp("firefox","i"),n=new RegExp("android","i"),r=navigator.userAgent;return!e.test(r)&&!t.test(r)&&n.test(r)},isWindowsPhoneBrowser:function(){var e=new RegExp("windows","i"),t=new RegExp("phone","i"),n=navigator.userAgent;return e.test(n)&&t.test(n)},isAndroidFirefox:function(){var e=new RegExp("windows","i"),t=new RegExp("firefox","i"),n=new RegExp("android","i"),r=navigator.userAgent;return!e.test(r)&&t.test(r)&&n.test(r)},isDOMElement:function(e){return"object"==typeof HTMLElement?e instanceof HTMLElement:1===e.nodeType&&"string"==typeof e.nodeName},getInputDOMNode:function(){var e=this.refs.input;return e?this.isDOMElement(e)?e:e.getDOMNode():null},enableValueAccessors:function(){var e=this,t=!!(Object.getOwnPropertyDescriptor&&Object.getPrototypeOf&&Object.defineProperty);if(t){var n=this.getInputDOMNode();this.valueDescriptor=Object.getOwnPropertyDescriptor(Object.getPrototypeOf(n),"value"),Object.defineProperty(n,"value",{configurable:!0,enumerable:!0,get:function(){return e.value},set:function(t){e.value=t,e.valueDescriptor.set.call(n,t)}})}},disableValueAccessors:function(){var e=this.valueDescriptor;if(e){this.valueDescriptor=null;var t=this.getInputDOMNode();Object.defineProperty(t,"value",e)}},getInputValue:function(){var e,t=this.getInputDOMNode(),n=this.valueDescriptor;return e=n?n.get.call(t):t.value},getPrefix:function(){for(var e="",t=this.mask,n=0;n<t.length&&this.isPermanentChar(n);++n)e+=t[n];return e},getFilledLength:function(){var e,t=arguments.length<=0||void 0===arguments[0]?this.state.value:arguments[0],n=this.maskChar;if(!n)return t.length;for(e=t.length-1;e>=0;--e){var r=t[e];if(!this.isPermanentChar(e)&&this.isAllowedChar(r,e))break}return++e||this.getPrefix().length},getLeftEditablePos:function(e){for(var t=e;t>=0;--t)if(!this.isPermanentChar(t))return t;return null},getRightEditablePos:function(e){for(var t=this.mask,n=e;n<t.length;++n)if(!this.isPermanentChar(n))return n;return null},isEmpty:function(){var e=this,t=arguments.length<=0||void 0===arguments[0]?this.state.value:arguments[0];return!t.split("").some(function(t,n){return!e.isPermanentChar(n)&&e.isAllowedChar(t,n)})},isFilled:function(){var e=arguments.length<=0||void 0===arguments[0]?this.state.value:arguments[0];return this.getFilledLength(e)===this.mask.length},createFilledArray:function(e,t){for(var n=[],r=0;r<e;r++)n[r]=t;return n},formatValue:function(e){var t=this,n=this.maskChar,r=this.mask;if(!n){var o=this.getPrefix(),a=o.length;for(e=this.insertRawSubstr("",e,0);e.length>a&&this.isPermanentChar(e.length-1);)e=e.slice(0,e.length-1);return e.length<a&&(e=o),e}if(e){var i=this.formatValue("");return this.insertRawSubstr(i,e,0)}return e.split("").concat(this.createFilledArray(r.length-e.length,null)).map(function(e,o){return t.isAllowedChar(e,o)?e:t.isPermanentChar(o)?r[o]:n}).join("")},clearRange:function(e,t,n){var r=this,o=t+n,a=this.maskChar,i=this.mask;if(!a){var s=this.getPrefix().length;return e=e.split("").filter(function(e,n){return n<s||n<t||n>=o}).join(""),this.formatValue(e)}return e.split("").map(function(e,n){return n<t||n>=o?e:r.isPermanentChar(n)?i[n]:a}).join("")},replaceSubstr:function(e,t,n){return e.slice(0,n)+t+e.slice(n+t.length)},insertRawSubstr:function(e,t,n){var r=this.mask,o=this.maskChar,a=this.isFilled(e),i=this.getPrefix().length;t=t.split(""),!o&&n>e.length&&(e+=r.slice(e.length,n));for(var s=n;s<r.length&&t.length;){var u=this.isPermanentChar(s);if(u&&r[s]!==t[0])!o&&s>=e.length?e+=r[s]:o&&u&&t[0]===o&&t.shift(),++s;else{var l=t.shift();this.isAllowedChar(l,s,!0)&&(s<e.length?e=o||a||s<i?this.replaceSubstr(e,l,s):this.formatValue(e.substr(0,s)+l+e.substr(s)):o||(e+=l),++s)}}return e},getRawSubstrLength:function(e,t,n){var r=this.mask;this.maskChar;t=t.split("");for(var o=n;o<r.length&&t.length;)if(this.isPermanentChar(o)&&r[o]!==t[0])++o;else{var a=t.shift();this.isAllowedChar(a,o,!0)&&++o}return o-n},isAllowedChar:function(e,t){var n=!(arguments.length<=2||void 0===arguments[2])&&arguments[2],r=this.mask,o=this.maskChar;if(this.isPermanentChar(t))return r[t]===e;var a=r[t],i=this.charsRules[a];return new RegExp(i).test(e||"")||n&&e===o},isPermanentChar:function(e){return this.permanents.indexOf(e)!==-1},setCaretToEnd:function(){var e=this.getFilledLength(),t=this.getRightEditablePos(e);null!==t&&this.setCaretPos(t)},setSelection:function(e){var t=arguments.length<=1||void 0===arguments[1]?0:arguments[1],n=this.getInputDOMNode();if(n){var r=e+t;if("selectionStart"in n&&"selectionEnd"in n)n.selectionStart=e,n.selectionEnd=r;else{var o=n.createTextRange();o.collapse(!0),o.moveStart("character",e),o.moveEnd("character",r-e),o.select()}}},getSelection:function(){var e=this.getInputDOMNode(),t=0,n=0;if("selectionStart"in e&&"selectionEnd"in e)t=e.selectionStart,n=e.selectionEnd;else{var r=document.selection.createRange();r.parentElement()===e&&(t=-r.moveStart("character",-e.value.length),n=-r.moveEnd("character",-e.value.length))}return{start:t,end:n,length:n-t}},getCaretPos:function(){return this.getSelection().start},setCaretPos:function(e){var t=window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||function(e){return setTimeout(e,0)},n=this.setSelection.bind(this,e,0);n(),t(n),this.lastCaretPos=e},isFocused:function(){return document.activeElement===this.getInputDOMNode()},parseMask:function(e){var t=this;if(!e||"string"!=typeof e)return{mask:null,lastEditablePos:null,permanents:[]};var n="",r=[],o=!1,a=null;return e.split("").forEach(function(e){o||"\\"!==e?(o||!t.charsRules[e]?r.push(n.length):a=n.length,n+=e,o=!1):o=!0}),{mask:n,lastEditablePos:a,permanents:r}},getStringValue:function(e){return e||0===e?e+"":""},getInitialState:function(){this.hasValue=null!=this.props.value,this.charsRules="formatChars"in this.props?this.props.formatChars:this.defaultCharsRules;var e=this.parseMask(this.props.mask),t=null!=this.props.defaultValue?this.props.defaultValue:"",n=null!=this.props.value?this.props.value:t;return n=this.getStringValue(n),this.mask=e.mask,this.permanents=e.permanents,this.lastEditablePos=e.lastEditablePos,this.maskChar="maskChar"in this.props?this.props.maskChar:this.defaultMaskChar,this.mask&&(this.props.alwaysShowMask||n)&&(n=this.formatValue(n)),{value:n}},componentWillMount:function(){var e=this.mask,t=this.state.value;e&&t&&this.setState({value:t})},componentWillReceiveProps:function(e){this.hasValue=null!=this.props.value,this.charsRules="formatChars"in e?e.formatChars:this.defaultCharsRules;var t=this.mask,n=this.parseMask(e.mask),r=n.mask&&n.mask!==this.mask;if(this.mask=n.mask,this.permanents=n.permanents,this.lastEditablePos=n.lastEditablePos,this.maskChar="maskChar"in e?e.maskChar:this.defaultMaskChar,this.mask){var o=null!=e.value?this.getStringValue(e.value):this.state.value;t||null!=e.value||(o=this.getInputDOMNode().value);var a=e.alwaysShowMask||this.isFocused();if((r||n.mask&&(o||a&&!this.hasValue))&&(o=this.formatValue(o),r)){var i=this.lastCaretPos,s=this.getFilledLength(o);s<i&&this.setCaretPos(this.getRightEditablePos(s))}n.mask&&this.isEmpty(o)&&!a&&!this.hasValue&&(o=""),this.value=o,this.state.value!==o&&this.setState({value:o})}},componentDidUpdate:function(e,t){(this.mask||e.mask)&&null==this.props.value&&this.updateUncontrolledInput()},updateUncontrolledInput:function(){this.getInputDOMNode().value!==this.state.value&&(this.getInputDOMNode().value=this.state.value)},onKeyDown:function(e){var t="function"==typeof this.props.onKeyDown;if(e.ctrlKey||e.metaKey)return void(t&&this.props.onKeyDown(e));var n=this.getCaretPos(),r=this.state.value,o=e.key,a=!1;switch(o){case"Backspace":case"Delete":var i=this.getPrefix().length,s="Delete"===o,u=this.getSelection();if(u.length)r=this.clearRange(r,u.start,u.length);else if(n<i||!s&&n===i)n=i;else{var l=s?this.getRightEditablePos(n):this.getLeftEditablePos(n-1);null!==l&&(r=this.clearRange(r,l,1),n=l)}a=!0}t&&this.props.onKeyDown(e),r!==this.state.value&&(e.target.value=r,this.setState({value:this.hasValue?this.state.value:r}),a=!0,"function"==typeof this.props.onChange&&this.props.onChange(e)),a&&(e.preventDefault(),this.setCaretPos(n))},onKeyPress:function(e){var t=e.key,n="function"==typeof this.props.onKeyPress;if("Enter"===t||e.ctrlKey||e.metaKey)return void(n&&this.props.onKeyPress(e));if(!this.isWindowsPhoneBrowser){var r=this.getCaretPos(),o=this.getSelection(),a=this.state.value,i=this.mask,s=(this.maskChar,this.lastEditablePos),u=(i.length,this.getPrefix().length);if(this.isPermanentChar(r)&&i[r]===t)a=this.insertRawSubstr(a,t,r),++r;else{var l=this.getRightEditablePos(r);null!==l&&this.isAllowedChar(t,l)&&(a=this.clearRange(a,o.start,o.length),a=this.insertRawSubstr(a,t,l),r=l+1)}a!==this.state.value&&(e.target.value=a,this.setState({value:this.hasValue?this.state.value:a}),"function"==typeof this.props.onChange&&this.props.onChange(e)),e.preventDefault(),r<s&&r>u&&(r=this.getRightEditablePos(r)),this.setCaretPos(r)}},onChange:function(e){var t=this,n=this.pasteSelection,r=this.mask,o=this.maskChar,a=this.lastEditablePos,i=e.target,s=this.getInputValue();if(!s&&this.preventEmptyChange)return this.disableValueAccessors(),this.preventEmptyChange=!1,void(i.value=this.state.value);var u=this.state.value;if(n)return this.pasteSelection=null,void this.pasteText(u,s,n,e);var l,c=this.getSelection(),f=c.end,h=r.length,d=s.length,p=u.length,m=this.getPrefix().length;if(d>p){var v=d-p,y=c.end-v,g=s.substr(y,v);f=y<h&&(1!==v||g!==r[y])?this.getRightEditablePos(y):y,s=s.substr(0,y)+s.substr(y+v),l=this.clearRange(s,y,h-y),l=this.insertRawSubstr(l,g,f),s=this.insertRawSubstr(u,g,f),1!==v||f>=m&&f<a?f=this.getFilledLength(l):f<a&&f++}else if(d<p){var b=h-d;l=this.clearRange(u,c.end,b);var w=s.substr(0,c.end),P=w===u.substr(0,c.end);o&&(s=this.insertRawSubstr(l,w,0)),l=this.clearRange(l,c.end,h-c.end),l=this.insertRawSubstr(l,w,0),P?f<m&&(f=m):f=this.getFilledLength(l)}s=this.formatValue(s),this.isAndroidBrowser||this.isWindowsPhoneBrowser||(i.value=s,s&&!this.getInputValue()&&(this.isAndroidFirefox&&(this.value=s,this.enableValueAccessors()),this.preventEmptyChange=!0,setTimeout(function(){t.preventEmptyChange=!1,t.disableValueAccessors()},0))),this.setState({value:this.hasValue?this.state.value:s}),"function"==typeof this.props.onChange&&this.props.onChange(e),this.setCaretPos(f)},onFocus:function(e){if(this.state.value)this.getFilledLength()<this.mask.length&&this.setCaretToEnd();else{var t=this.getPrefix(),n=this.formatValue(t);e.target.value=this.formatValue(n),this.setState({value:this.hasValue?this.state.value:n},this.setCaretToEnd),"function"==typeof this.props.onChange&&this.props.onChange(e)}"function"==typeof this.props.onFocus&&this.props.onFocus(e)},onBlur:function(e){!this.props.alwaysShowMask&&this.isEmpty(this.state.value)&&(e.target.value="",this.setState({value:this.hasValue?this.state.value:""}),"function"==typeof this.props.onChange&&this.props.onChange(e)),"function"==typeof this.props.onBlur&&this.props.onBlur(e)},onPaste:function(e){if(this.isAndroidBrowser)return this.pasteSelection=this.getSelection(),void(e.target.value="");var t;if(window.clipboardData&&window.clipboardData.getData?t=window.clipboardData.getData("Text"):e.clipboardData&&e.clipboardData.getData&&(t=e.clipboardData.getData("text/plain")),t){var n=this.state.value,r=this.getSelection();this.pasteText(n,t,r,e)}e.preventDefault()},pasteText:function(e,t,n,r){var o=n.start;n.length&&(e=this.clearRange(e,o,n.length));var a=this.getRawSubstrLength(e,t,o);e=this.insertRawSubstr(e,t,o),o+=a,o=this.getRightEditablePos(o)||o,e!==this.getInputDOMNode().value&&(r&&(r.target.value=e),this.setState({value:this.hasValue?this.state.value:e}),r&&"function"==typeof this.props.onChange&&this.props.onChange(r)),this.setCaretPos(o)},componentDidMount:function(){this.isAndroidBrowser=this.isAndroidBrowser(),this.isWindowsPhoneBrowser=this.isWindowsPhoneBrowser(),this.isAndroidFirefox=this.isAndroidFirefox(),this.mask&&null==this.props.value&&this.updateUncontrolledInput()},render:function(){var e=this,t=this.props,n=(t.mask,t.alwaysShowMask,t.maskChar,t.formatChars,r(t,["mask","alwaysShowMask","maskChar","formatChars"])),i=["mask","alwaysShowMask","maskChar","formatChars"];if(this.mask){var s=["onFocus","onBlur","onChange","onKeyDown","onKeyPress","onPaste"];n=o({},n),i.forEach(function(e){delete n[e]}),s.forEach(function(t){n[t]=e[t]}),null!=n.value&&(n.value=this.state.value)}return a.createElement("input",o({ref:"input"},n))}});e.exports=i},81:function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}t.__esModule=!0,t.compose=t.applyMiddleware=t.bindActionCreators=t.combineReducers=t.createStore=void 0;var o=n(143),a=r(o),i=n(337),s=r(i),u=n(336),l=r(u),c=n(335),f=r(c),h=n(142),d=r(h),p=n(144);r(p);t.createStore=a["default"],t.combineReducers=s["default"],t.bindActionCreators=l["default"],t.applyMiddleware=f["default"],t.compose=d["default"]},82:function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}function o(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}Object.defineProperty(t,"__esModule",{value:!0}),t.changePassword=t.confirmCode=t.sendCode=t.saveEmailExistence=t.requestEmailExist=t.changeNumber=t.chooseWay=t.validatePassword=t.failChangePassword=t.requestChangePassword=t.failConfirmation=t.codeConfirmed=t.requestConfirmation=t.receiveCodeId=t.invalidNumber=t.requestCode=void 0;var a,i,s,u,l=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)Object.prototype.hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e},c=n(81),f=n(331),h=n(175),d=r(h),p=t.requestCode=(0,f.createAction)("REQUEST_CODE"),m=t.invalidNumber=(0,f.createAction)("INVALID_NUMBER"),v=t.receiveCodeId=(0,f.createAction)("RECEIVE_CODE_ID"),y=t.requestConfirmation=(0,f.createAction)("REQUEST_CONFIRMATION"),g=t.codeConfirmed=(0,f.createAction)("SUCCESS_CONFIRMATION"),b=t.failConfirmation=(0,f.createAction)("FAIL_CONFIRMATION"),w=t.requestChangePassword=(0,f.createAction)("REQUEST_CHANGE_PASSWORD"),P=t.failChangePassword=(0,f.createAction)("FAIL_CHANGE_PASSWORD"),E=t.validatePassword=(0,f.createAction)("VALIDATE_PASSWORD"),C=t.chooseWay=(0,f.createAction)("CHOOSE_WAY"),S=t.changeNumber=(0,f.createAction)("CHANGE_NUMBER"),_=t.requestEmailExist=(0,f.createAction)("REQUEST_EMAIL_EXIST"),O=t.saveEmailExistence=(0,f.createAction)("SAVE_EMAIL_EXISTENCE"),x=function(e,t){return(0,d["default"])(e,{method:"POST",headers:{Accept:"application/json","Content-Type":"application/json"},body:JSON.stringify(t)})},M=(t.sendCode=function(e){return function(t,n){return t(p(e)),x("/Recovery.aspx/SendCodeForPasswordChange",{number:e,type:n().way}).then(function(e){return e.json()}).then(function(e){var n=JSON.parse(e.d).SendCodeForPasswordChangeResult;t(0==n.Code?v(n.CodeId):m(n.Message))})["catch"](function(e){return console.error(e)})}},t.confirmCode=function(e){return function(t,n){return t(y(e)),x("/Recovery.aspx/VerifyCodeForPasswordChange",{codeId:n().phone.codeId,code:e}).then(function(e){return e.json()}).then(function(e){var n=JSON.parse(e.d).VerifyCodeForPasswordChangeResult;return 0==n.Code?void t(g()):n.MaxAttemptsReached?void t(b("Превышено максимальное к-ство попыток")):n.CodeExpired?void t(b("Время жизни кода истекло")):void t(b("Неправильный код подтверждения"))})["catch"](function(e){return console.error(e)})}},t.changePassword=function(e){var t=e.pass,n=e.repeat;return function(e,r){if(e(E({pass:t,repeat:n})),0!==t.trim().length&&t===n){e(w());var o=r();return x("/Recovery.aspx/ChangePassword",{code:o.verification.code,codeId:o.phone.codeId,password:t,type:"phone"}).then(function(e){return e.json()}).then(function(t){var n=JSON.parse(t.d).ChangePasswordResult;0==n.Code?location.replace("signin.html"):e(P(n.Message))})["catch"](function(e){return console.error(e)})}}},(0,f.handleActions)((a={},o(a,S,function(e,t){return l({},e,{number:t.payload})}),o(a,p,function(e,t){return l({},e,{waiting:!0,number:t.payload,message:""})}),o(a,m,function(e,t){return l({},e,{message:t.payload,waiting:!1})}),o(a,v,function(e,t){return l({},e,{codeId:t.payload,waiting:!1})}),a),{number:"",sent:!1,message:"",codeId:"",waiting:!1})),R=(0,f.handleActions)((i={},o(i,y,function(e,t){return l({},e,{waiting:!0,code:t.payload})}),o(i,g,function(e){return l({},e,{waiting:!1,confirmed:!0,message:""})}),o(i,b,function(e,t){return l({},e,{waiting:!1,message:t.payload})}),i),{code:"",confirmed:!1,message:"",waiting:!1}),A=(0,f.handleActions)((s={},o(s,P,function(e,t){return l({},e,{message:t.payload})}),o(s,E,function(e,t){return l({},e,{passwordEmpty:0===t.payload.pass.trim().length,repeatIncorrectly:t.payload.pass!==t.payload.repeat})}),o(s,w,function(e){return l({},e,{waiting:!0})}),o(s,P,function(e,t){return l({},e,{waiting:!1,failMessage:t.payload})}),s),{passwordEmpty:!1,repeatIncorrectly:!1,failMessage:"",waiting:!1}),T=(0,f.handleAction)(C,function(e,t){return t.payload||e},"email");(0,f.handleActions)((u={},o(u,_,function(e){return l({},e,{waiting:!0})}),o(u,O,function(e,t){return l({},e,{existingEmail:t.payload.exists?t.payload.email:e.email.existingEmail,message:t.payload.message})}),u),{existingEmail:"",message:""});t["default"]=(0,c.combineReducers)({phone:M,verification:R,password:A,way:T})},107:function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}t.__esModule=!0,t.connect=t.Provider=void 0;var o=n(260),a=r(o),i=n(261),s=r(i);t.Provider=a["default"],t.connect=s["default"]},108:function(e,t,n){"use strict";t.__esModule=!0;var r=n(4);t["default"]=r.PropTypes.shape({subscribe:r.PropTypes.func.isRequired,dispatch:r.PropTypes.func.isRequired,getState:r.PropTypes.func.isRequired})},109:function(e,t){"use strict";function n(e){"undefined"!=typeof console&&"function"==typeof console.error&&console.error(e);try{throw new Error(e)}catch(t){}}t.__esModule=!0,t["default"]=n},141:function(e,t){"use strict";function n(e){return"function"==typeof e}function r(e,t,r){var o=n(e)?e.toString():e;return function(){var e=arguments.length<=0||void 0===arguments[0]?r:arguments[0],a=arguments[1];if(a.type!==o)return e;var i=a.error===!0?"throw":"next";n(t)&&(t.next=t["throw"]=t);var s=t[i];return n(s)?s(e,a):e}}Object.defineProperty(t,"__esModule",{value:!0}),t["default"]=r},142:function(e,t){"use strict";function n(){for(var e=arguments.length,t=Array(e),n=0;n<e;n++)t[n]=arguments[n];if(0===t.length)return function(e){return e};var r=function(){var e=t[t.length-1],n=t.slice(0,-1);return{v:function(){return n.reduceRight(function(e,t){return t(e)},e.apply(void 0,arguments))}}}();return"object"==typeof r?r.v:void 0}t.__esModule=!0,t["default"]=n},143:function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}function o(e,t,n){function r(){y===v&&(y=v.slice())}function a(){return m}function s(e){if("function"!=typeof e)throw new Error("Expected listener to be a function.");var t=!0;return r(),y.push(e),function(){if(t){t=!1,r();var n=y.indexOf(e);y.splice(n,1)}}}function c(e){if(!(0,i["default"])(e))throw new Error("Actions must be plain objects. Use custom middleware for async actions.");if("undefined"==typeof e.type)throw new Error('Actions may not have an undefined "type" property. Have you misspelled a constant?');if(g)throw new Error("Reducers may not dispatch actions.");try{g=!0,m=p(m,e)}finally{g=!1}for(var t=v=y,n=0;n<t.length;n++)t[n]();return e}function f(e){if("function"!=typeof e)throw new Error("Expected the nextReducer to be a function.");p=e,c({type:l.INIT})}function h(){var e,t=s;return e={subscribe:function(e){function n(){e.next&&e.next(a())}if("object"!=typeof e)throw new TypeError("Expected the observer to be an object.");n();var r=t(n);return{unsubscribe:r}}},e[u["default"]]=function(){return this},e}var d;if("function"==typeof t&&"undefined"==typeof n&&(n=t,t=void 0),"undefined"!=typeof n){if("function"!=typeof n)throw new Error("Expected the enhancer to be a function.");return n(o)(e,t)}if("function"!=typeof e)throw new Error("Expected the reducer to be a function.");var p=e,m=t,v=[],y=v,g=!1;return c({type:l.INIT}),d={dispatch:c,subscribe:s,getState:a,replaceReducer:f},d[u["default"]]=h,d}t.__esModule=!0,t.ActionTypes=void 0,t["default"]=o;var a=n(61),i=r(a),s=n(338),u=r(s),l=t.ActionTypes={INIT:"@@redux/INIT"}},144:function(e,t){"use strict";function n(e){"undefined"!=typeof console&&"function"==typeof console.error&&console.error(e);try{throw new Error(e)}catch(t){}}t.__esModule=!0,t["default"]=n},151:function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(t,"__esModule",{value:!0});var o=n(4),a=r(o),i=n(107),s=n(8),u=n(155),l=r(u),c=n(153),f=r(c),h=n(152),d=r(h),p=n(154),m=r(p),v=n(156),y=r(v),g=n(82),b=function(e){var t=e.phone,n=e.verification,r=e.password,o=e.way,i=e.onChangeNumber,u=e.onSendCode,c=e.onConfirmCode,h=e.onChangePassword,p=e.onChangeWay;return a["default"].createElement("form",{className:"form-signin",onSubmit:function(e){return e.preventDefault()}},a["default"].createElement("h2",{className:"form-signin-heading"},"Восстановление пароля"),a["default"].createElement("div",{className:"form-signin-heading-underline"}),a["default"].createElement(y["default"],{way:o,onChange:p}),(0,s.$if)(!n.confirmed,(0,s.$if)("phone"===o,a["default"].createElement(l["default"],{number:t.number,waiting:t.waiting,message:"User Not found"==t.message?"Пользователь не найден":t.message,disabled:!!t.codeId,onChange:i,onSend:u}),a["default"].createElement(f["default"],{email:t.number,waiting:t.waiting,message:"User Not found"==t.message?"Пользователь не найден":t.message,disabled:!!t.codeId,onSend:u,onChange:i}))),(0,s.$if)(t.codeId&&!n.confirmed,a["default"].createElement(d["default"],{waiting:n.waiting,message:n.message,onConfirm:c})),(0,s.$if)(n.confirmed,a["default"].createElement(m["default"],{passMessage:r.passwordEmpty?"Пожалуйста, заполните поле":r.failMessage,repeatMessage:r.repeatIncorrectly?"Пароль повторен неправильно":"",waiting:r.waiting,onSend:h})),(0,s.$if)(n.waitingConfirmation,a["default"].createElement("div",{className:"form-group"},a["default"].createElement("div",{className:"progress"},a["default"].createElement("div",{className:"progress-bar progress-bar-striped active",style:{width:"100%"}})))))};t["default"]=(0,i.connect)(function(e){return{phone:e.phone,verification:e.verification,password:e.password,way:e.way}},function(e){return{onSendCode:function(t){return e((0,g.sendCode)(t))},onConfirmCode:function(t){return e((0,g.confirmCode)(t))},onChangePassword:function(t,n){return e((0,g.changePassword)({pass:t,repeat:n}))},onChangeNumber:function(t){return e((0,g.changeNumber)(t))},onChangeWay:function(t){return e((0,g.chooseWay)(t))}}})(b)},152:function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(t,"__esModule",{value:!0}),t["default"]=function(e){var t=e.waiting,n=e.message,r=e.way,o=e.onConfirm,s=void 0;return a["default"].createElement("div",null,a["default"].createElement("div",{className:"form-group"},a["default"].createElement("p",null,"На указанный вами ","phone"===r?"номер телефона отправлено СМС":"адрес отправлено сообщение"," с кодом подтверждения."),a["default"].createElement("p",null,"Введите полученный код чтобы продолжить восстановление пароля.")),a["default"].createElement("div",{className:"form-group "+(0,i.$if)(n,"has-error")},a["default"].createElement("input",{autoFocus:!0,className:"form-control",placeholder:"Код из сообщения",ref:function(e){return s=e},onKeyPress:(0,i.$ifEnter)(function(e){t||o(e.target.value)})}),a["default"].createElement("span",{className:"help-block"},n)),a["default"].createElement("button",{type:"button",className:"btn btn-primary",onClick:function(){return o(s.value)},disabled:t},(0,i.$if)(!t,"Подтвердить","Подтверждение...")))};var o=n(4),a=r(o),i=n(8)},153:function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}function o(e){var t=e.email,n=e.onChange,r=e.onSend,o=e.message,a=e.waiting,u=e.disabled,l=/^[\w|\.|-]+@[\w|\.|-]+(\.\w+)+$/.test(t);return i["default"].createElement("div",null,i["default"].createElement("div",{className:"form-group"},i["default"].createElement("label",{htmlFor:"emailInput"},"Введите e-mail, указанный вами при регистрации")),i["default"].createElement("div",{className:"form-group "+(0,s.$if)(o,"has-error")},i["default"].createElement("input",{autoFocus:!0,className:"form-control",id:"emailInput",type:"email",value:t,disabled:a||u,onChange:function(e){return n(e.target.value)},onKeyPress:(0,s.$ifEnter)(function(e){return r(t)})}),i["default"].createElement("span",{className:"help-block"},o)),(0,s.$if)(!u&&l,i["default"].createElement("div",{className:"form-group"},i["default"].createElement("button",{type:"button",className:"btn btn-primary",onClick:function(){return r(t)},disabled:a},(0,s.$if)(!a,"Подтвердите","Подтверждение...")))))}Object.defineProperty(t,"__esModule",{value:!0}),t["default"]=void 0;var a=n(4),i=r(a),s=n(8);t["default"]=o},154:function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(t,"__esModule",{value:!0}),t["default"]=function(e){var t=e.passMessage,n=e.repeatMessage,r=e.waiting,o=e.onSend,s=void 0,u=void 0;return a["default"].createElement("div",null,a["default"].createElement("div",{className:"form-group "+(0,i.$if)(t,"has-error")},a["default"].createElement("label",{htmlFor:"pass"},"Новый пароль"),a["default"].createElement("input",{type:"password",id:"pass",className:"form-control",ref:function(e){return s=e},onKeyPress:(0,i.$ifEnter)(function(){r||o(s.value,u.value)})}),a["default"].createElement("span",{className:"help-block"},t)),a["default"].createElement("div",{className:"form-group "+(0,i.$if)(n,"has-error")},a["default"].createElement("label",{htmlFor:"repeatPass"},"Повторите пароль"),a["default"].createElement("input",{type:"password",id:"repeatPass",className:"form-control",ref:function(e){return u=e},onKeyPress:(0,i.$ifEnter)(function(){r||o(s.value,u.value)})}),a["default"].createElement("span",{className:"help-block"},n)),a["default"].createElement("button",{type:"button",className:"btn btn-primary",onClick:function(){return o(s.value,u.value)},disabled:r},(0,i.$if)(!r,"Сохранить","Сохранение...")))};var o=n(4),a=r(o),i=n(8)},155:function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}function o(e){var t=e.number,n=e.waiting,r=e.message,o=e.disabled,a=e.onChange,s=e.onSend,c=function(e){return(e.match(/\d/g)||[]).length},f=11,h=c(t)===f&&!o,d=function(e){return"+7"+e.substr("+7 ".length)};return i["default"].createElement("div",null,i["default"].createElement("div",{className:"form-group"},i["default"].createElement("label",{htmlFor:"phoneInput"},"Введите мобильный телефон, указанный вами при регистрации")),i["default"].createElement("div",{className:"form-group "+(0,l.$if)(r,"has-error")},i["default"].createElement(u["default"],{autoFocus:!0,type:"tel",id:"phoneInput",className:"form-control",mask:"+7 (999) 999 - 99 - 99",placeholder:"+7 (___) ___ - __ - __",maskChar:"_",onKeyPress:function(e){return s(t)},disabled:o||n,onChange:function(e){return a(d(e.target.value))}}),i["default"].createElement("span",{className:"help-block"},r)),(0,l.$if)(h,i["default"].createElement("div",{className:"form-group"},i["default"].createElement("button",{type:"button",className:"btn btn-primary",onClick:function(){return s(t)},disabled:n},(0,l.$if)(!n,"Подтвердите","Подтверждение...")))))}Object.defineProperty(t,"__esModule",{value:!0}),t["default"]=void 0;var a=n(4),i=r(a),s=n(63),u=r(s),l=n(8);t["default"]=o},156:function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}function o(e){var t=e.way,n=e.onChange;return i["default"].createElement("div",{className:"form-group"},i["default"].createElement("div",{className:"radio"},i["default"].createElement("label",null,i["default"].createElement("input",{type:"radio",name:"optionsRadios",id:"useEmail",value:"option1",checked:"email"===t,onChange:function(e){e.target.checked&&n("email")}}),"По e-mail")),i["default"].createElement("div",{className:"radio"},i["default"].createElement("label",null,i["default"].createElement("input",{type:"radio",name:"optionsRadios",id:"usePhone",value:"option2",checked:"phone"===t,onChange:function(e){e.target.checked&&n("phone")}}),"По номеру мобильного телефона")))}Object.defineProperty(t,"__esModule",{value:!0}),t["default"]=void 0;var a=n(4),i=r(a);t["default"]=o},173:function(e,t){"use strict";var n={childContextTypes:!0,contextTypes:!0,defaultProps:!0,displayName:!0,getDefaultProps:!0,mixins:!0,propTypes:!0,type:!0},r={name:!0,length:!0,prototype:!0,caller:!0,arguments:!0,arity:!0},o="function"==typeof Object.getOwnPropertySymbols;e.exports=function(e,t,a){if("string"!=typeof t){var i=Object.getOwnPropertyNames(t);o&&(i=i.concat(Object.getOwnPropertySymbols(t)));for(var s=0;s<i.length;++s)if(!(n[i[s]]||r[i[s]]||a&&a[i[s]]))try{e[i[s]]=t[i[s]]}catch(u){}}return e}},174:function(e,t,n){"use strict";var r=function(e,t,n,r,o,a,i,s){if(!e){var u;if(void 0===t)u=new Error("Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.");else{var l=[n,r,o,a,i,s],c=0;u=new Error(t.replace(/%s/g,function(){return l[c++]})),u.name="Invariant Violation"}throw u.framesToPop=1,u}};e.exports=r},175:function(e,t,n){n(340),e.exports=self.fetch.bind(self)},260:function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function a(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);
-e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}t.__esModule=!0,t["default"]=void 0;var s=n(4),u=n(108),l=r(u),c=n(109),f=(r(c),function(e){function t(n,r){o(this,t);var i=a(this,e.call(this,n,r));return i.store=n.store,i}return i(t,e),t.prototype.getChildContext=function(){return{store:this.store}},t.prototype.render=function(){var e=this.props.children;return s.Children.only(e)},t}(s.Component));t["default"]=f,f.propTypes={store:l["default"].isRequired,children:s.PropTypes.element.isRequired},f.childContextTypes={store:l["default"].isRequired}},261:function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function a(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}function s(e){return e.displayName||e.name||"Component"}function u(e,t){try{return e.apply(t)}catch(n){return x.value=n,x}}function l(e,t,n){var r=arguments.length<=3||void 0===arguments[3]?{}:arguments[3],l=Boolean(e),h=e||S,p=void 0;p="function"==typeof t?t:t?(0,y["default"])(t):_;var v=n||O,g=r.pure,b=void 0===g||g,w=r.withRef,E=void 0!==w&&w,R=b&&v!==O,A=M++;return function(e){function t(e,t,n){var r=v(e,t,n);return r}var n="Connect("+s(e)+")",r=function(r){function s(e,t){o(this,s);var i=a(this,r.call(this,e,t));i.version=A,i.store=e.store||t.store,(0,C["default"])(i.store,'Could not find "store" in either the context or '+('props of "'+n+'". ')+"Either wrap the root component in a <Provider>, "+('or explicitly pass "store" as a prop to "'+n+'".'));var u=i.store.getState();return i.state={storeState:u},i.clearCache(),i}return i(s,r),s.prototype.shouldComponentUpdate=function(){return!b||this.haveOwnPropsChanged||this.hasStoreStateChanged},s.prototype.computeStateProps=function(e,t){if(!this.finalMapStateToProps)return this.configureFinalMapState(e,t);var n=e.getState(),r=this.doStatePropsDependOnOwnProps?this.finalMapStateToProps(n,t):this.finalMapStateToProps(n);return r},s.prototype.configureFinalMapState=function(e,t){var n=h(e.getState(),t),r="function"==typeof n;return this.finalMapStateToProps=r?n:h,this.doStatePropsDependOnOwnProps=1!==this.finalMapStateToProps.length,r?this.computeStateProps(e,t):n},s.prototype.computeDispatchProps=function(e,t){if(!this.finalMapDispatchToProps)return this.configureFinalMapDispatch(e,t);var n=e.dispatch,r=this.doDispatchPropsDependOnOwnProps?this.finalMapDispatchToProps(n,t):this.finalMapDispatchToProps(n);return r},s.prototype.configureFinalMapDispatch=function(e,t){var n=p(e.dispatch,t),r="function"==typeof n;return this.finalMapDispatchToProps=r?n:p,this.doDispatchPropsDependOnOwnProps=1!==this.finalMapDispatchToProps.length,r?this.computeDispatchProps(e,t):n},s.prototype.updateStatePropsIfNeeded=function(){var e=this.computeStateProps(this.store,this.props);return(!this.stateProps||!(0,m["default"])(e,this.stateProps))&&(this.stateProps=e,!0)},s.prototype.updateDispatchPropsIfNeeded=function(){var e=this.computeDispatchProps(this.store,this.props);return(!this.dispatchProps||!(0,m["default"])(e,this.dispatchProps))&&(this.dispatchProps=e,!0)},s.prototype.updateMergedPropsIfNeeded=function(){var e=t(this.stateProps,this.dispatchProps,this.props);return!(this.mergedProps&&R&&(0,m["default"])(e,this.mergedProps))&&(this.mergedProps=e,!0)},s.prototype.isSubscribed=function(){return"function"==typeof this.unsubscribe},s.prototype.trySubscribe=function(){l&&!this.unsubscribe&&(this.unsubscribe=this.store.subscribe(this.handleChange.bind(this)),this.handleChange())},s.prototype.tryUnsubscribe=function(){this.unsubscribe&&(this.unsubscribe(),this.unsubscribe=null)},s.prototype.componentDidMount=function(){this.trySubscribe()},s.prototype.componentWillReceiveProps=function(e){b&&(0,m["default"])(e,this.props)||(this.haveOwnPropsChanged=!0)},s.prototype.componentWillUnmount=function(){this.tryUnsubscribe(),this.clearCache()},s.prototype.clearCache=function(){this.dispatchProps=null,this.stateProps=null,this.mergedProps=null,this.haveOwnPropsChanged=!0,this.hasStoreStateChanged=!0,this.haveStatePropsBeenPrecalculated=!1,this.statePropsPrecalculationError=null,this.renderedElement=null,this.finalMapDispatchToProps=null,this.finalMapStateToProps=null},s.prototype.handleChange=function(){if(this.unsubscribe){var e=this.store.getState(),t=this.state.storeState;if(!b||t!==e){if(b&&!this.doStatePropsDependOnOwnProps){var n=u(this.updateStatePropsIfNeeded,this);if(!n)return;n===x&&(this.statePropsPrecalculationError=x.value),this.haveStatePropsBeenPrecalculated=!0}this.hasStoreStateChanged=!0,this.setState({storeState:e})}}},s.prototype.getWrappedInstance=function(){return(0,C["default"])(E,"To access the wrapped instance, you need to specify { withRef: true } as the fourth argument of the connect() call."),this.refs.wrappedInstance},s.prototype.render=function(){var t=this.haveOwnPropsChanged,n=this.hasStoreStateChanged,r=this.haveStatePropsBeenPrecalculated,o=this.statePropsPrecalculationError,a=this.renderedElement;if(this.haveOwnPropsChanged=!1,this.hasStoreStateChanged=!1,this.haveStatePropsBeenPrecalculated=!1,this.statePropsPrecalculationError=null,o)throw o;var i=!0,s=!0;b&&a&&(i=n||t&&this.doStatePropsDependOnOwnProps,s=t&&this.doDispatchPropsDependOnOwnProps);var u=!1,l=!1;r?u=!0:i&&(u=this.updateStatePropsIfNeeded()),s&&(l=this.updateDispatchPropsIfNeeded());var h=!0;return h=!!(u||l||t)&&this.updateMergedPropsIfNeeded(),!h&&a?a:(E?this.renderedElement=(0,f.createElement)(e,c({},this.mergedProps,{ref:"wrappedInstance"})):this.renderedElement=(0,f.createElement)(e,this.mergedProps),this.renderedElement)},s}(f.Component);return r.displayName=n,r.WrappedComponent=e,r.contextTypes={store:d["default"]},r.propTypes={store:d["default"]},(0,P["default"])(r,e)}}var c=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)Object.prototype.hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e};t.__esModule=!0,t["default"]=l;var f=n(4),h=n(108),d=r(h),p=n(262),m=r(p),v=n(263),y=r(v),g=n(109),b=(r(g),n(61)),w=(r(b),n(173)),P=r(w),E=n(174),C=r(E),S=function(e){return{}},_=function(e){return{dispatch:e}},O=function(e,t,n){return c({},n,e,t)},x={value:null},M=0},262:function(e,t){"use strict";function n(e,t){if(e===t)return!0;var n=Object.keys(e),r=Object.keys(t);if(n.length!==r.length)return!1;for(var o=Object.prototype.hasOwnProperty,a=0;a<n.length;a++)if(!o.call(t,n[a])||e[n[a]]!==t[n[a]])return!1;return!0}t.__esModule=!0,t["default"]=n},263:function(e,t,n){"use strict";function r(e){return function(t){return(0,o.bindActionCreators)(e,t)}}t.__esModule=!0,t["default"]=r;var o=n(81)},328:function(e,t){"use strict";function n(){for(var e=arguments.length,t=Array(e),n=0;n<e;n++)t[n]=arguments[n];return function(e,n){return t.reduce(function(e,t){return t(e,n)},e)}}t.__esModule=!0,t["default"]=n,e.exports=t["default"]},329:function(e,t){"use strict";function n(e){return e}function r(e,t,r){var o="function"==typeof t?t:n,a=function(){var t=(arguments.length<=0?void 0:arguments[0])instanceof Error,n={type:e},a=t?arguments.length<=0?void 0:arguments[0]:o.apply(void 0,arguments);return null!==a&&void 0!==a&&(n.payload=a),t&&(n.error=!0),"function"==typeof r&&(n.meta=r.apply(void 0,arguments)),n};return a.toString=function(){return e},a}Object.defineProperty(t,"__esModule",{value:!0}),t["default"]=r},330:function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}function o(e){if(Array.isArray(e)){for(var t=0,n=Array(e.length);t<e.length;t++)n[t]=e[t];return n}return Array.from(e)}function a(e,t){var n=(0,l["default"])(e).map(function(t){return(0,s["default"])(t,e[t])}),r=f["default"].apply(void 0,o(n));return"undefined"!=typeof t?function(){var e=arguments.length<=0||void 0===arguments[0]?t:arguments[0],n=arguments[1];return r(e,n)}:r}Object.defineProperty(t,"__esModule",{value:!0}),t["default"]=a;var i=n(141),s=r(i),u=n(332),l=r(u),c=n(328),f=r(c)},331:function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(t,"__esModule",{value:!0}),t.handleActions=t.handleAction=t.createAction=void 0;var o=n(329),a=r(o),i=n(141),s=r(i),u=n(330),l=r(u);t.createAction=a["default"],t.handleAction=s["default"],t.handleActions=l["default"]},332:function(e,t){"use strict";function n(e){if("undefined"!=typeof Reflect&&"function"==typeof Reflect.ownKeys)return Reflect.ownKeys(e);var t=Object.getOwnPropertyNames(e);return"function"==typeof Object.getOwnPropertySymbols&&(t=t.concat(Object.getOwnPropertySymbols(e))),t}Object.defineProperty(t,"__esModule",{value:!0}),t["default"]=n},333:function(e,t){"use strict";function n(e){if(Array.isArray(e)){for(var t=0,n=Array(e.length);t<e.length;t++)n[t]=e[t];return n}return Array.from(e)}function r(e){return e&&"undefined"!=typeof Symbol&&e.constructor===Symbol?"symbol":typeof e}function o(e,t,o,a){switch("undefined"==typeof e?"undefined":r(e)){case"object":return"function"==typeof e[a]?e[a].apply(e,n(o)):e[a];case"function":return e(t);default:return e}}function a(){function e(){O.forEach(function(e,t){var n=e.started,a=e.startedTime,s=e.action,l=e.prevState,c=e.error,h=e.took,d=e.nextState,m=O[t+1];m&&(d=m.prevState,h=m.started-n);var y=P(s),g="function"==typeof f?f(function(){return d},s):f,b=u(a),w=_.title?"color: "+_.title(y)+";":null,E="action "+(v?b:"")+" "+y.type+" "+(p?"(in "+h.toFixed(2)+" ms)":"");try{g?_.title?i.groupCollapsed("%c "+E,w):i.groupCollapsed(E):_.title?i.group("%c "+E,w):i.group(E)}catch(C){i.log(E)}var S=o(r,y,[l],"prevState"),x=o(r,y,[y],"action"),M=o(r,y,[c,l],"error"),R=o(r,y,[d],"nextState");S&&(_.prevState?i[S]("%c prev state","color: "+_.prevState(l)+"; font-weight: bold",l):i[S]("prev state",l)),x&&(_.action?i[x]("%c action","color: "+_.action(y)+"; font-weight: bold",y):i[x]("action",y)),c&&M&&(_.error?i[M]("%c error","color: "+_.error(c,l)+"; font-weight: bold",c):i[M]("error",c)),R&&(_.nextState?i[R]("%c next state","color: "+_.nextState(d)+"; font-weight: bold",d):i[R]("next state",d));try{i.groupEnd()}catch(C){i.log("—— log end ——")}}),O.length=0}var t=arguments.length<=0||void 0===arguments[0]?{}:arguments[0],n=t.level,r=void 0===n?"log":n,a=t.logger,i=void 0===a?console:a,s=t.logErrors,c=void 0===s||s,f=t.collapsed,h=t.predicate,d=t.duration,p=void 0!==d&&d,m=t.timestamp,v=void 0===m||m,y=t.transformer,g=t.stateTransformer,b=void 0===g?function(e){return e}:g,w=t.actionTransformer,P=void 0===w?function(e){return e}:w,E=t.errorTransformer,C=void 0===E?function(e){return e}:E,S=t.colors,_=void 0===S?{title:function(){return"#000000"},prevState:function(){return"#9E9E9E"},action:function(){return"#03A9F4"},nextState:function(){return"#4CAF50"},error:function(){return"#F20404"}}:S;if("undefined"==typeof i)return function(){return function(e){return function(t){return e(t)}}};y&&console.error("Option 'transformer' is deprecated, use stateTransformer instead");var O=[];return function(t){var n=t.getState;return function(t){return function(r){if("function"==typeof h&&!h(n,r))return t(r);var o={};O.push(o),o.started=l.now(),o.startedTime=new Date,o.prevState=b(n()),o.action=r;var a=void 0;if(c)try{a=t(r)}catch(i){o.error=C(i)}else a=t(r);if(o.took=l.now()-o.started,o.nextState=b(n()),e(),o.error)throw o.error;return a}}}}var i=function(e,t){return new Array(t+1).join(e)},s=function(e,t){return i("0",t-e.toString().length)+e},u=function(e){return"@ "+s(e.getHours(),2)+":"+s(e.getMinutes(),2)+":"+s(e.getSeconds(),2)+"."+s(e.getMilliseconds(),3)},l="undefined"!=typeof performance&&"function"==typeof performance.now?performance:Date;e.exports=a},334:function(e,t){"use strict";function n(e){return function(t){var n=t.dispatch,r=t.getState;return function(t){return function(o){return"function"==typeof o?o(n,r,e):t(o)}}}}t.__esModule=!0;var r=n();r.withExtraArgument=n,t["default"]=r},335:function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}function o(){for(var e=arguments.length,t=Array(e),n=0;n<e;n++)t[n]=arguments[n];return function(e){return function(n,r,o){var i=e(n,r,o),u=i.dispatch,l=[],c={getState:i.getState,dispatch:function(e){return u(e)}};return l=t.map(function(e){return e(c)}),u=s["default"].apply(void 0,l)(i.dispatch),a({},i,{dispatch:u})}}}t.__esModule=!0;var a=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)Object.prototype.hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e};t["default"]=o;var i=n(142),s=r(i)},336:function(e,t){"use strict";function n(e,t){return function(){return t(e.apply(void 0,arguments))}}function r(e,t){if("function"==typeof e)return n(e,t);if("object"!=typeof e||null===e)throw new Error("bindActionCreators expected an object or a function, instead received "+(null===e?"null":typeof e)+'. Did you write "import ActionCreators from" instead of "import * as ActionCreators from"?');for(var r=Object.keys(e),o={},a=0;a<r.length;a++){var i=r[a],s=e[i];"function"==typeof s&&(o[i]=n(s,t))}return o}t.__esModule=!0,t["default"]=r},337:function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}function o(e,t){var n=t&&t.type,r=n&&'"'+n.toString()+'"'||"an action";return"Given action "+r+', reducer "'+e+'" returned undefined. To ignore an action, you must explicitly return the previous state.'}function a(e){Object.keys(e).forEach(function(t){var n=e[t],r=n(void 0,{type:s.ActionTypes.INIT});if("undefined"==typeof r)throw new Error('Reducer "'+t+'" returned undefined during initialization. If the state passed to the reducer is undefined, you must explicitly return the initial state. The initial state may not be undefined.');var o="@@redux/PROBE_UNKNOWN_ACTION_"+Math.random().toString(36).substring(7).split("").join(".");if("undefined"==typeof n(void 0,{type:o}))throw new Error('Reducer "'+t+'" returned undefined when probed with a random type. '+("Don't try to handle "+s.ActionTypes.INIT+' or other actions in "redux/*" ')+"namespace. They are considered private. Instead, you must return the current state for any unknown actions, unless it is undefined, in which case you must return the initial state, regardless of the action type. The initial state may not be undefined.")})}function i(e){for(var t=Object.keys(e),n={},r=0;r<t.length;r++){var i=t[r];"function"==typeof e[i]&&(n[i]=e[i])}var s,u=Object.keys(n);try{a(n)}catch(l){s=l}return function(){var e=arguments.length<=0||void 0===arguments[0]?{}:arguments[0],t=arguments[1];if(s)throw s;for(var r=!1,a={},i=0;i<u.length;i++){var l=u[i],c=n[l],f=e[l],h=c(f,t);if("undefined"==typeof h){var d=o(l,t);throw new Error(d)}a[l]=h,r=r||h!==f}return r?a:e}}t.__esModule=!0,t["default"]=i;var s=n(143),u=n(61),l=(r(u),n(144));r(l)},338:function(e,t,n){(function(t){"use strict";e.exports=n(339)(t||window||this)}).call(t,function(){return this}())},339:function(e,t){"use strict";e.exports=function(e){var t,n=e.Symbol;return"function"==typeof n?n.observable?t=n.observable:(t=n("observable"),n.observable=t):t="@@observable",t}},340:function(e,t){!function(e){"use strict";function t(e){if("string"!=typeof e&&(e=String(e)),/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(e))throw new TypeError("Invalid character in header field name");return e.toLowerCase()}function n(e){return"string"!=typeof e&&(e=String(e)),e}function r(e){var t={next:function(){var t=e.shift();return{done:void 0===t,value:t}}};return m.iterable&&(t[Symbol.iterator]=function(){return t}),t}function o(e){this.map={},e instanceof o?e.forEach(function(e,t){this.append(t,e)},this):e&&Object.getOwnPropertyNames(e).forEach(function(t){this.append(t,e[t])},this)}function a(e){return e.bodyUsed?Promise.reject(new TypeError("Already read")):void(e.bodyUsed=!0)}function i(e){return new Promise(function(t,n){e.onload=function(){t(e.result)},e.onerror=function(){n(e.error)}})}function s(e){var t=new FileReader;return t.readAsArrayBuffer(e),i(t)}function u(e){var t=new FileReader;return t.readAsText(e),i(t)}function l(){return this.bodyUsed=!1,this._initBody=function(e){if(this._bodyInit=e,"string"==typeof e)this._bodyText=e;else if(m.blob&&Blob.prototype.isPrototypeOf(e))this._bodyBlob=e;else if(m.formData&&FormData.prototype.isPrototypeOf(e))this._bodyFormData=e;else if(m.searchParams&&URLSearchParams.prototype.isPrototypeOf(e))this._bodyText=e.toString();else if(e){if(!m.arrayBuffer||!ArrayBuffer.prototype.isPrototypeOf(e))throw new Error("unsupported BodyInit type")}else this._bodyText="";this.headers.get("content-type")||("string"==typeof e?this.headers.set("content-type","text/plain;charset=UTF-8"):this._bodyBlob&&this._bodyBlob.type?this.headers.set("content-type",this._bodyBlob.type):m.searchParams&&URLSearchParams.prototype.isPrototypeOf(e)&&this.headers.set("content-type","application/x-www-form-urlencoded;charset=UTF-8"))},m.blob?(this.blob=function(){var e=a(this);if(e)return e;if(this._bodyBlob)return Promise.resolve(this._bodyBlob);if(this._bodyFormData)throw new Error("could not read FormData body as blob");return Promise.resolve(new Blob([this._bodyText]))},this.arrayBuffer=function(){return this.blob().then(s)},this.text=function(){var e=a(this);if(e)return e;if(this._bodyBlob)return u(this._bodyBlob);if(this._bodyFormData)throw new Error("could not read FormData body as text");return Promise.resolve(this._bodyText)}):this.text=function(){var e=a(this);return e?e:Promise.resolve(this._bodyText)},m.formData&&(this.formData=function(){return this.text().then(h)}),this.json=function(){return this.text().then(JSON.parse)},this}function c(e){var t=e.toUpperCase();return v.indexOf(t)>-1?t:e}function f(e,t){t=t||{};var n=t.body;if(f.prototype.isPrototypeOf(e)){if(e.bodyUsed)throw new TypeError("Already read");this.url=e.url,this.credentials=e.credentials,t.headers||(this.headers=new o(e.headers)),this.method=e.method,this.mode=e.mode,n||(n=e._bodyInit,e.bodyUsed=!0)}else this.url=e;if(this.credentials=t.credentials||this.credentials||"omit",!t.headers&&this.headers||(this.headers=new o(t.headers)),this.method=c(t.method||this.method||"GET"),this.mode=t.mode||this.mode||null,this.referrer=null,("GET"===this.method||"HEAD"===this.method)&&n)throw new TypeError("Body not allowed for GET or HEAD requests");this._initBody(n)}function h(e){var t=new FormData;return e.trim().split("&").forEach(function(e){if(e){var n=e.split("="),r=n.shift().replace(/\+/g," "),o=n.join("=").replace(/\+/g," ");t.append(decodeURIComponent(r),decodeURIComponent(o))}}),t}function d(e){var t=new o,n=(e.getAllResponseHeaders()||"").trim().split("\n");return n.forEach(function(e){var n=e.trim().split(":"),r=n.shift().trim(),o=n.join(":").trim();t.append(r,o)}),t}function p(e,t){t||(t={}),this.type="default",this.status=t.status,this.ok=this.status>=200&&this.status<300,this.statusText=t.statusText,this.headers=t.headers instanceof o?t.headers:new o(t.headers),this.url=t.url||"",this._initBody(e)}if(!e.fetch){var m={searchParams:"URLSearchParams"in e,iterable:"Symbol"in e&&"iterator"in Symbol,blob:"FileReader"in e&&"Blob"in e&&function(){try{return new Blob,!0}catch(e){return!1}}(),formData:"FormData"in e,arrayBuffer:"ArrayBuffer"in e};o.prototype.append=function(e,r){e=t(e),r=n(r);var o=this.map[e];o||(o=[],this.map[e]=o),o.push(r)},o.prototype["delete"]=function(e){delete this.map[t(e)]},o.prototype.get=function(e){var n=this.map[t(e)];return n?n[0]:null},o.prototype.getAll=function(e){return this.map[t(e)]||[]},o.prototype.has=function(e){return this.map.hasOwnProperty(t(e))},o.prototype.set=function(e,r){this.map[t(e)]=[n(r)]},o.prototype.forEach=function(e,t){Object.getOwnPropertyNames(this.map).forEach(function(n){this.map[n].forEach(function(r){e.call(t,r,n,this)},this)},this)},o.prototype.keys=function(){var e=[];return this.forEach(function(t,n){e.push(n)}),r(e)},o.prototype.values=function(){var e=[];return this.forEach(function(t){e.push(t)}),r(e)},o.prototype.entries=function(){var e=[];return this.forEach(function(t,n){e.push([n,t])}),r(e)},m.iterable&&(o.prototype[Symbol.iterator]=o.prototype.entries);var v=["DELETE","GET","HEAD","OPTIONS","POST","PUT"];f.prototype.clone=function(){return new f(this)},l.call(f.prototype),l.call(p.prototype),p.prototype.clone=function(){return new p(this._bodyInit,{status:this.status,statusText:this.statusText,headers:new o(this.headers),url:this.url})},p.error=function(){var e=new p(null,{status:0,statusText:""});return e.type="error",e};var y=[301,302,303,307,308];p.redirect=function(e,t){if(y.indexOf(t)===-1)throw new RangeError("Invalid status code");return new p(null,{status:t,headers:{location:e}})},e.Headers=o,e.Request=f,e.Response=p,e.fetch=function(e,t){return new Promise(function(n,r){function o(){return"responseURL"in i?i.responseURL:/^X-Request-URL:/m.test(i.getAllResponseHeaders())?i.getResponseHeader("X-Request-URL"):void 0}var a;a=f.prototype.isPrototypeOf(e)&&!t?e:new f(e,t);var i=new XMLHttpRequest;i.onload=function(){var e={status:i.status,statusText:i.statusText,headers:d(i),url:o()},t="response"in i?i.response:i.responseText;n(new p(t,e))},i.onerror=function(){r(new TypeError("Network request failed"))},i.ontimeout=function(){r(new TypeError("Network request failed"))},i.open(a.method,a.url,!0),"include"===a.credentials&&(i.withCredentials=!0),"responseType"in i&&m.blob&&(i.responseType="blob"),a.headers.forEach(function(e,t){i.setRequestHeader(t,e)}),i.send("undefined"==typeof a._bodyInit?null:a._bodyInit)})},e.fetch.polyfill=!0}}("undefined"!=typeof self?self:this)}});
+webpackJsonp([0],{
+
+/***/ 0:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _recoveryContainer = __webpack_require__(1);
+
+	var _recoveryContainer2 = _interopRequireDefault(_recoveryContainer);
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _vkMaster = __webpack_require__(71);
+
+	var _vkMaster2 = _interopRequireDefault(_vkMaster);
+
+	var _reactDom = __webpack_require__(72);
+
+	var _reactRedux = __webpack_require__(33);
+
+	var _redux = __webpack_require__(40);
+
+	var _recovery = __webpack_require__(62);
+
+	var _recovery2 = _interopRequireDefault(_recovery);
+
+	var _reduxThunk = __webpack_require__(211);
+
+	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+
+	var _reduxLogger = __webpack_require__(212);
+
+	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var loggerMiddleware = (0, _reduxLogger2.default)();
+
+	var store = (0, _redux.createStore)(_recovery2.default, (0, _redux.applyMiddleware)(_reduxThunk2.default, loggerMiddleware));
+
+	(0, _reactDom.render)(_react2.default.createElement(
+	    _reactRedux.Provider,
+	    { store: store },
+	    _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'header clearfix' },
+	            _react2.default.createElement(_vkMaster2.default, null)
+	        ),
+	        _react2.default.createElement(_recoveryContainer2.default, null)
+	    )
+		), document.getElementById('content'));
+
+/***/ },
+
+/***/ 1:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(33);
+
+	var _reactHelpers = __webpack_require__(55);
+
+	var _phoneInput = __webpack_require__(56);
+
+	var _phoneInput2 = _interopRequireDefault(_phoneInput);
+
+	var _emailInput = __webpack_require__(58);
+
+	var _emailInput2 = _interopRequireDefault(_emailInput);
+
+	var _codeInput = __webpack_require__(59);
+
+	var _codeInput2 = _interopRequireDefault(_codeInput);
+
+	var _passwordInput = __webpack_require__(60);
+
+	var _passwordInput2 = _interopRequireDefault(_passwordInput);
+
+	var _wayChooser = __webpack_require__(61);
+
+	var _wayChooser2 = _interopRequireDefault(_wayChooser);
+
+	var _recovery = __webpack_require__(62);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var RecoveryForm = function RecoveryForm(_ref) {
+	    var phone = _ref.phone;
+	    var verification = _ref.verification;
+	    var password = _ref.password;
+	    var way = _ref.way;
+	    var onChangeNumber = _ref.onChangeNumber;
+	    var onSendCode = _ref.onSendCode;
+	    var onConfirmCode = _ref.onConfirmCode;
+	    var onChangePassword = _ref.onChangePassword;
+	    var onChangeWay = _ref.onChangeWay;
+	    return _react2.default.createElement(
+	        'form',
+	        { className: 'form-signin', onSubmit: function onSubmit(e) {
+	                return e.preventDefault();
+	            } },
+	        _react2.default.createElement(
+	            'h2',
+	            { className: 'form-signin-heading' },
+	            'Восстановить пароль'
+	        ),
+	        _react2.default.createElement('div', { className: 'form-signin-heading-underline' }),
+	        _react2.default.createElement(_wayChooser2.default, { way: way, onChange: onChangeWay }),
+	        (0, _reactHelpers.$if)(!verification.confirmed, (0, _reactHelpers.$if)(way === 'phone', _react2.default.createElement(_phoneInput2.default, {
+	            number: phone.number,
+	            waiting: phone.waiting,
+	            message: phone.message == 'User Not found' ? 'Пользователь не найден' : phone.message,
+	            disabled: !!phone.codeId,
+	            onChange: onChangeNumber,
+	            onSend: onSendCode }), _react2.default.createElement(_emailInput2.default, {
+	            email: phone.number,
+	            waiting: phone.waiting,
+	            message: phone.message == 'User Not found' ? 'Пользователь не найден' : phone.message,
+	            disabled: !!phone.codeId,
+	            onSend: onSendCode,
+	            onChange: onChangeNumber }))),
+	        (0, _reactHelpers.$if)(phone.codeId && !verification.confirmed, _react2.default.createElement(_codeInput2.default, {
+	            waiting: verification.waiting,
+	            message: verification.message,
+	            onConfirm: onConfirmCode })),
+	        (0, _reactHelpers.$if)(verification.confirmed, _react2.default.createElement(_passwordInput2.default, {
+	            passMessage: password.passwordEmpty ? 'Пожалуйста, заполните поле' : password.failMessage,
+	            repeatMessage: password.repeatIncorrectly ? 'Пароль повторен неправильно' : '',
+	            waiting: password.waiting,
+	            onSend: onChangePassword })),
+	        (0, _reactHelpers.$if)(verification.waitingConfirmation, _react2.default.createElement(
+	            'div',
+	            { className: 'form-group' },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'progress' },
+	                _react2.default.createElement('div', { className: 'progress-bar progress-bar-striped active', style: { width: '100%' } })
+	            )
+	        ))
+	    );
+	};
+
+	exports.default = (0, _reactRedux.connect)(function (state) {
+	    return {
+	        phone: state.phone,
+	        verification: state.verification,
+	        password: state.password,
+	        way: state.way
+	    };
+	}, function (dispatch) {
+	    return {
+	        onSendCode: function onSendCode(number) {
+	            return dispatch((0, _recovery.sendCode)(number));
+	        },
+	        onConfirmCode: function onConfirmCode(code) {
+	            return dispatch((0, _recovery.confirmCode)(code));
+	        },
+	        onChangePassword: function onChangePassword(pass, repeat) {
+	            return dispatch((0, _recovery.changePassword)({ pass: pass, repeat: repeat }));
+	        },
+	        onChangeNumber: function onChangeNumber(number) {
+	            return dispatch((0, _recovery.changeNumber)(number));
+	        },
+	        onChangeWay: function onChangeWay(way) {
+	            return dispatch((0, _recovery.chooseWay)(way));
+	        }
+	    };
+		})(RecoveryForm);
+
+/***/ },
+
+/***/ 33:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.connect = exports.Provider = undefined;
+
+	var _Provider = __webpack_require__(34);
+
+	var _Provider2 = _interopRequireDefault(_Provider);
+
+	var _connect = __webpack_require__(37);
+
+	var _connect2 = _interopRequireDefault(_connect);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	exports.Provider = _Provider2["default"];
+	exports.connect = _connect2["default"];
+
+/***/ },
+
+/***/ 34:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports["default"] = undefined;
+
+	var _react = __webpack_require__(2);
+
+	var _storeShape = __webpack_require__(35);
+
+	var _storeShape2 = _interopRequireDefault(_storeShape);
+
+	var _warning = __webpack_require__(36);
+
+	var _warning2 = _interopRequireDefault(_warning);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var didWarnAboutReceivingStore = false;
+	function warnAboutReceivingStore() {
+	  if (didWarnAboutReceivingStore) {
+	    return;
+	  }
+	  didWarnAboutReceivingStore = true;
+
+	  (0, _warning2["default"])('<Provider> does not support changing `store` on the fly. ' + 'It is most likely that you see this error because you updated to ' + 'Redux 2.x and React Redux 2.x which no longer hot reload reducers ' + 'automatically. See https://github.com/reactjs/react-redux/releases/' + 'tag/v2.0.0 for the migration instructions.');
+	}
+
+	var Provider = function (_Component) {
+	  _inherits(Provider, _Component);
+
+	  Provider.prototype.getChildContext = function getChildContext() {
+	    return { store: this.store };
+	  };
+
+	  function Provider(props, context) {
+	    _classCallCheck(this, Provider);
+
+	    var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
+
+	    _this.store = props.store;
+	    return _this;
+	  }
+
+	  Provider.prototype.render = function render() {
+	    var children = this.props.children;
+
+	    return _react.Children.only(children);
+	  };
+
+	  return Provider;
+	}(_react.Component);
+
+	exports["default"] = Provider;
+
+	if (true) {
+	  Provider.prototype.componentWillReceiveProps = function (nextProps) {
+	    var store = this.store;
+	    var nextStore = nextProps.store;
+
+	    if (store !== nextStore) {
+	      warnAboutReceivingStore();
+	    }
+	  };
+	}
+
+	Provider.propTypes = {
+	  store: _storeShape2["default"].isRequired,
+	  children: _react.PropTypes.element.isRequired
+	};
+	Provider.childContextTypes = {
+	  store: _storeShape2["default"].isRequired
+	};
+
+/***/ },
+
+/***/ 35:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _react = __webpack_require__(2);
+
+	exports["default"] = _react.PropTypes.shape({
+	  subscribe: _react.PropTypes.func.isRequired,
+	  dispatch: _react.PropTypes.func.isRequired,
+	  getState: _react.PropTypes.func.isRequired
+	});
+
+/***/ },
+
+/***/ 36:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports["default"] = warning;
+	/**
+	 * Prints a warning in the console if it exists.
+	 *
+	 * @param {String} message The warning message.
+	 * @returns {void}
+	 */
+	function warning(message) {
+	  /* eslint-disable no-console */
+	  if (typeof console !== 'undefined' && typeof console.error === 'function') {
+	    console.error(message);
+	  }
+	  /* eslint-enable no-console */
+	  try {
+	    // This error was thrown as a convenience so that you can use this stack
+	    // to find the callsite that caused this warning to fire.
+	    throw new Error(message);
+	    /* eslint-disable no-empty */
+	  } catch (e) {}
+	  /* eslint-enable no-empty */
+	}
+
+/***/ },
+
+/***/ 37:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	exports.__esModule = true;
+	exports["default"] = connect;
+
+	var _react = __webpack_require__(2);
+
+	var _storeShape = __webpack_require__(35);
+
+	var _storeShape2 = _interopRequireDefault(_storeShape);
+
+	var _shallowEqual = __webpack_require__(38);
+
+	var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
+
+	var _wrapActionCreators = __webpack_require__(39);
+
+	var _wrapActionCreators2 = _interopRequireDefault(_wrapActionCreators);
+
+	var _warning = __webpack_require__(36);
+
+	var _warning2 = _interopRequireDefault(_warning);
+
+	var _isPlainObject = __webpack_require__(42);
+
+	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
+
+	var _hoistNonReactStatics = __webpack_require__(53);
+
+	var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
+
+	var _invariant = __webpack_require__(54);
+
+	var _invariant2 = _interopRequireDefault(_invariant);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var defaultMapStateToProps = function defaultMapStateToProps(state) {
+	  return {};
+	}; // eslint-disable-line no-unused-vars
+	var defaultMapDispatchToProps = function defaultMapDispatchToProps(dispatch) {
+	  return { dispatch: dispatch };
+	};
+	var defaultMergeProps = function defaultMergeProps(stateProps, dispatchProps, parentProps) {
+	  return _extends({}, parentProps, stateProps, dispatchProps);
+	};
+
+	function getDisplayName(WrappedComponent) {
+	  return WrappedComponent.displayName || WrappedComponent.name || 'Component';
+	}
+
+	var errorObject = { value: null };
+	function tryCatch(fn, ctx) {
+	  try {
+	    return fn.apply(ctx);
+	  } catch (e) {
+	    errorObject.value = e;
+	    return errorObject;
+	  }
+	}
+
+	// Helps track hot reloading.
+	var nextVersion = 0;
+
+	function connect(mapStateToProps, mapDispatchToProps, mergeProps) {
+	  var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
+
+	  var shouldSubscribe = Boolean(mapStateToProps);
+	  var mapState = mapStateToProps || defaultMapStateToProps;
+
+	  var mapDispatch = undefined;
+	  if (typeof mapDispatchToProps === 'function') {
+	    mapDispatch = mapDispatchToProps;
+	  } else if (!mapDispatchToProps) {
+	    mapDispatch = defaultMapDispatchToProps;
+	  } else {
+	    mapDispatch = (0, _wrapActionCreators2["default"])(mapDispatchToProps);
+	  }
+
+	  var finalMergeProps = mergeProps || defaultMergeProps;
+	  var _options$pure = options.pure;
+	  var pure = _options$pure === undefined ? true : _options$pure;
+	  var _options$withRef = options.withRef;
+	  var withRef = _options$withRef === undefined ? false : _options$withRef;
+
+	  var checkMergedEquals = pure && finalMergeProps !== defaultMergeProps;
+
+	  // Helps track hot reloading.
+	  var version = nextVersion++;
+
+	  return function wrapWithConnect(WrappedComponent) {
+	    var connectDisplayName = 'Connect(' + getDisplayName(WrappedComponent) + ')';
+
+	    function checkStateShape(props, methodName) {
+	      if (!(0, _isPlainObject2["default"])(props)) {
+	        (0, _warning2["default"])(methodName + '() in ' + connectDisplayName + ' must return a plain object. ' + ('Instead received ' + props + '.'));
+	      }
+	    }
+
+	    function computeMergedProps(stateProps, dispatchProps, parentProps) {
+	      var mergedProps = finalMergeProps(stateProps, dispatchProps, parentProps);
+	      if (true) {
+	        checkStateShape(mergedProps, 'mergeProps');
+	      }
+	      return mergedProps;
+	    }
+
+	    var Connect = function (_Component) {
+	      _inherits(Connect, _Component);
+
+	      Connect.prototype.shouldComponentUpdate = function shouldComponentUpdate() {
+	        return !pure || this.haveOwnPropsChanged || this.hasStoreStateChanged;
+	      };
+
+	      function Connect(props, context) {
+	        _classCallCheck(this, Connect);
+
+	        var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
+
+	        _this.version = version;
+	        _this.store = props.store || context.store;
+
+	        (0, _invariant2["default"])(_this.store, 'Could not find "store" in either the context or ' + ('props of "' + connectDisplayName + '". ') + 'Either wrap the root component in a <Provider>, ' + ('or explicitly pass "store" as a prop to "' + connectDisplayName + '".'));
+
+	        var storeState = _this.store.getState();
+	        _this.state = { storeState: storeState };
+	        _this.clearCache();
+	        return _this;
+	      }
+
+	      Connect.prototype.computeStateProps = function computeStateProps(store, props) {
+	        if (!this.finalMapStateToProps) {
+	          return this.configureFinalMapState(store, props);
+	        }
+
+	        var state = store.getState();
+	        var stateProps = this.doStatePropsDependOnOwnProps ? this.finalMapStateToProps(state, props) : this.finalMapStateToProps(state);
+
+	        if (true) {
+	          checkStateShape(stateProps, 'mapStateToProps');
+	        }
+	        return stateProps;
+	      };
+
+	      Connect.prototype.configureFinalMapState = function configureFinalMapState(store, props) {
+	        var mappedState = mapState(store.getState(), props);
+	        var isFactory = typeof mappedState === 'function';
+
+	        this.finalMapStateToProps = isFactory ? mappedState : mapState;
+	        this.doStatePropsDependOnOwnProps = this.finalMapStateToProps.length !== 1;
+
+	        if (isFactory) {
+	          return this.computeStateProps(store, props);
+	        }
+
+	        if (true) {
+	          checkStateShape(mappedState, 'mapStateToProps');
+	        }
+	        return mappedState;
+	      };
+
+	      Connect.prototype.computeDispatchProps = function computeDispatchProps(store, props) {
+	        if (!this.finalMapDispatchToProps) {
+	          return this.configureFinalMapDispatch(store, props);
+	        }
+
+	        var dispatch = store.dispatch;
+
+	        var dispatchProps = this.doDispatchPropsDependOnOwnProps ? this.finalMapDispatchToProps(dispatch, props) : this.finalMapDispatchToProps(dispatch);
+
+	        if (true) {
+	          checkStateShape(dispatchProps, 'mapDispatchToProps');
+	        }
+	        return dispatchProps;
+	      };
+
+	      Connect.prototype.configureFinalMapDispatch = function configureFinalMapDispatch(store, props) {
+	        var mappedDispatch = mapDispatch(store.dispatch, props);
+	        var isFactory = typeof mappedDispatch === 'function';
+
+	        this.finalMapDispatchToProps = isFactory ? mappedDispatch : mapDispatch;
+	        this.doDispatchPropsDependOnOwnProps = this.finalMapDispatchToProps.length !== 1;
+
+	        if (isFactory) {
+	          return this.computeDispatchProps(store, props);
+	        }
+
+	        if (true) {
+	          checkStateShape(mappedDispatch, 'mapDispatchToProps');
+	        }
+	        return mappedDispatch;
+	      };
+
+	      Connect.prototype.updateStatePropsIfNeeded = function updateStatePropsIfNeeded() {
+	        var nextStateProps = this.computeStateProps(this.store, this.props);
+	        if (this.stateProps && (0, _shallowEqual2["default"])(nextStateProps, this.stateProps)) {
+	          return false;
+	        }
+
+	        this.stateProps = nextStateProps;
+	        return true;
+	      };
+
+	      Connect.prototype.updateDispatchPropsIfNeeded = function updateDispatchPropsIfNeeded() {
+	        var nextDispatchProps = this.computeDispatchProps(this.store, this.props);
+	        if (this.dispatchProps && (0, _shallowEqual2["default"])(nextDispatchProps, this.dispatchProps)) {
+	          return false;
+	        }
+
+	        this.dispatchProps = nextDispatchProps;
+	        return true;
+	      };
+
+	      Connect.prototype.updateMergedPropsIfNeeded = function updateMergedPropsIfNeeded() {
+	        var nextMergedProps = computeMergedProps(this.stateProps, this.dispatchProps, this.props);
+	        if (this.mergedProps && checkMergedEquals && (0, _shallowEqual2["default"])(nextMergedProps, this.mergedProps)) {
+	          return false;
+	        }
+
+	        this.mergedProps = nextMergedProps;
+	        return true;
+	      };
+
+	      Connect.prototype.isSubscribed = function isSubscribed() {
+	        return typeof this.unsubscribe === 'function';
+	      };
+
+	      Connect.prototype.trySubscribe = function trySubscribe() {
+	        if (shouldSubscribe && !this.unsubscribe) {
+	          this.unsubscribe = this.store.subscribe(this.handleChange.bind(this));
+	          this.handleChange();
+	        }
+	      };
+
+	      Connect.prototype.tryUnsubscribe = function tryUnsubscribe() {
+	        if (this.unsubscribe) {
+	          this.unsubscribe();
+	          this.unsubscribe = null;
+	        }
+	      };
+
+	      Connect.prototype.componentDidMount = function componentDidMount() {
+	        this.trySubscribe();
+	      };
+
+	      Connect.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+	        if (!pure || !(0, _shallowEqual2["default"])(nextProps, this.props)) {
+	          this.haveOwnPropsChanged = true;
+	        }
+	      };
+
+	      Connect.prototype.componentWillUnmount = function componentWillUnmount() {
+	        this.tryUnsubscribe();
+	        this.clearCache();
+	      };
+
+	      Connect.prototype.clearCache = function clearCache() {
+	        this.dispatchProps = null;
+	        this.stateProps = null;
+	        this.mergedProps = null;
+	        this.haveOwnPropsChanged = true;
+	        this.hasStoreStateChanged = true;
+	        this.haveStatePropsBeenPrecalculated = false;
+	        this.statePropsPrecalculationError = null;
+	        this.renderedElement = null;
+	        this.finalMapDispatchToProps = null;
+	        this.finalMapStateToProps = null;
+	      };
+
+	      Connect.prototype.handleChange = function handleChange() {
+	        if (!this.unsubscribe) {
+	          return;
+	        }
+
+	        var storeState = this.store.getState();
+	        var prevStoreState = this.state.storeState;
+	        if (pure && prevStoreState === storeState) {
+	          return;
+	        }
+
+	        if (pure && !this.doStatePropsDependOnOwnProps) {
+	          var haveStatePropsChanged = tryCatch(this.updateStatePropsIfNeeded, this);
+	          if (!haveStatePropsChanged) {
+	            return;
+	          }
+	          if (haveStatePropsChanged === errorObject) {
+	            this.statePropsPrecalculationError = errorObject.value;
+	          }
+	          this.haveStatePropsBeenPrecalculated = true;
+	        }
+
+	        this.hasStoreStateChanged = true;
+	        this.setState({ storeState: storeState });
+	      };
+
+	      Connect.prototype.getWrappedInstance = function getWrappedInstance() {
+	        (0, _invariant2["default"])(withRef, 'To access the wrapped instance, you need to specify ' + '{ withRef: true } as the fourth argument of the connect() call.');
+
+	        return this.refs.wrappedInstance;
+	      };
+
+	      Connect.prototype.render = function render() {
+	        var haveOwnPropsChanged = this.haveOwnPropsChanged;
+	        var hasStoreStateChanged = this.hasStoreStateChanged;
+	        var haveStatePropsBeenPrecalculated = this.haveStatePropsBeenPrecalculated;
+	        var statePropsPrecalculationError = this.statePropsPrecalculationError;
+	        var renderedElement = this.renderedElement;
+
+	        this.haveOwnPropsChanged = false;
+	        this.hasStoreStateChanged = false;
+	        this.haveStatePropsBeenPrecalculated = false;
+	        this.statePropsPrecalculationError = null;
+
+	        if (statePropsPrecalculationError) {
+	          throw statePropsPrecalculationError;
+	        }
+
+	        var shouldUpdateStateProps = true;
+	        var shouldUpdateDispatchProps = true;
+	        if (pure && renderedElement) {
+	          shouldUpdateStateProps = hasStoreStateChanged || haveOwnPropsChanged && this.doStatePropsDependOnOwnProps;
+	          shouldUpdateDispatchProps = haveOwnPropsChanged && this.doDispatchPropsDependOnOwnProps;
+	        }
+
+	        var haveStatePropsChanged = false;
+	        var haveDispatchPropsChanged = false;
+	        if (haveStatePropsBeenPrecalculated) {
+	          haveStatePropsChanged = true;
+	        } else if (shouldUpdateStateProps) {
+	          haveStatePropsChanged = this.updateStatePropsIfNeeded();
+	        }
+	        if (shouldUpdateDispatchProps) {
+	          haveDispatchPropsChanged = this.updateDispatchPropsIfNeeded();
+	        }
+
+	        var haveMergedPropsChanged = true;
+	        if (haveStatePropsChanged || haveDispatchPropsChanged || haveOwnPropsChanged) {
+	          haveMergedPropsChanged = this.updateMergedPropsIfNeeded();
+	        } else {
+	          haveMergedPropsChanged = false;
+	        }
+
+	        if (!haveMergedPropsChanged && renderedElement) {
+	          return renderedElement;
+	        }
+
+	        if (withRef) {
+	          this.renderedElement = (0, _react.createElement)(WrappedComponent, _extends({}, this.mergedProps, {
+	            ref: 'wrappedInstance'
+	          }));
+	        } else {
+	          this.renderedElement = (0, _react.createElement)(WrappedComponent, this.mergedProps);
+	        }
+
+	        return this.renderedElement;
+	      };
+
+	      return Connect;
+	    }(_react.Component);
+
+	    Connect.displayName = connectDisplayName;
+	    Connect.WrappedComponent = WrappedComponent;
+	    Connect.contextTypes = {
+	      store: _storeShape2["default"]
+	    };
+	    Connect.propTypes = {
+	      store: _storeShape2["default"]
+	    };
+
+	    if (true) {
+	      Connect.prototype.componentWillUpdate = function componentWillUpdate() {
+	        if (this.version === version) {
+	          return;
+	        }
+
+	        // We are hot reloading!
+	        this.version = version;
+	        this.trySubscribe();
+	        this.clearCache();
+	      };
+	    }
+
+	    return (0, _hoistNonReactStatics2["default"])(Connect, WrappedComponent);
+	  };
+	}
+
+/***/ },
+
+/***/ 38:
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+	exports["default"] = shallowEqual;
+	function shallowEqual(objA, objB) {
+	  if (objA === objB) {
+	    return true;
+	  }
+
+	  var keysA = Object.keys(objA);
+	  var keysB = Object.keys(objB);
+
+	  if (keysA.length !== keysB.length) {
+	    return false;
+	  }
+
+	  // Test for A's keys different from B.
+	  var hasOwn = Object.prototype.hasOwnProperty;
+	  for (var i = 0; i < keysA.length; i++) {
+	    if (!hasOwn.call(objB, keysA[i]) || objA[keysA[i]] !== objB[keysA[i]]) {
+	      return false;
+	    }
+	  }
+
+	  return true;
+	}
+
+/***/ },
+
+/***/ 39:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports["default"] = wrapActionCreators;
+
+	var _redux = __webpack_require__(40);
+
+	function wrapActionCreators(actionCreators) {
+	  return function (dispatch) {
+	    return (0, _redux.bindActionCreators)(actionCreators, dispatch);
+	  };
+	}
+
+/***/ },
+
+/***/ 40:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
+
+	var _createStore = __webpack_require__(41);
+
+	var _createStore2 = _interopRequireDefault(_createStore);
+
+	var _combineReducers = __webpack_require__(48);
+
+	var _combineReducers2 = _interopRequireDefault(_combineReducers);
+
+	var _bindActionCreators = __webpack_require__(50);
+
+	var _bindActionCreators2 = _interopRequireDefault(_bindActionCreators);
+
+	var _applyMiddleware = __webpack_require__(51);
+
+	var _applyMiddleware2 = _interopRequireDefault(_applyMiddleware);
+
+	var _compose = __webpack_require__(52);
+
+	var _compose2 = _interopRequireDefault(_compose);
+
+	var _warning = __webpack_require__(49);
+
+	var _warning2 = _interopRequireDefault(_warning);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	/*
+	* This is a dummy function to check if the function name has been altered by minification.
+	* If the function has been minified and NODE_ENV !== 'production', warn the user.
+	*/
+	function isCrushed() {}
+
+	if (("development") !== 'production' && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
+	  (0, _warning2["default"])('You are currently using minified code outside of NODE_ENV === \'production\'. ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or DefinePlugin for webpack (http://stackoverflow.com/questions/30030031) ' + 'to ensure you have the correct code for your production build.');
+	}
+
+	exports.createStore = _createStore2["default"];
+	exports.combineReducers = _combineReducers2["default"];
+	exports.bindActionCreators = _bindActionCreators2["default"];
+	exports.applyMiddleware = _applyMiddleware2["default"];
+	exports.compose = _compose2["default"];
+
+/***/ },
+
+/***/ 41:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.ActionTypes = undefined;
+	exports["default"] = createStore;
+
+	var _isPlainObject = __webpack_require__(42);
+
+	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
+
+	var _symbolObservable = __webpack_require__(46);
+
+	var _symbolObservable2 = _interopRequireDefault(_symbolObservable);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	/**
+	 * These are private action types reserved by Redux.
+	 * For any unknown actions, you must return the current state.
+	 * If the current state is undefined, you must return the initial state.
+	 * Do not reference these action types directly in your code.
+	 */
+	var ActionTypes = exports.ActionTypes = {
+	  INIT: '@@redux/INIT'
+	};
+
+	/**
+	 * Creates a Redux store that holds the state tree.
+	 * The only way to change the data in the store is to call `dispatch()` on it.
+	 *
+	 * There should only be a single store in your app. To specify how different
+	 * parts of the state tree respond to actions, you may combine several reducers
+	 * into a single reducer function by using `combineReducers`.
+	 *
+	 * @param {Function} reducer A function that returns the next state tree, given
+	 * the current state tree and the action to handle.
+	 *
+	 * @param {any} [initialState] The initial state. You may optionally specify it
+	 * to hydrate the state from the server in universal apps, or to restore a
+	 * previously serialized user session.
+	 * If you use `combineReducers` to produce the root reducer function, this must be
+	 * an object with the same shape as `combineReducers` keys.
+	 *
+	 * @param {Function} enhancer The store enhancer. You may optionally specify it
+	 * to enhance the store with third-party capabilities such as middleware,
+	 * time travel, persistence, etc. The only store enhancer that ships with Redux
+	 * is `applyMiddleware()`.
+	 *
+	 * @returns {Store} A Redux store that lets you read the state, dispatch actions
+	 * and subscribe to changes.
+	 */
+	function createStore(reducer, initialState, enhancer) {
+	  var _ref2;
+
+	  if (typeof initialState === 'function' && typeof enhancer === 'undefined') {
+	    enhancer = initialState;
+	    initialState = undefined;
+	  }
+
+	  if (typeof enhancer !== 'undefined') {
+	    if (typeof enhancer !== 'function') {
+	      throw new Error('Expected the enhancer to be a function.');
+	    }
+
+	    return enhancer(createStore)(reducer, initialState);
+	  }
+
+	  if (typeof reducer !== 'function') {
+	    throw new Error('Expected the reducer to be a function.');
+	  }
+
+	  var currentReducer = reducer;
+	  var currentState = initialState;
+	  var currentListeners = [];
+	  var nextListeners = currentListeners;
+	  var isDispatching = false;
+
+	  function ensureCanMutateNextListeners() {
+	    if (nextListeners === currentListeners) {
+	      nextListeners = currentListeners.slice();
+	    }
+	  }
+
+	  /**
+	   * Reads the state tree managed by the store.
+	   *
+	   * @returns {any} The current state tree of your application.
+	   */
+	  function getState() {
+	    return currentState;
+	  }
+
+	  /**
+	   * Adds a change listener. It will be called any time an action is dispatched,
+	   * and some part of the state tree may potentially have changed. You may then
+	   * call `getState()` to read the current state tree inside the callback.
+	   *
+	   * You may call `dispatch()` from a change listener, with the following
+	   * caveats:
+	   *
+	   * 1. The subscriptions are snapshotted just before every `dispatch()` call.
+	   * If you subscribe or unsubscribe while the listeners are being invoked, this
+	   * will not have any effect on the `dispatch()` that is currently in progress.
+	   * However, the next `dispatch()` call, whether nested or not, will use a more
+	   * recent snapshot of the subscription list.
+	   *
+	   * 2. The listener should not expect to see all state changes, as the state
+	   * might have been updated multiple times during a nested `dispatch()` before
+	   * the listener is called. It is, however, guaranteed that all subscribers
+	   * registered before the `dispatch()` started will be called with the latest
+	   * state by the time it exits.
+	   *
+	   * @param {Function} listener A callback to be invoked on every dispatch.
+	   * @returns {Function} A function to remove this change listener.
+	   */
+	  function subscribe(listener) {
+	    if (typeof listener !== 'function') {
+	      throw new Error('Expected listener to be a function.');
+	    }
+
+	    var isSubscribed = true;
+
+	    ensureCanMutateNextListeners();
+	    nextListeners.push(listener);
+
+	    return function unsubscribe() {
+	      if (!isSubscribed) {
+	        return;
+	      }
+
+	      isSubscribed = false;
+
+	      ensureCanMutateNextListeners();
+	      var index = nextListeners.indexOf(listener);
+	      nextListeners.splice(index, 1);
+	    };
+	  }
+
+	  /**
+	   * Dispatches an action. It is the only way to trigger a state change.
+	   *
+	   * The `reducer` function, used to create the store, will be called with the
+	   * current state tree and the given `action`. Its return value will
+	   * be considered the **next** state of the tree, and the change listeners
+	   * will be notified.
+	   *
+	   * The base implementation only supports plain object actions. If you want to
+	   * dispatch a Promise, an Observable, a thunk, or something else, you need to
+	   * wrap your store creating function into the corresponding middleware. For
+	   * example, see the documentation for the `redux-thunk` package. Even the
+	   * middleware will eventually dispatch plain object actions using this method.
+	   *
+	   * @param {Object} action A plain object representing “what changed”. It is
+	   * a good idea to keep actions serializable so you can record and replay user
+	   * sessions, or use the time travelling `redux-devtools`. An action must have
+	   * a `type` property which may not be `undefined`. It is a good idea to use
+	   * string constants for action types.
+	   *
+	   * @returns {Object} For convenience, the same action object you dispatched.
+	   *
+	   * Note that, if you use a custom middleware, it may wrap `dispatch()` to
+	   * return something else (for example, a Promise you can await).
+	   */
+	  function dispatch(action) {
+	    if (!(0, _isPlainObject2["default"])(action)) {
+	      throw new Error('Actions must be plain objects. ' + 'Use custom middleware for async actions.');
+	    }
+
+	    if (typeof action.type === 'undefined') {
+	      throw new Error('Actions may not have an undefined "type" property. ' + 'Have you misspelled a constant?');
+	    }
+
+	    if (isDispatching) {
+	      throw new Error('Reducers may not dispatch actions.');
+	    }
+
+	    try {
+	      isDispatching = true;
+	      currentState = currentReducer(currentState, action);
+	    } finally {
+	      isDispatching = false;
+	    }
+
+	    var listeners = currentListeners = nextListeners;
+	    for (var i = 0; i < listeners.length; i++) {
+	      listeners[i]();
+	    }
+
+	    return action;
+	  }
+
+	  /**
+	   * Replaces the reducer currently used by the store to calculate the state.
+	   *
+	   * You might need this if your app implements code splitting and you want to
+	   * load some of the reducers dynamically. You might also need this if you
+	   * implement a hot reloading mechanism for Redux.
+	   *
+	   * @param {Function} nextReducer The reducer for the store to use instead.
+	   * @returns {void}
+	   */
+	  function replaceReducer(nextReducer) {
+	    if (typeof nextReducer !== 'function') {
+	      throw new Error('Expected the nextReducer to be a function.');
+	    }
+
+	    currentReducer = nextReducer;
+	    dispatch({ type: ActionTypes.INIT });
+	  }
+
+	  /**
+	   * Interoperability point for observable/reactive libraries.
+	   * @returns {observable} A minimal observable of state changes.
+	   * For more information, see the observable proposal:
+	   * https://github.com/zenparsing/es-observable
+	   */
+	  function observable() {
+	    var _ref;
+
+	    var outerSubscribe = subscribe;
+	    return _ref = {
+	      /**
+	       * The minimal observable subscription method.
+	       * @param {Object} observer Any object that can be used as an observer.
+	       * The observer object should have a `next` method.
+	       * @returns {subscription} An object with an `unsubscribe` method that can
+	       * be used to unsubscribe the observable from the store, and prevent further
+	       * emission of values from the observable.
+	       */
+
+	      subscribe: function subscribe(observer) {
+	        if (typeof observer !== 'object') {
+	          throw new TypeError('Expected the observer to be an object.');
+	        }
+
+	        function observeState() {
+	          if (observer.next) {
+	            observer.next(getState());
+	          }
+	        }
+
+	        observeState();
+	        var unsubscribe = outerSubscribe(observeState);
+	        return { unsubscribe: unsubscribe };
+	      }
+	    }, _ref[_symbolObservable2["default"]] = function () {
+	      return this;
+	    }, _ref;
+	  }
+
+	  // When a store is created, an "INIT" action is dispatched so that every
+	  // reducer returns their initial state. This effectively populates
+	  // the initial state tree.
+	  dispatch({ type: ActionTypes.INIT });
+
+	  return _ref2 = {
+	    dispatch: dispatch,
+	    subscribe: subscribe,
+	    getState: getState,
+	    replaceReducer: replaceReducer
+	  }, _ref2[_symbolObservable2["default"]] = observable, _ref2;
+	}
+
+/***/ },
+
+/***/ 42:
+/***/ function(module, exports, __webpack_require__) {
+
+	var getPrototype = __webpack_require__(43),
+	    isHostObject = __webpack_require__(44),
+	    isObjectLike = __webpack_require__(45);
+
+	/** `Object#toString` result references. */
+	var objectTag = '[object Object]';
+
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to resolve the decompiled source of functions. */
+	var funcToString = Function.prototype.toString;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/** Used to infer the `Object` constructor. */
+	var objectCtorString = funcToString.call(Object);
+
+	/**
+	 * Used to resolve the
+	 * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objectToString = objectProto.toString;
+
+	/**
+	 * Checks if `value` is a plain object, that is, an object created by the
+	 * `Object` constructor or one with a `[[Prototype]]` of `null`.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.8.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a plain object,
+	 *  else `false`.
+	 * @example
+	 *
+	 * function Foo() {
+	 *   this.a = 1;
+	 * }
+	 *
+	 * _.isPlainObject(new Foo);
+	 * // => false
+	 *
+	 * _.isPlainObject([1, 2, 3]);
+	 * // => false
+	 *
+	 * _.isPlainObject({ 'x': 0, 'y': 0 });
+	 * // => true
+	 *
+	 * _.isPlainObject(Object.create(null));
+	 * // => true
+	 */
+	function isPlainObject(value) {
+	  if (!isObjectLike(value) ||
+	      objectToString.call(value) != objectTag || isHostObject(value)) {
+	    return false;
+	  }
+	  var proto = getPrototype(value);
+	  if (proto === null) {
+	    return true;
+	  }
+	  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
+	  return (typeof Ctor == 'function' &&
+	    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
+	}
+
+	module.exports = isPlainObject;
+
+
+/***/ },
+
+/***/ 43:
+/***/ function(module, exports) {
+
+	/* Built-in method references for those with the same name as other `lodash` methods. */
+	var nativeGetPrototype = Object.getPrototypeOf;
+
+	/**
+	 * Gets the `[[Prototype]]` of `value`.
+	 *
+	 * @private
+	 * @param {*} value The value to query.
+	 * @returns {null|Object} Returns the `[[Prototype]]`.
+	 */
+	function getPrototype(value) {
+	  return nativeGetPrototype(Object(value));
+	}
+
+	module.exports = getPrototype;
+
+
+/***/ },
+
+/***/ 44:
+/***/ function(module, exports) {
+
+	/**
+	 * Checks if `value` is a host object in IE < 9.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+	 */
+	function isHostObject(value) {
+	  // Many host objects are `Object` objects that can coerce to strings
+	  // despite having improperly defined `toString` methods.
+	  var result = false;
+	  if (value != null && typeof value.toString != 'function') {
+	    try {
+	      result = !!(value + '');
+	    } catch (e) {}
+	  }
+	  return result;
+	}
+
+	module.exports = isHostObject;
+
+
+/***/ },
+
+/***/ 45:
+/***/ function(module, exports) {
+
+	/**
+	 * Checks if `value` is object-like. A value is object-like if it's not `null`
+	 * and has a `typeof` result of "object".
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 * @example
+	 *
+	 * _.isObjectLike({});
+	 * // => true
+	 *
+	 * _.isObjectLike([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObjectLike(_.noop);
+	 * // => false
+	 *
+	 * _.isObjectLike(null);
+	 * // => false
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+
+	module.exports = isObjectLike;
+
+
+/***/ },
+
+/***/ 46:
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {/* global window */
+	'use strict';
+
+	module.exports = __webpack_require__(47)(global || window || this);
+
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+
+/***/ 47:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function symbolObservablePonyfill(root) {
+		var result;
+		var Symbol = root.Symbol;
+
+		if (typeof Symbol === 'function') {
+			if (Symbol.observable) {
+				result = Symbol.observable;
+			} else {
+				result = Symbol('observable');
+				Symbol.observable = result;
+			}
+		} else {
+			result = '@@observable';
+		}
+
+		return result;
+	};
+
+
+/***/ },
+
+/***/ 48:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports["default"] = combineReducers;
+
+	var _createStore = __webpack_require__(41);
+
+	var _isPlainObject = __webpack_require__(42);
+
+	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
+
+	var _warning = __webpack_require__(49);
+
+	var _warning2 = _interopRequireDefault(_warning);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function getUndefinedStateErrorMessage(key, action) {
+	  var actionType = action && action.type;
+	  var actionName = actionType && '"' + actionType.toString() + '"' || 'an action';
+
+	  return 'Given action ' + actionName + ', reducer "' + key + '" returned undefined. ' + 'To ignore an action, you must explicitly return the previous state.';
+	}
+
+	function getUnexpectedStateShapeWarningMessage(inputState, reducers, action) {
+	  var reducerKeys = Object.keys(reducers);
+	  var argumentName = action && action.type === _createStore.ActionTypes.INIT ? 'initialState argument passed to createStore' : 'previous state received by the reducer';
+
+	  if (reducerKeys.length === 0) {
+	    return 'Store does not have a valid reducer. Make sure the argument passed ' + 'to combineReducers is an object whose values are reducers.';
+	  }
+
+	  if (!(0, _isPlainObject2["default"])(inputState)) {
+	    return 'The ' + argumentName + ' has unexpected type of "' + {}.toString.call(inputState).match(/\s([a-z|A-Z]+)/)[1] + '". Expected argument to be an object with the following ' + ('keys: "' + reducerKeys.join('", "') + '"');
+	  }
+
+	  var unexpectedKeys = Object.keys(inputState).filter(function (key) {
+	    return !reducers.hasOwnProperty(key);
+	  });
+
+	  if (unexpectedKeys.length > 0) {
+	    return 'Unexpected ' + (unexpectedKeys.length > 1 ? 'keys' : 'key') + ' ' + ('"' + unexpectedKeys.join('", "') + '" found in ' + argumentName + '. ') + 'Expected to find one of the known reducer keys instead: ' + ('"' + reducerKeys.join('", "') + '". Unexpected keys will be ignored.');
+	  }
+	}
+
+	function assertReducerSanity(reducers) {
+	  Object.keys(reducers).forEach(function (key) {
+	    var reducer = reducers[key];
+	    var initialState = reducer(undefined, { type: _createStore.ActionTypes.INIT });
+
+	    if (typeof initialState === 'undefined') {
+	      throw new Error('Reducer "' + key + '" returned undefined during initialization. ' + 'If the state passed to the reducer is undefined, you must ' + 'explicitly return the initial state. The initial state may ' + 'not be undefined.');
+	    }
+
+	    var type = '@@redux/PROBE_UNKNOWN_ACTION_' + Math.random().toString(36).substring(7).split('').join('.');
+	    if (typeof reducer(undefined, { type: type }) === 'undefined') {
+	      throw new Error('Reducer "' + key + '" returned undefined when probed with a random type. ' + ('Don\'t try to handle ' + _createStore.ActionTypes.INIT + ' or other actions in "redux/*" ') + 'namespace. They are considered private. Instead, you must return the ' + 'current state for any unknown actions, unless it is undefined, ' + 'in which case you must return the initial state, regardless of the ' + 'action type. The initial state may not be undefined.');
+	    }
+	  });
+	}
+
+	/**
+	 * Turns an object whose values are different reducer functions, into a single
+	 * reducer function. It will call every child reducer, and gather their results
+	 * into a single state object, whose keys correspond to the keys of the passed
+	 * reducer functions.
+	 *
+	 * @param {Object} reducers An object whose values correspond to different
+	 * reducer functions that need to be combined into one. One handy way to obtain
+	 * it is to use ES6 `import * as reducers` syntax. The reducers may never return
+	 * undefined for any action. Instead, they should return their initial state
+	 * if the state passed to them was undefined, and the current state for any
+	 * unrecognized action.
+	 *
+	 * @returns {Function} A reducer function that invokes every reducer inside the
+	 * passed object, and builds a state object with the same shape.
+	 */
+	function combineReducers(reducers) {
+	  var reducerKeys = Object.keys(reducers);
+	  var finalReducers = {};
+	  for (var i = 0; i < reducerKeys.length; i++) {
+	    var key = reducerKeys[i];
+	    if (typeof reducers[key] === 'function') {
+	      finalReducers[key] = reducers[key];
+	    }
+	  }
+	  var finalReducerKeys = Object.keys(finalReducers);
+
+	  var sanityError;
+	  try {
+	    assertReducerSanity(finalReducers);
+	  } catch (e) {
+	    sanityError = e;
+	  }
+
+	  return function combination() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var action = arguments[1];
+
+	    if (sanityError) {
+	      throw sanityError;
+	    }
+
+	    if (true) {
+	      var warningMessage = getUnexpectedStateShapeWarningMessage(state, finalReducers, action);
+	      if (warningMessage) {
+	        (0, _warning2["default"])(warningMessage);
+	      }
+	    }
+
+	    var hasChanged = false;
+	    var nextState = {};
+	    for (var i = 0; i < finalReducerKeys.length; i++) {
+	      var key = finalReducerKeys[i];
+	      var reducer = finalReducers[key];
+	      var previousStateForKey = state[key];
+	      var nextStateForKey = reducer(previousStateForKey, action);
+	      if (typeof nextStateForKey === 'undefined') {
+	        var errorMessage = getUndefinedStateErrorMessage(key, action);
+	        throw new Error(errorMessage);
+	      }
+	      nextState[key] = nextStateForKey;
+	      hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
+	    }
+	    return hasChanged ? nextState : state;
+	  };
+	}
+
+/***/ },
+
+/***/ 49:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports["default"] = warning;
+	/**
+	 * Prints a warning in the console if it exists.
+	 *
+	 * @param {String} message The warning message.
+	 * @returns {void}
+	 */
+	function warning(message) {
+	  /* eslint-disable no-console */
+	  if (typeof console !== 'undefined' && typeof console.error === 'function') {
+	    console.error(message);
+	  }
+	  /* eslint-enable no-console */
+	  try {
+	    // This error was thrown as a convenience so that if you enable
+	    // "break on all exceptions" in your console,
+	    // it would pause the execution at this line.
+	    throw new Error(message);
+	    /* eslint-disable no-empty */
+	  } catch (e) {}
+	  /* eslint-enable no-empty */
+	}
+
+/***/ },
+
+/***/ 50:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports["default"] = bindActionCreators;
+	function bindActionCreator(actionCreator, dispatch) {
+	  return function () {
+	    return dispatch(actionCreator.apply(undefined, arguments));
+	  };
+	}
+
+	/**
+	 * Turns an object whose values are action creators, into an object with the
+	 * same keys, but with every function wrapped into a `dispatch` call so they
+	 * may be invoked directly. This is just a convenience method, as you can call
+	 * `store.dispatch(MyActionCreators.doSomething())` yourself just fine.
+	 *
+	 * For convenience, you can also pass a single function as the first argument,
+	 * and get a function in return.
+	 *
+	 * @param {Function|Object} actionCreators An object whose values are action
+	 * creator functions. One handy way to obtain it is to use ES6 `import * as`
+	 * syntax. You may also pass a single function.
+	 *
+	 * @param {Function} dispatch The `dispatch` function available on your Redux
+	 * store.
+	 *
+	 * @returns {Function|Object} The object mimicking the original object, but with
+	 * every action creator wrapped into the `dispatch` call. If you passed a
+	 * function as `actionCreators`, the return value will also be a single
+	 * function.
+	 */
+	function bindActionCreators(actionCreators, dispatch) {
+	  if (typeof actionCreators === 'function') {
+	    return bindActionCreator(actionCreators, dispatch);
+	  }
+
+	  if (typeof actionCreators !== 'object' || actionCreators === null) {
+	    throw new Error('bindActionCreators expected an object or a function, instead received ' + (actionCreators === null ? 'null' : typeof actionCreators) + '. ' + 'Did you write "import ActionCreators from" instead of "import * as ActionCreators from"?');
+	  }
+
+	  var keys = Object.keys(actionCreators);
+	  var boundActionCreators = {};
+	  for (var i = 0; i < keys.length; i++) {
+	    var key = keys[i];
+	    var actionCreator = actionCreators[key];
+	    if (typeof actionCreator === 'function') {
+	      boundActionCreators[key] = bindActionCreator(actionCreator, dispatch);
+	    }
+	  }
+	  return boundActionCreators;
+	}
+
+/***/ },
+
+/***/ 51:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	exports["default"] = applyMiddleware;
+
+	var _compose = __webpack_require__(52);
+
+	var _compose2 = _interopRequireDefault(_compose);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	/**
+	 * Creates a store enhancer that applies middleware to the dispatch method
+	 * of the Redux store. This is handy for a variety of tasks, such as expressing
+	 * asynchronous actions in a concise manner, or logging every action payload.
+	 *
+	 * See `redux-thunk` package as an example of the Redux middleware.
+	 *
+	 * Because middleware is potentially asynchronous, this should be the first
+	 * store enhancer in the composition chain.
+	 *
+	 * Note that each middleware will be given the `dispatch` and `getState` functions
+	 * as named arguments.
+	 *
+	 * @param {...Function} middlewares The middleware chain to be applied.
+	 * @returns {Function} A store enhancer applying the middleware.
+	 */
+	function applyMiddleware() {
+	  for (var _len = arguments.length, middlewares = Array(_len), _key = 0; _key < _len; _key++) {
+	    middlewares[_key] = arguments[_key];
+	  }
+
+	  return function (createStore) {
+	    return function (reducer, initialState, enhancer) {
+	      var store = createStore(reducer, initialState, enhancer);
+	      var _dispatch = store.dispatch;
+	      var chain = [];
+
+	      var middlewareAPI = {
+	        getState: store.getState,
+	        dispatch: function dispatch(action) {
+	          return _dispatch(action);
+	        }
+	      };
+	      chain = middlewares.map(function (middleware) {
+	        return middleware(middlewareAPI);
+	      });
+	      _dispatch = _compose2["default"].apply(undefined, chain)(store.dispatch);
+
+	      return _extends({}, store, {
+	        dispatch: _dispatch
+	      });
+	    };
+	  };
+	}
+
+/***/ },
+
+/***/ 52:
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+	exports["default"] = compose;
+	/**
+	 * Composes single-argument functions from right to left. The rightmost
+	 * function can take multiple arguments as it provides the signature for
+	 * the resulting composite function.
+	 *
+	 * @param {...Function} funcs The functions to compose.
+	 * @returns {Function} A function obtained by composing the argument functions
+	 * from right to left. For example, compose(f, g, h) is identical to doing
+	 * (...args) => f(g(h(...args))).
+	 */
+
+	function compose() {
+	  for (var _len = arguments.length, funcs = Array(_len), _key = 0; _key < _len; _key++) {
+	    funcs[_key] = arguments[_key];
+	  }
+
+	  if (funcs.length === 0) {
+	    return function (arg) {
+	      return arg;
+	    };
+	  } else {
+	    var _ret = function () {
+	      var last = funcs[funcs.length - 1];
+	      var rest = funcs.slice(0, -1);
+	      return {
+	        v: function v() {
+	          return rest.reduceRight(function (composed, f) {
+	            return f(composed);
+	          }, last.apply(undefined, arguments));
+	        }
+	      };
+	    }();
+
+	    if (typeof _ret === "object") return _ret.v;
+	  }
+	}
+
+/***/ },
+
+/***/ 53:
+/***/ function(module, exports) {
+
+	/**
+	 * Copyright 2015, Yahoo! Inc.
+	 * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
+	 */
+	'use strict';
+
+	var REACT_STATICS = {
+	    childContextTypes: true,
+	    contextTypes: true,
+	    defaultProps: true,
+	    displayName: true,
+	    getDefaultProps: true,
+	    mixins: true,
+	    propTypes: true,
+	    type: true
+	};
+
+	var KNOWN_STATICS = {
+	    name: true,
+	    length: true,
+	    prototype: true,
+	    caller: true,
+	    arguments: true,
+	    arity: true
+	};
+
+	var isGetOwnPropertySymbolsAvailable = typeof Object.getOwnPropertySymbols === 'function';
+
+	module.exports = function hoistNonReactStatics(targetComponent, sourceComponent, customStatics) {
+	    if (typeof sourceComponent !== 'string') { // don't hoist over string (html) components
+	        var keys = Object.getOwnPropertyNames(sourceComponent);
+
+	        /* istanbul ignore else */
+	        if (isGetOwnPropertySymbolsAvailable) {
+	            keys = keys.concat(Object.getOwnPropertySymbols(sourceComponent));
+	        }
+
+	        for (var i = 0; i < keys.length; ++i) {
+	            if (!REACT_STATICS[keys[i]] && !KNOWN_STATICS[keys[i]] && (!customStatics || !customStatics[keys[i]])) {
+	                try {
+	                    targetComponent[keys[i]] = sourceComponent[keys[i]];
+	                } catch (error) {
+
+	                }
+	            }
+	        }
+	    }
+
+	    return targetComponent;
+	};
+
+
+/***/ },
+
+/***/ 54:
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
+
+	'use strict';
+
+	/**
+	 * Use invariant() to assert state which your program assumes to be true.
+	 *
+	 * Provide sprintf-style format (only %s is supported) and arguments
+	 * to provide information about what broke and what you were
+	 * expecting.
+	 *
+	 * The invariant message will be stripped in production, but the invariant
+	 * will remain to ensure logic does not differ in production.
+	 */
+
+	var invariant = function(condition, format, a, b, c, d, e, f) {
+	  if (true) {
+	    if (format === undefined) {
+	      throw new Error('invariant requires an error message argument');
+	    }
+	  }
+
+	  if (!condition) {
+	    var error;
+	    if (format === undefined) {
+	      error = new Error(
+	        'Minified exception occurred; use the non-minified dev environment ' +
+	        'for the full error message and additional helpful warnings.'
+	      );
+	    } else {
+	      var args = [a, b, c, d, e, f];
+	      var argIndex = 0;
+	      error = new Error(
+	        format.replace(/%s/g, function() { return args[argIndex++]; })
+	      );
+	      error.name = 'Invariant Violation';
+	    }
+
+	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    throw error;
+	  }
+	};
+
+	module.exports = invariant;
+
+
+/***/ },
+
+/***/ 55:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.$if = $if;
+	exports.$ifEnter = $ifEnter;
+	exports.normalizePhone = normalizePhone;
+	function $if(cond, result) {
+	    var alt = arguments.length <= 2 || arguments[2] === undefined ? '' : arguments[2];
+
+	    return cond ? result : alt;
+	}
+
+	function $ifEnter(handler) {
+	    return function (e) {
+	        if (e.key === 'Enter') handler(e);
+	    };
+	}
+
+	function normalizePhone(number) {
+	    if (!number) throw new Error('Argument number is false');
+
+	    var digits = number.match(/\d/g);
+	    if (!digits || !digits.length) {
+	        throw new Error('Invalid number');
+	    }
+
+	    if (digits.length === 10 && digits[0] != '7') {
+	        digits.unshift('7');
+	    }
+
+	    if (digits.length !== 11) {
+	        throw new Error('Invalid number');
+	    }
+
+	    var str = digits.join();
+	    return '+7(' + str.substr(1, 3) + ') - ' + str.substr(4, 3) + ' - ' + str.substr(7, 2) + ' - ' + str.substr(9, 2);
+	}
+
+/***/ },
+
+/***/ 56:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = undefined;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactInputMask = __webpack_require__(57);
+
+	var _reactInputMask2 = _interopRequireDefault(_reactInputMask);
+
+	var _reactHelpers = __webpack_require__(55);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _default(_ref) {
+	    var number = _ref.number;
+	    var waiting = _ref.waiting;
+	    var message = _ref.message;
+	    var disabled = _ref.disabled;
+	    var _onChange = _ref.onChange;
+	    var onSend = _ref.onSend;
+
+	    return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'form-group' },
+	            _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'phoneInput' },
+	                'Введите мобильный телефон, указанный вами при регистрации'
+	            )
+	        ),
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'form-group ' + (0, _reactHelpers.$if)(message, 'has-error') },
+	            _react2.default.createElement(
+	                'span',
+	                { className: 'form-control country-code' },
+	                '+7'
+	            ),
+	            _react2.default.createElement(_reactInputMask2.default, {
+	                autoFocus: true,
+	                type: 'tel', id: 'phoneInput', className: 'form-control',
+	                mask: '(999) 999 - 99 - 99', placeholder: '(___) ___ - __ - __', maskChar: null,
+	                onKeyPress: function onKeyPress(e) {
+	                    return onSend(number);
+	                },
+	                disabled: disabled || waiting,
+	                onChange: function onChange(e) {
+	                    return _onChange('+7' + e.target.value);
+	                } }),
+	            _react2.default.createElement(
+	                'span',
+	                { className: 'help-block' },
+	                message
+	            )
+	        ),
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'form-group' },
+	            _react2.default.createElement(
+	                'button',
+	                {
+	                    type: 'button', className: 'btn btn-primary',
+	                    onClick: function onClick() {
+	                        return onSend(number);
+	                    }, disabled: waiting },
+	                (0, _reactHelpers.$if)(!waiting, "Подтвердите", "Подтверждение...")
+	            )
+	        )
+	    );
+	}
+	exports.default = _default;
+
+/***/ },
+
+/***/ 57:
+/***/ function(module, exports, __webpack_require__) {
+
+	// https://github.com/sanniassin/react-input-mask
+
+	"use strict";
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+	var React = __webpack_require__(2);
+
+	var InputElement = React.createClass({
+	    displayName: "InputElement",
+
+	    defaultCharsRules: {
+	        "9": "[0-9]",
+	        "a": "[A-Za-z]",
+	        "*": "[A-Za-z0-9]"
+	    },
+	    defaultMaskChar: "_",
+	    lastCaretPos: null,
+	    isAndroidBrowser: function () {
+	        var windows = new RegExp("windows", "i");
+	        var firefox = new RegExp("firefox", "i");
+	        var android = new RegExp("android", "i");
+	        var ua = navigator.userAgent;
+	        return !windows.test(ua) && !firefox.test(ua) && android.test(ua);
+	    },
+	    isWindowsPhoneBrowser: function () {
+	        var windows = new RegExp("windows", "i");
+	        var phone = new RegExp("phone", "i");
+	        var ua = navigator.userAgent;
+	        return windows.test(ua) && phone.test(ua);
+	    },
+	    isAndroidFirefox: function () {
+	        var windows = new RegExp("windows", "i");
+	        var firefox = new RegExp("firefox", "i");
+	        var android = new RegExp("android", "i");
+	        var ua = navigator.userAgent;
+	        return !windows.test(ua) && firefox.test(ua) && android.test(ua);
+	    },
+	    isDOMElement: function (element) {
+	        return typeof HTMLElement === "object" ? element instanceof HTMLElement // DOM2
+	        : element.nodeType === 1 && typeof element.nodeName === "string";
+	    },
+	    // getDOMNode is deprecated but we need it to stay compatible with React 0.12
+	    getInputDOMNode: function () {
+	        var input = this.refs.input;
+
+	        if (!input) {
+	            return null;
+	        }
+
+	        // React 0.14
+	        if (this.isDOMElement(input)) {
+	            return input;
+	        }
+
+	        return input.getDOMNode();
+	    },
+	    enableValueAccessors: function () {
+	        var _this = this;
+
+	        var canUseAccessors = !!(Object.getOwnPropertyDescriptor && Object.getPrototypeOf && Object.defineProperty);
+	        if (canUseAccessors) {
+	            var input = this.getInputDOMNode();
+	            this.valueDescriptor = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(input), 'value');
+	            Object.defineProperty(input, 'value', {
+	                configurable: true,
+	                enumerable: true,
+	                get: function () {
+	                    return _this.value;
+	                },
+	                set: function (val) {
+	                    _this.value = val;
+	                    _this.valueDescriptor.set.call(input, val);
+	                }
+	            });
+	        }
+	    },
+	    disableValueAccessors: function () {
+	        var valueDescriptor = this.valueDescriptor;
+
+	        if (!valueDescriptor) {
+	            return;
+	        }
+	        this.valueDescriptor = null;
+	        var input = this.getInputDOMNode();
+	        Object.defineProperty(input, 'value', valueDescriptor);
+	    },
+	    getInputValue: function () {
+	        var input = this.getInputDOMNode();
+	        var valueDescriptor = this.valueDescriptor;
+
+	        var value;
+	        if (valueDescriptor) {
+	            value = valueDescriptor.get.call(input);
+	        } else {
+	            value = input.value;
+	        }
+
+	        return value;
+	    },
+	    getPrefix: function () {
+	        var prefix = "";
+	        var mask = this.mask;
+
+	        for (var i = 0; i < mask.length && this.isPermanentChar(i); ++i) {
+	            prefix += mask[i];
+	        }
+	        return prefix;
+	    },
+	    getFilledLength: function () {
+	        var value = arguments.length <= 0 || arguments[0] === undefined ? this.state.value : arguments[0];
+
+	        var i;
+	        var maskChar = this.maskChar;
+
+	        if (!maskChar) {
+	            return value.length;
+	        }
+
+	        for (i = value.length - 1; i >= 0; --i) {
+	            var character = value[i];
+	            if (!this.isPermanentChar(i) && this.isAllowedChar(character, i)) {
+	                break;
+	            }
+	        }
+
+	        return ++i || this.getPrefix().length;
+	    },
+	    getLeftEditablePos: function (pos) {
+	        for (var i = pos; i >= 0; --i) {
+	            if (!this.isPermanentChar(i)) {
+	                return i;
+	            }
+	        }
+	        return null;
+	    },
+	    getRightEditablePos: function (pos) {
+	        var mask = this.mask;
+
+	        for (var i = pos; i < mask.length; ++i) {
+	            if (!this.isPermanentChar(i)) {
+	                return i;
+	            }
+	        }
+	        return null;
+	    },
+	    isEmpty: function () {
+	        var _this2 = this;
+
+	        var value = arguments.length <= 0 || arguments[0] === undefined ? this.state.value : arguments[0];
+
+	        return !value.split("").some(function (character, i) {
+	            return !_this2.isPermanentChar(i) && _this2.isAllowedChar(character, i);
+	        });
+	    },
+	    isFilled: function () {
+	        var value = arguments.length <= 0 || arguments[0] === undefined ? this.state.value : arguments[0];
+
+	        return this.getFilledLength(value) === this.mask.length;
+	    },
+	    createFilledArray: function (length, val) {
+	        var array = [];
+	        for (var i = 0; i < length; i++) {
+	            array[i] = val;
+	        }
+	        return array;
+	    },
+	    formatValue: function (value) {
+	        var _this3 = this;
+
+	        var maskChar = this.maskChar;
+	        var mask = this.mask;
+
+	        if (!maskChar) {
+	            var prefix = this.getPrefix();
+	            var prefixLen = prefix.length;
+	            value = this.insertRawSubstr("", value, 0);
+	            while (value.length > prefixLen && this.isPermanentChar(value.length - 1)) {
+	                value = value.slice(0, value.length - 1);
+	            }
+
+	            if (value.length < prefixLen) {
+	                value = prefix;
+	            }
+
+	            return value;
+	        }
+	        if (value) {
+	            var emptyValue = this.formatValue("");
+	            return this.insertRawSubstr(emptyValue, value, 0);
+	        }
+	        return value.split("").concat(this.createFilledArray(mask.length - value.length, null)).map(function (character, pos) {
+	            if (_this3.isAllowedChar(character, pos)) {
+	                return character;
+	            } else if (_this3.isPermanentChar(pos)) {
+	                return mask[pos];
+	            }
+	            return maskChar;
+	        }).join("");
+	    },
+	    clearRange: function (value, start, len) {
+	        var _this4 = this;
+
+	        var end = start + len;
+	        var maskChar = this.maskChar;
+	        var mask = this.mask;
+
+	        if (!maskChar) {
+	            var prefixLen = this.getPrefix().length;
+	            value = value.split("").filter(function (character, i) {
+	                return i < prefixLen || i < start || i >= end;
+	            }).join("");
+	            return this.formatValue(value);
+	        }
+	        return value.split("").map(function (character, i) {
+	            if (i < start || i >= end) {
+	                return character;
+	            }
+	            if (_this4.isPermanentChar(i)) {
+	                return mask[i];
+	            }
+	            return maskChar;
+	        }).join("");
+	    },
+	    replaceSubstr: function (value, newSubstr, pos) {
+	        return value.slice(0, pos) + newSubstr + value.slice(pos + newSubstr.length);
+	    },
+	    insertRawSubstr: function (value, substr, pos) {
+	        var mask = this.mask;
+	        var maskChar = this.maskChar;
+
+	        var isFilled = this.isFilled(value);
+	        var prefixLen = this.getPrefix().length;
+	        substr = substr.split("");
+
+	        if (!maskChar && pos > value.length) {
+	            value += mask.slice(value.length, pos);
+	        }
+
+	        for (var i = pos; i < mask.length && substr.length;) {
+	            var isPermanent = this.isPermanentChar(i);
+	            if (!isPermanent || mask[i] === substr[0]) {
+	                var character = substr.shift();
+	                if (this.isAllowedChar(character, i, true)) {
+	                    if (i < value.length) {
+	                        if (maskChar || isFilled || i < prefixLen) {
+	                            value = this.replaceSubstr(value, character, i);
+	                        } else {
+	                            value = this.formatValue(value.substr(0, i) + character + value.substr(i));
+	                        }
+	                    } else if (!maskChar) {
+	                        value += character;
+	                    }
+	                    ++i;
+	                }
+	            } else {
+	                if (!maskChar && i >= value.length) {
+	                    value += mask[i];
+	                } else if (maskChar && isPermanent && substr[0] === maskChar) {
+	                    substr.shift();
+	                }
+	                ++i;
+	            }
+	        }
+	        return value;
+	    },
+	    getRawSubstrLength: function (value, substr, pos) {
+	        var mask = this.mask;
+	        var maskChar = this.maskChar;
+
+	        substr = substr.split("");
+	        for (var i = pos; i < mask.length && substr.length;) {
+	            if (!this.isPermanentChar(i) || mask[i] === substr[0]) {
+	                var character = substr.shift();
+	                if (this.isAllowedChar(character, i, true)) {
+	                    ++i;
+	                }
+	            } else {
+	                ++i;
+	            }
+	        }
+	        return i - pos;
+	    },
+	    isAllowedChar: function (character, pos) {
+	        var allowMaskChar = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+	        var mask = this.mask;
+	        var maskChar = this.maskChar;
+
+	        if (this.isPermanentChar(pos)) {
+	            return mask[pos] === character;
+	        }
+	        var ruleChar = mask[pos];
+	        var charRule = this.charsRules[ruleChar];
+	        return new RegExp(charRule).test(character || "") || allowMaskChar && character === maskChar;
+	    },
+	    isPermanentChar: function (pos) {
+	        return this.permanents.indexOf(pos) !== -1;
+	    },
+	    setCaretToEnd: function () {
+	        var filledLen = this.getFilledLength();
+	        var pos = this.getRightEditablePos(filledLen);
+	        if (pos !== null) {
+	            this.setCaretPos(pos);
+	        }
+	    },
+	    setSelection: function (start) {
+	        var len = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
+
+	        var input = this.getInputDOMNode();
+	        if (!input) {
+	            return;
+	        }
+
+	        var end = start + len;
+	        if ("selectionStart" in input && "selectionEnd" in input) {
+	            input.selectionStart = start;
+	            input.selectionEnd = end;
+	        } else {
+	            var range = input.createTextRange();
+	            range.collapse(true);
+	            range.moveStart("character", start);
+	            range.moveEnd("character", end - start);
+	            range.select();
+	        }
+	    },
+	    getSelection: function () {
+	        var input = this.getInputDOMNode();
+	        var start = 0;
+	        var end = 0;
+
+	        if ("selectionStart" in input && "selectionEnd" in input) {
+	            start = input.selectionStart;
+	            end = input.selectionEnd;
+	        } else {
+	            var range = document.selection.createRange();
+	            if (range.parentElement() === input) {
+	                start = -range.moveStart("character", -input.value.length);
+	                end = -range.moveEnd("character", -input.value.length);
+	            }
+	        }
+
+	        return {
+	            start: start,
+	            end: end,
+	            length: end - start
+	        };
+	    },
+	    getCaretPos: function () {
+	        return this.getSelection().start;
+	    },
+	    setCaretPos: function (pos) {
+	        var raf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (fn) {
+	            return setTimeout(fn, 0);
+	        };
+
+	        var setPos = this.setSelection.bind(this, pos, 0);
+
+	        setPos();
+	        raf(setPos);
+
+	        this.lastCaretPos = pos;
+	    },
+	    isFocused: function () {
+	        return document.activeElement === this.getInputDOMNode();
+	    },
+	    parseMask: function (mask) {
+	        var _this5 = this;
+
+	        if (!mask || typeof mask !== "string") {
+	            return {
+	                mask: null,
+	                lastEditablePos: null,
+	                permanents: []
+	            };
+	        }
+	        var str = "";
+	        var permanents = [];
+	        var isPermanent = false;
+	        var lastEditablePos = null;
+
+	        mask.split("").forEach(function (character) {
+	            if (!isPermanent && character === "\\") {
+	                isPermanent = true;
+	            } else {
+	                if (isPermanent || !_this5.charsRules[character]) {
+	                    permanents.push(str.length);
+	                } else {
+	                    lastEditablePos = str.length;
+	                }
+	                str += character;
+	                isPermanent = false;
+	            }
+	        });
+
+	        return {
+	            mask: str,
+	            lastEditablePos: lastEditablePos,
+	            permanents: permanents
+	        };
+	    },
+	    getStringValue: function (value) {
+	        return !value && value !== 0 ? "" : value + "";
+	    },
+	    getInitialState: function () {
+	        this.hasValue = this.props.value != null;
+	        this.charsRules = "formatChars" in this.props ? this.props.formatChars : this.defaultCharsRules;
+
+	        var mask = this.parseMask(this.props.mask);
+	        var defaultValue = this.props.defaultValue != null ? this.props.defaultValue : '';
+	        var value = this.props.value != null ? this.props.value : defaultValue;
+
+	        value = this.getStringValue(value);
+
+	        this.mask = mask.mask;
+	        this.permanents = mask.permanents;
+	        this.lastEditablePos = mask.lastEditablePos;
+	        this.maskChar = "maskChar" in this.props ? this.props.maskChar : this.defaultMaskChar;
+
+	        if (this.mask && (this.props.alwaysShowMask || value)) {
+	            value = this.formatValue(value);
+	        }
+
+	        return { value: value };
+	    },
+	    componentWillMount: function () {
+	        var mask = this.mask;
+	        var value = this.state.value;
+
+	        if (mask && value) {
+	            this.setState({ value: value });
+	        }
+	    },
+	    componentWillReceiveProps: function (nextProps) {
+	        this.hasValue = this.props.value != null;
+	        this.charsRules = "formatChars" in nextProps ? nextProps.formatChars : this.defaultCharsRules;
+
+	        var oldMask = this.mask;
+	        var mask = this.parseMask(nextProps.mask);
+	        var isMaskChanged = mask.mask && mask.mask !== this.mask;
+
+	        this.mask = mask.mask;
+	        this.permanents = mask.permanents;
+	        this.lastEditablePos = mask.lastEditablePos;
+	        this.maskChar = "maskChar" in nextProps ? nextProps.maskChar : this.defaultMaskChar;
+
+	        if (!this.mask) {
+	            return;
+	        }
+
+	        var newValue = nextProps.value != null ? this.getStringValue(nextProps.value) : this.state.value;
+
+	        if (!oldMask && nextProps.value == null) {
+	            newValue = this.getInputDOMNode().value;
+	        }
+
+	        var showEmpty = nextProps.alwaysShowMask || this.isFocused();
+	        if (isMaskChanged || mask.mask && (newValue || showEmpty && !this.hasValue)) {
+	            newValue = this.formatValue(newValue);
+
+	            if (isMaskChanged) {
+	                var pos = this.lastCaretPos;
+	                var filledLen = this.getFilledLength(newValue);
+	                if (filledLen < pos) {
+	                    this.setCaretPos(this.getRightEditablePos(filledLen));
+	                }
+	            }
+	        }
+	        if (mask.mask && this.isEmpty(newValue) && !showEmpty && !this.hasValue) {
+	            newValue = "";
+	        }
+	        this.value = newValue;
+	        if (this.state.value !== newValue) {
+	            this.setState({ value: newValue });
+	        }
+	    },
+	    componentDidUpdate: function (prevProps, prevState) {
+	        if ((this.mask || prevProps.mask) && this.props.value == null) {
+	            this.updateUncontrolledInput();
+	        }
+	    },
+	    updateUncontrolledInput: function () {
+	        if (this.getInputDOMNode().value !== this.state.value) {
+	            this.getInputDOMNode().value = this.state.value;
+	        }
+	    },
+	    onKeyDown: function (event) {
+	        var hasHandler = typeof this.props.onKeyDown === "function";
+	        if (event.ctrlKey || event.metaKey) {
+	            if (hasHandler) {
+	                this.props.onKeyDown(event);
+	            }
+	            return;
+	        }
+
+	        var caretPos = this.getCaretPos();
+	        var value = this.state.value;
+	        var key = event.key;
+	        var preventDefault = false;
+	        switch (key) {
+	            case "Backspace":
+	            case "Delete":
+	                var prefixLen = this.getPrefix().length;
+	                var deleteFromRight = key === "Delete";
+	                var selectionRange = this.getSelection();
+	                if (selectionRange.length) {
+	                    value = this.clearRange(value, selectionRange.start, selectionRange.length);
+	                } else if (caretPos < prefixLen || !deleteFromRight && caretPos === prefixLen) {
+	                    caretPos = prefixLen;
+	                } else {
+	                    var editablePos = deleteFromRight ? this.getRightEditablePos(caretPos) : this.getLeftEditablePos(caretPos - 1);
+	                    if (editablePos !== null) {
+	                        value = this.clearRange(value, editablePos, 1);
+	                        caretPos = editablePos;
+	                    }
+	                }
+	                preventDefault = true;
+	                break;
+	            default:
+	                break;
+	        }
+
+	        if (hasHandler) {
+	            this.props.onKeyDown(event);
+	        }
+
+	        if (value !== this.state.value) {
+	            event.target.value = value;
+	            this.setState({
+	                value: this.hasValue ? this.state.value : value
+	            });
+	            preventDefault = true;
+	            if (typeof this.props.onChange === "function") {
+	                this.props.onChange(event);
+	            }
+	        }
+	        if (preventDefault) {
+	            event.preventDefault();
+	            this.setCaretPos(caretPos);
+	        }
+	    },
+	    onKeyPress: function (event) {
+	        var key = event.key;
+	        var hasHandler = typeof this.props.onKeyPress === "function";
+	        if (key === "Enter" || event.ctrlKey || event.metaKey) {
+	            if (hasHandler) {
+	                this.props.onKeyPress(event);
+	            }
+	            return;
+	        }
+
+	        if (this.isWindowsPhoneBrowser) {
+	            return;
+	        }
+
+	        var caretPos = this.getCaretPos();
+	        var selection = this.getSelection();
+	        var value = this.state.value;
+	        var mask = this.mask;
+	        var maskChar = this.maskChar;
+	        var lastEditablePos = this.lastEditablePos;
+
+	        var maskLen = mask.length;
+	        var prefixLen = this.getPrefix().length;
+
+	        if (this.isPermanentChar(caretPos) && mask[caretPos] === key) {
+	            value = this.insertRawSubstr(value, key, caretPos);
+	            ++caretPos;
+	        } else {
+	            var editablePos = this.getRightEditablePos(caretPos);
+	            if (editablePos !== null && this.isAllowedChar(key, editablePos)) {
+	                value = this.clearRange(value, selection.start, selection.length);
+	                value = this.insertRawSubstr(value, key, editablePos);
+	                caretPos = editablePos + 1;
+	            }
+	        }
+
+	        if (value !== this.state.value) {
+	            event.target.value = value;
+	            this.setState({
+	                value: this.hasValue ? this.state.value : value
+	            });
+	            if (typeof this.props.onChange === "function") {
+	                this.props.onChange(event);
+	            }
+	        }
+	        event.preventDefault();
+	        if (caretPos < lastEditablePos && caretPos > prefixLen) {
+	            caretPos = this.getRightEditablePos(caretPos);
+	        }
+	        this.setCaretPos(caretPos);
+	    },
+	    onChange: function (event) {
+	        var _this6 = this;
+
+	        var pasteSelection = this.pasteSelection;
+	        var mask = this.mask;
+	        var maskChar = this.maskChar;
+	        var lastEditablePos = this.lastEditablePos;
+
+	        var target = event.target;
+	        var value = this.getInputValue();
+	        if (!value && this.preventEmptyChange) {
+	            this.disableValueAccessors();
+	            this.preventEmptyChange = false;
+	            target.value = this.state.value;
+	            return;
+	        }
+	        var oldValue = this.state.value;
+	        if (pasteSelection) {
+	            this.pasteSelection = null;
+	            this.pasteText(oldValue, value, pasteSelection, event);
+	            return;
+	        }
+	        var selection = this.getSelection();
+	        var caretPos = selection.end;
+	        var maskLen = mask.length;
+	        var valueLen = value.length;
+	        var oldValueLen = oldValue.length;
+	        var prefixLen = this.getPrefix().length;
+	        var clearedValue;
+
+	        if (valueLen > oldValueLen) {
+	            var substrLen = valueLen - oldValueLen;
+	            var startPos = selection.end - substrLen;
+	            var enteredSubstr = value.substr(startPos, substrLen);
+
+	            if (startPos < maskLen && (substrLen !== 1 || enteredSubstr !== mask[startPos])) {
+	                caretPos = this.getRightEditablePos(startPos);
+	            } else {
+	                caretPos = startPos;
+	            }
+
+	            value = value.substr(0, startPos) + value.substr(startPos + substrLen);
+
+	            clearedValue = this.clearRange(value, startPos, maskLen - startPos);
+	            clearedValue = this.insertRawSubstr(clearedValue, enteredSubstr, caretPos);
+
+	            value = this.insertRawSubstr(oldValue, enteredSubstr, caretPos);
+
+	            if (substrLen !== 1 || caretPos >= prefixLen && caretPos < lastEditablePos) {
+	                caretPos = this.getFilledLength(clearedValue);
+	            } else if (caretPos < lastEditablePos) {
+	                caretPos++;
+	            }
+	        } else if (valueLen < oldValueLen) {
+	            var removedLen = maskLen - valueLen;
+	            clearedValue = this.clearRange(oldValue, selection.end, removedLen);
+	            var substr = value.substr(0, selection.end);
+	            var clearOnly = substr === oldValue.substr(0, selection.end);
+
+	            if (maskChar) {
+	                value = this.insertRawSubstr(clearedValue, substr, 0);
+	            }
+
+	            clearedValue = this.clearRange(clearedValue, selection.end, maskLen - selection.end);
+	            clearedValue = this.insertRawSubstr(clearedValue, substr, 0);
+
+	            if (!clearOnly) {
+	                caretPos = this.getFilledLength(clearedValue);
+	            } else if (caretPos < prefixLen) {
+	                caretPos = prefixLen;
+	            }
+	        }
+	        value = this.formatValue(value);
+
+	        // prevent android autocomplete insertion on backspace
+	        // prevent hanging after first entered character on Windows 10 Mobile
+	        if (!this.isAndroidBrowser && !this.isWindowsPhoneBrowser) {
+	            target.value = value;
+
+	            if (value && !this.getInputValue()) {
+	                if (this.isAndroidFirefox) {
+	                    this.value = value;
+	                    this.enableValueAccessors();
+	                }
+	                this.preventEmptyChange = true;
+	                setTimeout(function () {
+	                    _this6.preventEmptyChange = false;
+	                    _this6.disableValueAccessors();
+	                }, 0);
+	            }
+	        }
+
+	        this.setState({
+	            value: this.hasValue ? this.state.value : value
+	        });
+
+	        if (typeof this.props.onChange === "function") {
+	            this.props.onChange(event);
+	        }
+	        this.setCaretPos(caretPos);
+	    },
+	    onFocus: function (event) {
+	        if (!this.state.value) {
+	            var prefix = this.getPrefix();
+	            var value = this.formatValue(prefix);
+	            event.target.value = this.formatValue(value);
+
+	            this.setState({
+	                value: this.hasValue ? this.state.value : value
+	            }, this.setCaretToEnd);
+
+	            if (typeof this.props.onChange === "function") {
+	                this.props.onChange(event);
+	            }
+	        } else if (this.getFilledLength() < this.mask.length) {
+	            this.setCaretToEnd();
+	        }
+
+	        if (typeof this.props.onFocus === "function") {
+	            this.props.onFocus(event);
+	        }
+	    },
+	    onBlur: function (event) {
+	        if (!this.props.alwaysShowMask && this.isEmpty(this.state.value)) {
+	            event.target.value = "";
+	            this.setState({
+	                value: this.hasValue ? this.state.value : ""
+	            });
+	            if (typeof this.props.onChange === "function") {
+	                this.props.onChange(event);
+	            }
+	        }
+
+	        if (typeof this.props.onBlur === "function") {
+	            this.props.onBlur(event);
+	        }
+	    },
+	    onPaste: function (event) {
+	        if (this.isAndroidBrowser) {
+	            this.pasteSelection = this.getSelection();
+	            event.target.value = "";
+	            return;
+	        }
+	        var text;
+	        if (window.clipboardData && window.clipboardData.getData) {
+	            // IE
+	            text = window.clipboardData.getData("Text");
+	        } else if (event.clipboardData && event.clipboardData.getData) {
+	            text = event.clipboardData.getData("text/plain");
+	        }
+	        if (text) {
+	            var value = this.state.value;
+	            var selection = this.getSelection();
+	            this.pasteText(value, text, selection, event);
+	        }
+	        event.preventDefault();
+	    },
+	    pasteText: function (value, text, selection, event) {
+	        var caretPos = selection.start;
+	        if (selection.length) {
+	            value = this.clearRange(value, caretPos, selection.length);
+	        }
+	        var textLen = this.getRawSubstrLength(value, text, caretPos);
+	        value = this.insertRawSubstr(value, text, caretPos);
+	        caretPos += textLen;
+	        caretPos = this.getRightEditablePos(caretPos) || caretPos;
+	        if (value !== this.getInputDOMNode().value) {
+	            if (event) {
+	                event.target.value = value;
+	            }
+	            this.setState({
+	                value: this.hasValue ? this.state.value : value
+	            });
+	            if (event && typeof this.props.onChange === "function") {
+	                this.props.onChange(event);
+	            }
+	        }
+	        this.setCaretPos(caretPos);
+	    },
+	    componentDidMount: function () {
+	        this.isAndroidBrowser = this.isAndroidBrowser();
+	        this.isWindowsPhoneBrowser = this.isWindowsPhoneBrowser();
+	        this.isAndroidFirefox = this.isAndroidFirefox();
+
+	        if (this.mask && this.props.value == null) {
+	            this.updateUncontrolledInput();
+	        }
+	    },
+	    render: function () {
+	        var _this7 = this;
+
+	        var _props = this.props;
+	        var mask = _props.mask;
+	        var alwaysShowMask = _props.alwaysShowMask;
+	        var maskChar = _props.maskChar;
+	        var formatChars = _props.formatChars;
+
+	        var props = _objectWithoutProperties(_props, ["mask", "alwaysShowMask", "maskChar", "formatChars"]);
+
+	        var componentKeys = ["mask", "alwaysShowMask", "maskChar", "formatChars"];
+	        if (this.mask) {
+	            var handlersKeys = ["onFocus", "onBlur", "onChange", "onKeyDown", "onKeyPress", "onPaste"];
+	            props = _extends({}, props);
+	            componentKeys.forEach(function (key) {
+	                delete props[key];
+	            });
+	            handlersKeys.forEach(function (key) {
+	                props[key] = _this7[key];
+	            });
+
+	            if (props.value != null) {
+	                props.value = this.state.value;
+	            }
+	        }
+	        return React.createElement("input", _extends({ ref: "input" }, props));
+	    }
+	});
+
+	module.exports = InputElement;
+
+/***/ },
+
+/***/ 58:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = undefined;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactHelpers = __webpack_require__(55);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _default(_ref) {
+	    var email = _ref.email;
+	    var _onChange = _ref.onChange;
+	    var onSend = _ref.onSend;
+	    var message = _ref.message;
+	    var waiting = _ref.waiting;
+	    var disabled = _ref.disabled;
+
+	    var isValid = /^[\w|\.|-]+@[\w|\.|-]+(\.\w+)+$/.test(email);
+
+	    return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'form-group' },
+	            _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'emailInput' },
+	                'Введите e-mail, указанный вами при регистрации'
+	            )
+	        ),
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'form-group ' + (0, _reactHelpers.$if)(message, 'has-error') },
+	            _react2.default.createElement('input', {
+	                autoFocus: true,
+	                className: 'form-control', id: 'emailInput', type: 'email',
+	                value: email, disabled: waiting || disabled,
+	                onChange: function onChange(e) {
+	                    return _onChange(e.target.value);
+	                },
+	                onKeyPress: (0, _reactHelpers.$ifEnter)(function (e) {
+	                    return onSend(email);
+	                }) }),
+	            _react2.default.createElement(
+	                'span',
+	                { className: 'help-block' },
+	                message
+	            )
+	        ),
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'form-group' },
+	            _react2.default.createElement(
+	                'button',
+	                {
+	                    type: 'button', className: 'btn btn-primary',
+	                    onClick: function onClick() {
+	                        return onSend(email);
+	                    }, disabled: waiting },
+	                (0, _reactHelpers.$if)(!waiting, "Подтвердите", "Подтверждение...")
+	            )
+	        )
+	    );
+	}
+	exports.default = _default;
+
+/***/ },
+
+/***/ 59:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	exports.default = function (_ref) {
+	    var waiting = _ref.waiting;
+	    var message = _ref.message;
+	    var way = _ref.way;
+	    var onConfirm = _ref.onConfirm;
+
+	    var code = void 0;
+
+	    return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'form-group' },
+	            _react2.default.createElement(
+	                'p',
+	                null,
+	                'На указанный вами ',
+	                way === 'phone' ? 'номер телефона отправлено СМС' : 'адрес отправлено сообщение',
+	                ' с кодом подтверждения.'
+	            ),
+	            _react2.default.createElement(
+	                'p',
+	                null,
+	                'Введите полученный код чтобы продолжить восстановление пароля.'
+	            )
+	        ),
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'form-group ' + (0, _reactHelpers.$if)(message, 'has-error') },
+	            _react2.default.createElement('input', {
+	                autoFocus: true,
+	                type: way === 'phone' ? 'number' : 'email',
+	                className: 'form-control', placeholder: 'Код из сообщения',
+	                ref: function ref(node) {
+	                    return code = node;
+	                },
+	                onKeyPress: (0, _reactHelpers.$ifEnter)(function (e) {
+	                    if (!waiting) onConfirm(e.target.value);
+	                }) }),
+	            _react2.default.createElement(
+	                'span',
+	                { className: 'help-block' },
+	                message
+	            )
+	        ),
+	        _react2.default.createElement(
+	            'button',
+	            {
+	                type: 'button', className: 'btn btn-primary',
+	                onClick: function onClick() {
+	                    return onConfirm(code.value);
+	                }, disabled: waiting },
+	            (0, _reactHelpers.$if)(!waiting, "Подтвердить", "Подтверждение...")
+	        )
+	    );
+	};
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactHelpers = __webpack_require__(55);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+
+/***/ 60:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	exports.default = function (_ref) {
+	    var passMessage = _ref.passMessage;
+	    var repeatMessage = _ref.repeatMessage;
+	    var waiting = _ref.waiting;
+	    var onSend = _ref.onSend;
+
+	    var pass = void 0;
+	    var repeat = void 0;
+
+	    return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'form-group ' + (0, _reactHelpers.$if)(passMessage, 'has-error') },
+	            _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'pass' },
+	                'Новый пароль'
+	            ),
+	            _react2.default.createElement('input', {
+	                type: 'password', id: 'pass', className: 'form-control',
+	                ref: function ref(node) {
+	                    return pass = node;
+	                },
+	                onKeyPress: (0, _reactHelpers.$ifEnter)(function () {
+	                    if (!waiting) onSend(pass.value, repeat.value);
+	                }) }),
+	            _react2.default.createElement(
+	                'span',
+	                { className: 'help-block' },
+	                passMessage
+	            )
+	        ),
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'form-group ' + (0, _reactHelpers.$if)(repeatMessage, 'has-error') },
+	            _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'repeatPass' },
+	                'Повторите пароль'
+	            ),
+	            _react2.default.createElement('input', {
+	                type: 'password', id: 'repeatPass', className: 'form-control',
+	                ref: function ref(node) {
+	                    return repeat = node;
+	                },
+	                onKeyPress: (0, _reactHelpers.$ifEnter)(function () {
+	                    if (!waiting) onSend(pass.value, repeat.value);
+	                }) }),
+	            _react2.default.createElement(
+	                'span',
+	                { className: 'help-block' },
+	                repeatMessage
+	            )
+	        ),
+	        _react2.default.createElement(
+	            'button',
+	            {
+	                type: 'button', className: 'btn btn-primary',
+	                onClick: function onClick() {
+	                    return onSend(pass.value, repeat.value);
+	                },
+	                disabled: waiting },
+	            (0, _reactHelpers.$if)(!waiting, 'Сохранить', 'Сохранение...')
+	        )
+	    );
+	};
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactHelpers = __webpack_require__(55);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+
+/***/ 61:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = undefined;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function WayChooser(_ref) {
+	    var way = _ref.way;
+	    var _onChange = _ref.onChange;
+
+	    return _react2.default.createElement(
+	        "div",
+	        { className: "form-group" },
+	        _react2.default.createElement(
+	            "div",
+	            { className: "radio" },
+	            _react2.default.createElement(
+	                "label",
+	                null,
+	                _react2.default.createElement("input", {
+	                    type: "radio", name: "optionsRadios",
+	                    id: "usePhone", value: "option2", checked: way === 'phone',
+	                    onChange: function onChange(e) {
+	                        if (e.target.checked) _onChange('phone');
+	                    } }),
+	                "По номеру мобильного телефона"
+	            )
+	        ),
+	        _react2.default.createElement(
+	            "div",
+	            { className: "radio" },
+	            _react2.default.createElement(
+	                "label",
+	                null,
+	                _react2.default.createElement("input", {
+	                    type: "radio", name: "optionsRadios",
+	                    id: "useEmail", value: "option1", checked: way === 'email',
+	                    onChange: function onChange(e) {
+	                        if (e.target.checked) _onChange('email');
+	                    } }),
+	                "По e-mail"
+	            )
+	        )
+	    );
+	}
+	exports.default = WayChooser;
+
+/***/ },
+
+/***/ 62:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.changePassword = exports.confirmCode = exports.sendCode = exports.changeNumber = exports.chooseWay = exports.validatePassword = exports.failChangePassword = exports.requestChangePassword = exports.failConfirmation = exports.codeConfirmed = exports.requestConfirmation = exports.receiveCodeId = exports.invalidNumber = exports.requestCode = undefined;
+
+	var _handleActions, _handleActions2, _handleActions3;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _redux = __webpack_require__(40);
+
+	var _reduxActions = __webpack_require__(63);
+
+	var _isomorphicFetch = __webpack_require__(69);
+
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	var _reactHelpers = __webpack_require__(55);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	var requestCode = exports.requestCode = (0, _reduxActions.createAction)('REQUEST_CODE');
+	var invalidNumber = exports.invalidNumber = (0, _reduxActions.createAction)('INVALID_NUMBER');
+	var receiveCodeId = exports.receiveCodeId = (0, _reduxActions.createAction)('RECEIVE_CODE_ID');
+	var requestConfirmation = exports.requestConfirmation = (0, _reduxActions.createAction)('REQUEST_CONFIRMATION');
+	var codeConfirmed = exports.codeConfirmed = (0, _reduxActions.createAction)('SUCCESS_CONFIRMATION');
+	var failConfirmation = exports.failConfirmation = (0, _reduxActions.createAction)('FAIL_CONFIRMATION');
+	var requestChangePassword = exports.requestChangePassword = (0, _reduxActions.createAction)('REQUEST_CHANGE_PASSWORD');
+	var failChangePassword = exports.failChangePassword = (0, _reduxActions.createAction)('FAIL_CHANGE_PASSWORD');
+	var validatePassword = exports.validatePassword = (0, _reduxActions.createAction)('VALIDATE_PASSWORD');
+	var chooseWay = exports.chooseWay = (0, _reduxActions.createAction)('CHOOSE_WAY');
+	var changeNumber = exports.changeNumber = (0, _reduxActions.createAction)('CHANGE_NUMBER');
+
+	var post = function post(url, data) {
+	    return (0, _isomorphicFetch2.default)(url, {
+	        method: 'POST',
+	        headers: {
+	            'Accept': 'application/json',
+	            'Content-Type': 'application/json'
+	        },
+	        body: JSON.stringify(data)
+	    });
+	};
+
+	var sendCode = exports.sendCode = function sendCode(number) {
+	    return function (dispatch, getState) {
+	        var way = getState().way;
+
+	        if (way === 'phone') {
+	            try {
+	                number = (0, _reactHelpers.normalizePhone)(number);
+	            } catch (ex) {
+	                dispatch(invalidNumber("Пожалуйста, заполните поле корректно"));
+	                return;
+	            }
+	        } else {
+	            var isValid = /^[\w|\.|-]+@[\w|\.|-]+(\.\w+)+$/.test(number);
+	            if (!isValid) {
+	                dispatch(invalidNumber("Пожалуйста, заполните поле корректно"));
+	                return;
+	            }
+	        }
+
+	        dispatch(requestCode(number));
+
+	        return post('/Recovery.aspx/SendCodeForPasswordChange', {
+	            number: number,
+	            type: way
+	        }).then(function (response) {
+	            return response.json();
+	        }).then(function (json) {
+	            var result = JSON.parse(json.d).SendCodeForPasswordChangeResult;
+
+	            if (result.Code == 0) {
+	                dispatch(receiveCodeId(result.CodeId));
+	            } else {
+	                dispatch(invalidNumber(result.Message));
+	            }
+	        }).catch(function (ex) {
+	            return console.error(ex);
+	        });
+	    };
+	};
+
+	var confirmCode = exports.confirmCode = function confirmCode(code) {
+	    return function (dispatch, getState) {
+	        dispatch(requestConfirmation(code));
+
+	        return post('/Recovery.aspx/VerifyCodeForPasswordChange', {
+	            codeId: getState().phone.codeId,
+	            code: code
+	        }).then(function (response) {
+	            return response.json();
+	        }).then(function (json) {
+	            var result = JSON.parse(json.d).VerifyCodeForPasswordChangeResult;
+
+	            if (result.Code == 0) {
+	                dispatch(codeConfirmed());
+	                return;
+	            }
+
+	            if (result.MaxAttemptsReached) {
+	                dispatch(failConfirmation('Превышено максимальное к-ство попыток'));
+	                return;
+	            }
+
+	            if (result.CodeExpired) {
+	                dispatch(failConfirmation('Время жизни кода истекло'));
+	                return;
+	            }
+
+	            dispatch(failConfirmation('Неправильный код подтверждения'));
+	        }).catch(function (ex) {
+	            return console.error(ex);
+	        });
+	    };
+	};
+
+	var changePassword = exports.changePassword = function changePassword(_ref) {
+	    var pass = _ref.pass;
+	    var repeat = _ref.repeat;
+
+	    return function (dispatch, getState) {
+	        dispatch(validatePassword({ pass: pass, repeat: repeat }));
+
+	        if (pass.trim().length === 0 || pass !== repeat) {
+	            return;
+	        }
+
+	        dispatch(requestChangePassword());
+
+	        var state = getState();
+	        return post('/Recovery.aspx/ChangePassword', {
+	            code: state.verification.code,
+	            codeId: state.phone.codeId,
+	            password: pass,
+	            type: 'phone'
+	        }).then(function (response) {
+	            return response.json();
+	        }).then(function (json) {
+	            var result = JSON.parse(json.d).ChangePasswordResult;
+
+	            if (result.Code == 0) {
+	                location.replace('signin.html');
+	            } else {
+	                dispatch(failChangePassword(result.Message));
+	            }
+	        }).catch(function (ex) {
+	            return console.error(ex);
+	        });
+	    };
+	};
+
+	var phone = (0, _reduxActions.handleActions)((_handleActions = {}, _defineProperty(_handleActions, changeNumber, function (state, action) {
+	    return _extends({}, state, {
+	        number: action.payload
+	    });
+	}), _defineProperty(_handleActions, requestCode, function (state, action) {
+	    return _extends({}, state, {
+	        waiting: true,
+	        number: action.payload,
+	        message: ''
+	    });
+	}), _defineProperty(_handleActions, invalidNumber, function (state, action) {
+	    return _extends({}, state, {
+	        message: action.payload,
+	        waiting: false
+	    });
+	}), _defineProperty(_handleActions, receiveCodeId, function (state, action) {
+	    return _extends({}, state, {
+	        codeId: action.payload,
+	        waiting: false
+	    });
+	}), _defineProperty(_handleActions, chooseWay, function (state) {
+	    return _extends({}, state, {
+	        number: ''
+	    });
+	}), _handleActions), {
+	    number: '',
+	    sent: false,
+	    message: '',
+	    codeId: '',
+	    waiting: false
+	});
+
+	var verification = (0, _reduxActions.handleActions)((_handleActions2 = {}, _defineProperty(_handleActions2, requestConfirmation, function (state, action) {
+	    return _extends({}, state, {
+	        waiting: true,
+	        code: action.payload
+	    });
+	}), _defineProperty(_handleActions2, codeConfirmed, function (state) {
+	    return _extends({}, state, {
+	        waiting: false,
+	        confirmed: true,
+	        message: ''
+	    });
+	}), _defineProperty(_handleActions2, failConfirmation, function (state, action) {
+	    return _extends({}, state, {
+	        waiting: false,
+	        message: action.payload
+	    });
+	}), _handleActions2), {
+	    code: '',
+	    confirmed: false,
+	    message: '',
+	    waiting: false
+	});
+
+	var password = (0, _reduxActions.handleActions)((_handleActions3 = {}, _defineProperty(_handleActions3, failChangePassword, function (state, action) {
+	    return _extends({}, state, {
+	        message: action.payload
+	    });
+	}), _defineProperty(_handleActions3, validatePassword, function (state, action) {
+	    return _extends({}, state, {
+	        passwordEmpty: action.payload.pass.trim().length === 0,
+	        repeatIncorrectly: action.payload.pass !== action.payload.repeat
+	    });
+	}), _defineProperty(_handleActions3, requestChangePassword, function (state) {
+	    return _extends({}, state, {
+	        waiting: true
+	    });
+	}), _defineProperty(_handleActions3, failChangePassword, function (state, action) {
+	    return _extends({}, state, {
+	        waiting: false,
+	        failMessage: action.payload
+	    });
+	}), _handleActions3), {
+	    passwordEmpty: false,
+	    repeatIncorrectly: false,
+	    failMessage: '',
+	    waiting: false
+	});
+
+	var way = (0, _reduxActions.handleAction)(chooseWay, function (state, action) {
+	    return action.payload || state;
+	}, 'phone');
+
+		exports.default = (0, _redux.combineReducers)({ phone: phone, verification: verification, password: password, way: way });
+
+/***/ },
+
+/***/ 63:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.handleActions = exports.handleAction = exports.createAction = undefined;
+
+	var _createAction = __webpack_require__(64);
+
+	var _createAction2 = _interopRequireDefault(_createAction);
+
+	var _handleAction = __webpack_require__(65);
+
+	var _handleAction2 = _interopRequireDefault(_handleAction);
+
+	var _handleActions = __webpack_require__(66);
+
+	var _handleActions2 = _interopRequireDefault(_handleActions);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.createAction = _createAction2.default;
+	exports.handleAction = _handleAction2.default;
+	exports.handleActions = _handleActions2.default;
+
+/***/ },
+
+/***/ 64:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = createAction;
+	function identity(t) {
+	  return t;
+	}
+
+	function createAction(type, actionCreator, metaCreator) {
+	  var finalActionCreator = typeof actionCreator === 'function' ? actionCreator : identity;
+
+	  var actionHandler = function actionHandler() {
+	    var hasError = (arguments.length <= 0 ? undefined : arguments[0]) instanceof Error;
+
+	    var action = {
+	      type: type
+	    };
+
+	    var payload = hasError ? arguments.length <= 0 ? undefined : arguments[0] : finalActionCreator.apply(undefined, arguments);
+	    if (!(payload === null || payload === undefined)) {
+	      action.payload = payload;
+	    }
+
+	    if (hasError) {
+	      // Handle FSA errors where the payload is an Error object. Set error.
+	      action.error = true;
+	    }
+
+	    if (typeof metaCreator === 'function') {
+	      action.meta = metaCreator.apply(undefined, arguments);
+	    }
+
+	    return action;
+	  };
+
+	  actionHandler.toString = function () {
+	    return type;
+	  };
+
+	  return actionHandler;
+	}
+
+/***/ },
+
+/***/ 65:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = handleAction;
+	function isFunction(val) {
+	  return typeof val === 'function';
+	}
+
+	function handleAction(type, reducers, defaultState) {
+	  var typeValue = isFunction(type) ? type.toString() : type;
+
+	  return function () {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? defaultState : arguments[0];
+	    var action = arguments[1];
+
+	    // If action type does not match, return previous state
+	    if (action.type !== typeValue) return state;
+
+	    var handlerKey = action.error === true ? 'throw' : 'next';
+
+	    // If function is passed instead of map, use as reducer
+	    if (isFunction(reducers)) {
+	      reducers.next = reducers.throw = reducers;
+	    }
+
+	    // Otherwise, assume an action map was passed
+	    var reducer = reducers[handlerKey];
+
+	    return isFunction(reducer) ? reducer(state, action) : state;
+	  };
+	}
+
+/***/ },
+
+/***/ 66:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = handleActions;
+
+	var _handleAction = __webpack_require__(65);
+
+	var _handleAction2 = _interopRequireDefault(_handleAction);
+
+	var _ownKeys = __webpack_require__(67);
+
+	var _ownKeys2 = _interopRequireDefault(_ownKeys);
+
+	var _reduceReducers = __webpack_require__(68);
+
+	var _reduceReducers2 = _interopRequireDefault(_reduceReducers);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function handleActions(handlers, defaultState) {
+	  var reducers = (0, _ownKeys2.default)(handlers).map(function (type) {
+	    return (0, _handleAction2.default)(type, handlers[type]);
+	  });
+	  var reducer = _reduceReducers2.default.apply(undefined, _toConsumableArray(reducers));
+
+	  return typeof defaultState !== 'undefined' ? function () {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? defaultState : arguments[0];
+	    var action = arguments[1];
+	    return reducer(state, action);
+	  } : reducer;
+	}
+
+/***/ },
+
+/***/ 67:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = ownKeys;
+	function ownKeys(object) {
+	  if (typeof Reflect !== 'undefined' && typeof Reflect.ownKeys === 'function') {
+	    return Reflect.ownKeys(object);
+	  }
+
+	  var keys = Object.getOwnPropertyNames(object);
+
+	  if (typeof Object.getOwnPropertySymbols === 'function') {
+	    keys = keys.concat(Object.getOwnPropertySymbols(object));
+	  }
+
+	  return keys;
+	}
+
+/***/ },
+
+/***/ 68:
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+	exports["default"] = reduceReducers;
+
+	function reduceReducers() {
+	  for (var _len = arguments.length, reducers = Array(_len), _key = 0; _key < _len; _key++) {
+	    reducers[_key] = arguments[_key];
+	  }
+
+	  return function (previous, current) {
+	    return reducers.reduce(function (p, r) {
+	      return r(p, current);
+	    }, previous);
+	  };
+	}
+
+	module.exports = exports["default"];
+
+/***/ },
+
+/***/ 69:
+/***/ function(module, exports, __webpack_require__) {
+
+	// the whatwg-fetch polyfill installs the fetch() function
+	// on the global object (window or self)
+	//
+	// Return that as the export for use in Webpack, Browserify etc.
+	__webpack_require__(70);
+	module.exports = self.fetch.bind(self);
+
+
+/***/ },
+
+/***/ 70:
+/***/ function(module, exports) {
+
+	(function(self) {
+	  'use strict';
+
+	  if (self.fetch) {
+	    return
+	  }
+
+	  var support = {
+	    searchParams: 'URLSearchParams' in self,
+	    iterable: 'Symbol' in self && 'iterator' in Symbol,
+	    blob: 'FileReader' in self && 'Blob' in self && (function() {
+	      try {
+	        new Blob()
+	        return true
+	      } catch(e) {
+	        return false
+	      }
+	    })(),
+	    formData: 'FormData' in self,
+	    arrayBuffer: 'ArrayBuffer' in self
+	  }
+
+	  function normalizeName(name) {
+	    if (typeof name !== 'string') {
+	      name = String(name)
+	    }
+	    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
+	      throw new TypeError('Invalid character in header field name')
+	    }
+	    return name.toLowerCase()
+	  }
+
+	  function normalizeValue(value) {
+	    if (typeof value !== 'string') {
+	      value = String(value)
+	    }
+	    return value
+	  }
+
+	  // Build a destructive iterator for the value list
+	  function iteratorFor(items) {
+	    var iterator = {
+	      next: function() {
+	        var value = items.shift()
+	        return {done: value === undefined, value: value}
+	      }
+	    }
+
+	    if (support.iterable) {
+	      iterator[Symbol.iterator] = function() {
+	        return iterator
+	      }
+	    }
+
+	    return iterator
+	  }
+
+	  function Headers(headers) {
+	    this.map = {}
+
+	    if (headers instanceof Headers) {
+	      headers.forEach(function(value, name) {
+	        this.append(name, value)
+	      }, this)
+
+	    } else if (headers) {
+	      Object.getOwnPropertyNames(headers).forEach(function(name) {
+	        this.append(name, headers[name])
+	      }, this)
+	    }
+	  }
+
+	  Headers.prototype.append = function(name, value) {
+	    name = normalizeName(name)
+	    value = normalizeValue(value)
+	    var list = this.map[name]
+	    if (!list) {
+	      list = []
+	      this.map[name] = list
+	    }
+	    list.push(value)
+	  }
+
+	  Headers.prototype['delete'] = function(name) {
+	    delete this.map[normalizeName(name)]
+	  }
+
+	  Headers.prototype.get = function(name) {
+	    var values = this.map[normalizeName(name)]
+	    return values ? values[0] : null
+	  }
+
+	  Headers.prototype.getAll = function(name) {
+	    return this.map[normalizeName(name)] || []
+	  }
+
+	  Headers.prototype.has = function(name) {
+	    return this.map.hasOwnProperty(normalizeName(name))
+	  }
+
+	  Headers.prototype.set = function(name, value) {
+	    this.map[normalizeName(name)] = [normalizeValue(value)]
+	  }
+
+	  Headers.prototype.forEach = function(callback, thisArg) {
+	    Object.getOwnPropertyNames(this.map).forEach(function(name) {
+	      this.map[name].forEach(function(value) {
+	        callback.call(thisArg, value, name, this)
+	      }, this)
+	    }, this)
+	  }
+
+	  Headers.prototype.keys = function() {
+	    var items = []
+	    this.forEach(function(value, name) { items.push(name) })
+	    return iteratorFor(items)
+	  }
+
+	  Headers.prototype.values = function() {
+	    var items = []
+	    this.forEach(function(value) { items.push(value) })
+	    return iteratorFor(items)
+	  }
+
+	  Headers.prototype.entries = function() {
+	    var items = []
+	    this.forEach(function(value, name) { items.push([name, value]) })
+	    return iteratorFor(items)
+	  }
+
+	  if (support.iterable) {
+	    Headers.prototype[Symbol.iterator] = Headers.prototype.entries
+	  }
+
+	  function consumed(body) {
+	    if (body.bodyUsed) {
+	      return Promise.reject(new TypeError('Already read'))
+	    }
+	    body.bodyUsed = true
+	  }
+
+	  function fileReaderReady(reader) {
+	    return new Promise(function(resolve, reject) {
+	      reader.onload = function() {
+	        resolve(reader.result)
+	      }
+	      reader.onerror = function() {
+	        reject(reader.error)
+	      }
+	    })
+	  }
+
+	  function readBlobAsArrayBuffer(blob) {
+	    var reader = new FileReader()
+	    reader.readAsArrayBuffer(blob)
+	    return fileReaderReady(reader)
+	  }
+
+	  function readBlobAsText(blob) {
+	    var reader = new FileReader()
+	    reader.readAsText(blob)
+	    return fileReaderReady(reader)
+	  }
+
+	  function Body() {
+	    this.bodyUsed = false
+
+	    this._initBody = function(body) {
+	      this._bodyInit = body
+	      if (typeof body === 'string') {
+	        this._bodyText = body
+	      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
+	        this._bodyBlob = body
+	      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
+	        this._bodyFormData = body
+	      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+	        this._bodyText = body.toString()
+	      } else if (!body) {
+	        this._bodyText = ''
+	      } else if (support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
+	        // Only support ArrayBuffers for POST method.
+	        // Receiving ArrayBuffers happens via Blobs, instead.
+	      } else {
+	        throw new Error('unsupported BodyInit type')
+	      }
+
+	      if (!this.headers.get('content-type')) {
+	        if (typeof body === 'string') {
+	          this.headers.set('content-type', 'text/plain;charset=UTF-8')
+	        } else if (this._bodyBlob && this._bodyBlob.type) {
+	          this.headers.set('content-type', this._bodyBlob.type)
+	        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+	          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8')
+	        }
+	      }
+	    }
+
+	    if (support.blob) {
+	      this.blob = function() {
+	        var rejected = consumed(this)
+	        if (rejected) {
+	          return rejected
+	        }
+
+	        if (this._bodyBlob) {
+	          return Promise.resolve(this._bodyBlob)
+	        } else if (this._bodyFormData) {
+	          throw new Error('could not read FormData body as blob')
+	        } else {
+	          return Promise.resolve(new Blob([this._bodyText]))
+	        }
+	      }
+
+	      this.arrayBuffer = function() {
+	        return this.blob().then(readBlobAsArrayBuffer)
+	      }
+
+	      this.text = function() {
+	        var rejected = consumed(this)
+	        if (rejected) {
+	          return rejected
+	        }
+
+	        if (this._bodyBlob) {
+	          return readBlobAsText(this._bodyBlob)
+	        } else if (this._bodyFormData) {
+	          throw new Error('could not read FormData body as text')
+	        } else {
+	          return Promise.resolve(this._bodyText)
+	        }
+	      }
+	    } else {
+	      this.text = function() {
+	        var rejected = consumed(this)
+	        return rejected ? rejected : Promise.resolve(this._bodyText)
+	      }
+	    }
+
+	    if (support.formData) {
+	      this.formData = function() {
+	        return this.text().then(decode)
+	      }
+	    }
+
+	    this.json = function() {
+	      return this.text().then(JSON.parse)
+	    }
+
+	    return this
+	  }
+
+	  // HTTP methods whose capitalization should be normalized
+	  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
+
+	  function normalizeMethod(method) {
+	    var upcased = method.toUpperCase()
+	    return (methods.indexOf(upcased) > -1) ? upcased : method
+	  }
+
+	  function Request(input, options) {
+	    options = options || {}
+	    var body = options.body
+	    if (Request.prototype.isPrototypeOf(input)) {
+	      if (input.bodyUsed) {
+	        throw new TypeError('Already read')
+	      }
+	      this.url = input.url
+	      this.credentials = input.credentials
+	      if (!options.headers) {
+	        this.headers = new Headers(input.headers)
+	      }
+	      this.method = input.method
+	      this.mode = input.mode
+	      if (!body) {
+	        body = input._bodyInit
+	        input.bodyUsed = true
+	      }
+	    } else {
+	      this.url = input
+	    }
+
+	    this.credentials = options.credentials || this.credentials || 'omit'
+	    if (options.headers || !this.headers) {
+	      this.headers = new Headers(options.headers)
+	    }
+	    this.method = normalizeMethod(options.method || this.method || 'GET')
+	    this.mode = options.mode || this.mode || null
+	    this.referrer = null
+
+	    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
+	      throw new TypeError('Body not allowed for GET or HEAD requests')
+	    }
+	    this._initBody(body)
+	  }
+
+	  Request.prototype.clone = function() {
+	    return new Request(this)
+	  }
+
+	  function decode(body) {
+	    var form = new FormData()
+	    body.trim().split('&').forEach(function(bytes) {
+	      if (bytes) {
+	        var split = bytes.split('=')
+	        var name = split.shift().replace(/\+/g, ' ')
+	        var value = split.join('=').replace(/\+/g, ' ')
+	        form.append(decodeURIComponent(name), decodeURIComponent(value))
+	      }
+	    })
+	    return form
+	  }
+
+	  function headers(xhr) {
+	    var head = new Headers()
+	    var pairs = (xhr.getAllResponseHeaders() || '').trim().split('\n')
+	    pairs.forEach(function(header) {
+	      var split = header.trim().split(':')
+	      var key = split.shift().trim()
+	      var value = split.join(':').trim()
+	      head.append(key, value)
+	    })
+	    return head
+	  }
+
+	  Body.call(Request.prototype)
+
+	  function Response(bodyInit, options) {
+	    if (!options) {
+	      options = {}
+	    }
+
+	    this.type = 'default'
+	    this.status = options.status
+	    this.ok = this.status >= 200 && this.status < 300
+	    this.statusText = options.statusText
+	    this.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers)
+	    this.url = options.url || ''
+	    this._initBody(bodyInit)
+	  }
+
+	  Body.call(Response.prototype)
+
+	  Response.prototype.clone = function() {
+	    return new Response(this._bodyInit, {
+	      status: this.status,
+	      statusText: this.statusText,
+	      headers: new Headers(this.headers),
+	      url: this.url
+	    })
+	  }
+
+	  Response.error = function() {
+	    var response = new Response(null, {status: 0, statusText: ''})
+	    response.type = 'error'
+	    return response
+	  }
+
+	  var redirectStatuses = [301, 302, 303, 307, 308]
+
+	  Response.redirect = function(url, status) {
+	    if (redirectStatuses.indexOf(status) === -1) {
+	      throw new RangeError('Invalid status code')
+	    }
+
+	    return new Response(null, {status: status, headers: {location: url}})
+	  }
+
+	  self.Headers = Headers
+	  self.Request = Request
+	  self.Response = Response
+
+	  self.fetch = function(input, init) {
+	    return new Promise(function(resolve, reject) {
+	      var request
+	      if (Request.prototype.isPrototypeOf(input) && !init) {
+	        request = input
+	      } else {
+	        request = new Request(input, init)
+	      }
+
+	      var xhr = new XMLHttpRequest()
+
+	      function responseURL() {
+	        if ('responseURL' in xhr) {
+	          return xhr.responseURL
+	        }
+
+	        // Avoid security warnings on getResponseHeader when not allowed by CORS
+	        if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
+	          return xhr.getResponseHeader('X-Request-URL')
+	        }
+
+	        return
+	      }
+
+	      xhr.onload = function() {
+	        var options = {
+	          status: xhr.status,
+	          statusText: xhr.statusText,
+	          headers: headers(xhr),
+	          url: responseURL()
+	        }
+	        var body = 'response' in xhr ? xhr.response : xhr.responseText
+	        resolve(new Response(body, options))
+	      }
+
+	      xhr.onerror = function() {
+	        reject(new TypeError('Network request failed'))
+	      }
+
+	      xhr.ontimeout = function() {
+	        reject(new TypeError('Network request failed'))
+	      }
+
+	      xhr.open(request.method, request.url, true)
+
+	      if (request.credentials === 'include') {
+	        xhr.withCredentials = true
+	      }
+
+	      if ('responseType' in xhr && support.blob) {
+	        xhr.responseType = 'blob'
+	      }
+
+	      request.headers.forEach(function(value, name) {
+	        xhr.setRequestHeader(name, value)
+	      })
+
+	      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
+	    })
+	  }
+	  self.fetch.polyfill = true
+	})(typeof self !== 'undefined' ? self : this);
+
+
+/***/ },
+
+/***/ 211:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	function createThunkMiddleware(extraArgument) {
+	  return function (_ref) {
+	    var dispatch = _ref.dispatch;
+	    var getState = _ref.getState;
+	    return function (next) {
+	      return function (action) {
+	        if (typeof action === 'function') {
+	          return action(dispatch, getState, extraArgument);
+	        }
+
+	        return next(action);
+	      };
+	    };
+	  };
+	}
+
+	var thunk = createThunkMiddleware();
+	thunk.withExtraArgument = createThunkMiddleware;
+
+	exports['default'] = thunk;
+
+/***/ },
+
+/***/ 212:
+/***/ function(module, exports) {
+
+	"use strict";
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+
+	var repeat = function repeat(str, times) {
+	  return new Array(times + 1).join(str);
+	};
+	var pad = function pad(num, maxLength) {
+	  return repeat("0", maxLength - num.toString().length) + num;
+	};
+	var formatTime = function formatTime(time) {
+	  return "@ " + pad(time.getHours(), 2) + ":" + pad(time.getMinutes(), 2) + ":" + pad(time.getSeconds(), 2) + "." + pad(time.getMilliseconds(), 3);
+	};
+
+	// Use the new performance api to get better precision if available
+	var timer = typeof performance !== "undefined" && typeof performance.now === "function" ? performance : Date;
+
+	/**
+	 * parse the level option of createLogger
+	 *
+	 * @property {string | function | object} level - console[level]
+	 * @property {object} action
+	 * @property {array} payload
+	 * @property {string} type
+	 */
+
+	function getLogLevel(level, action, payload, type) {
+	  switch (typeof level === "undefined" ? "undefined" : _typeof(level)) {
+	    case "object":
+	      return typeof level[type] === "function" ? level[type].apply(level, _toConsumableArray(payload)) : level[type];
+	    case "function":
+	      return level(action);
+	    default:
+	      return level;
+	  }
+	}
+
+	/**
+	 * Creates logger with followed options
+	 *
+	 * @namespace
+	 * @property {object} options - options for logger
+	 * @property {string | function | object} options.level - console[level]
+	 * @property {boolean} options.duration - print duration of each action?
+	 * @property {boolean} options.timestamp - print timestamp with each action?
+	 * @property {object} options.colors - custom colors
+	 * @property {object} options.logger - implementation of the `console` API
+	 * @property {boolean} options.logErrors - should errors in action execution be caught, logged, and re-thrown?
+	 * @property {boolean} options.collapsed - is group collapsed?
+	 * @property {boolean} options.predicate - condition which resolves logger behavior
+	 * @property {function} options.stateTransformer - transform state before print
+	 * @property {function} options.actionTransformer - transform action before print
+	 * @property {function} options.errorTransformer - transform error before print
+	 */
+
+	function createLogger() {
+	  var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	  var _options$level = options.level;
+	  var level = _options$level === undefined ? "log" : _options$level;
+	  var _options$logger = options.logger;
+	  var logger = _options$logger === undefined ? console : _options$logger;
+	  var _options$logErrors = options.logErrors;
+	  var logErrors = _options$logErrors === undefined ? true : _options$logErrors;
+	  var collapsed = options.collapsed;
+	  var predicate = options.predicate;
+	  var _options$duration = options.duration;
+	  var duration = _options$duration === undefined ? false : _options$duration;
+	  var _options$timestamp = options.timestamp;
+	  var timestamp = _options$timestamp === undefined ? true : _options$timestamp;
+	  var transformer = options.transformer;
+	  var _options$stateTransfo = options.stateTransformer;
+	  var // deprecated
+	  stateTransformer = _options$stateTransfo === undefined ? function (state) {
+	    return state;
+	  } : _options$stateTransfo;
+	  var _options$actionTransf = options.actionTransformer;
+	  var actionTransformer = _options$actionTransf === undefined ? function (actn) {
+	    return actn;
+	  } : _options$actionTransf;
+	  var _options$errorTransfo = options.errorTransformer;
+	  var errorTransformer = _options$errorTransfo === undefined ? function (error) {
+	    return error;
+	  } : _options$errorTransfo;
+	  var _options$colors = options.colors;
+	  var colors = _options$colors === undefined ? {
+	    title: function title() {
+	      return "#000000";
+	    },
+	    prevState: function prevState() {
+	      return "#9E9E9E";
+	    },
+	    action: function action() {
+	      return "#03A9F4";
+	    },
+	    nextState: function nextState() {
+	      return "#4CAF50";
+	    },
+	    error: function error() {
+	      return "#F20404";
+	    }
+	  } : _options$colors;
+
+	  // exit if console undefined
+
+	  if (typeof logger === "undefined") {
+	    return function () {
+	      return function (next) {
+	        return function (action) {
+	          return next(action);
+	        };
+	      };
+	    };
+	  }
+
+	  if (transformer) {
+	    console.error("Option 'transformer' is deprecated, use stateTransformer instead");
+	  }
+
+	  var logBuffer = [];
+	  function printBuffer() {
+	    logBuffer.forEach(function (logEntry, key) {
+	      var started = logEntry.started;
+	      var startedTime = logEntry.startedTime;
+	      var action = logEntry.action;
+	      var prevState = logEntry.prevState;
+	      var error = logEntry.error;
+	      var took = logEntry.took;
+	      var nextState = logEntry.nextState;
+
+	      var nextEntry = logBuffer[key + 1];
+	      if (nextEntry) {
+	        nextState = nextEntry.prevState;
+	        took = nextEntry.started - started;
+	      }
+	      // message
+	      var formattedAction = actionTransformer(action);
+	      var isCollapsed = typeof collapsed === "function" ? collapsed(function () {
+	        return nextState;
+	      }, action) : collapsed;
+
+	      var formattedTime = formatTime(startedTime);
+	      var titleCSS = colors.title ? "color: " + colors.title(formattedAction) + ";" : null;
+	      var title = "action " + (timestamp ? formattedTime : "") + " " + formattedAction.type + " " + (duration ? "(in " + took.toFixed(2) + " ms)" : "");
+
+	      // render
+	      try {
+	        if (isCollapsed) {
+	          if (colors.title) logger.groupCollapsed("%c " + title, titleCSS);else logger.groupCollapsed(title);
+	        } else {
+	          if (colors.title) logger.group("%c " + title, titleCSS);else logger.group(title);
+	        }
+	      } catch (e) {
+	        logger.log(title);
+	      }
+
+	      var prevStateLevel = getLogLevel(level, formattedAction, [prevState], "prevState");
+	      var actionLevel = getLogLevel(level, formattedAction, [formattedAction], "action");
+	      var errorLevel = getLogLevel(level, formattedAction, [error, prevState], "error");
+	      var nextStateLevel = getLogLevel(level, formattedAction, [nextState], "nextState");
+
+	      if (prevStateLevel) {
+	        if (colors.prevState) logger[prevStateLevel]("%c prev state", "color: " + colors.prevState(prevState) + "; font-weight: bold", prevState);else logger[prevStateLevel]("prev state", prevState);
+	      }
+
+	      if (actionLevel) {
+	        if (colors.action) logger[actionLevel]("%c action", "color: " + colors.action(formattedAction) + "; font-weight: bold", formattedAction);else logger[actionLevel]("action", formattedAction);
+	      }
+
+	      if (error && errorLevel) {
+	        if (colors.error) logger[errorLevel]("%c error", "color: " + colors.error(error, prevState) + "; font-weight: bold", error);else logger[errorLevel]("error", error);
+	      }
+
+	      if (nextStateLevel) {
+	        if (colors.nextState) logger[nextStateLevel]("%c next state", "color: " + colors.nextState(nextState) + "; font-weight: bold", nextState);else logger[nextStateLevel]("next state", nextState);
+	      }
+
+	      try {
+	        logger.groupEnd();
+	      } catch (e) {
+	        logger.log("—— log end ——");
+	      }
+	    });
+	    logBuffer.length = 0;
+	  }
+
+	  return function (_ref) {
+	    var getState = _ref.getState;
+	    return function (next) {
+	      return function (action) {
+	        // exit early if predicate function returns false
+	        if (typeof predicate === "function" && !predicate(getState, action)) {
+	          return next(action);
+	        }
+
+	        var logEntry = {};
+	        logBuffer.push(logEntry);
+
+	        logEntry.started = timer.now();
+	        logEntry.startedTime = new Date();
+	        logEntry.prevState = stateTransformer(getState());
+	        logEntry.action = action;
+
+	        var returnedValue = undefined;
+	        if (logErrors) {
+	          try {
+	            returnedValue = next(action);
+	          } catch (e) {
+	            logEntry.error = errorTransformer(e);
+	          }
+	        } else {
+	          returnedValue = next(action);
+	        }
+
+	        logEntry.took = timer.now() - logEntry.started;
+	        logEntry.nextState = stateTransformer(getState());
+
+	        printBuffer();
+
+	        if (logEntry.error) throw logEntry.error;
+	        return returnedValue;
+	      };
+	    };
+	  };
+	}
+
+	module.exports = createLogger;
+
+/***/ }
+
+});
 //# sourceMappingURL=recovery.bundle.js.map

@@ -20,8 +20,7 @@ export default React.createClass({
     },
     render() {
         const showNotEntered = this.state.wasEntered && this.state.email.trim().length === 0
-        const showNotValid = this.state.wasEntered &&
-            this.state.email && !this.emailPattern.test(this.state.email)
+        const showNotValid = this.state.email && !this.emailPattern.test(this.state.email)
 
         return (
             <div className="newFieldLine">

@@ -4,10 +4,6 @@ import InputMask from 'react-input-mask'
 import {$if} from '../../react-helpers'
 
 export default function ({number, waiting, message, disabled, onChange, onSend}) {
-    const countDigits = text => (text.match(/\d/g) || []).length
-    const digitsInPhone = 1 + 3 + 3 + 4
-    const sendAvailable = countDigits(number) === digitsInPhone && !disabled
-
     return (
         <div>
             <div className="form-group">
@@ -27,14 +23,12 @@ export default function ({number, waiting, message, disabled, onChange, onSend})
                 <span className="help-block">{message}</span>
             </div>
 
-            {$if(sendAvailable,
-                <div className="form-group">
-                    <button
-                        type="button" className="btn btn-primary"
-                        onClick={() => onSend(number)} disabled={waiting}>
-                        {$if(!waiting, "Подтвердите", "Подтверждение...")}
-                    </button>
-                </div>
-            )}
+            <div className="form-group">
+                <button
+                    type="button" className="btn btn-primary"
+                    onClick={() => onSend(number)} disabled={waiting}>
+                    {$if(!waiting, "Подтвердите", "Подтверждение...")}
+                </button>
+            </div>
         </div>)
 }

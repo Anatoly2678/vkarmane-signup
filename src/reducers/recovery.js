@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import { createAction, handleActions, handleAction } from 'redux-actions'
 import fetch from 'isomorphic-fetch'
+import {normalizePhone} from '../react-helpers'
 
 export const requestCode = createAction('REQUEST_CODE')
 export const invalidNumber = createAction('INVALID_NUMBER')
@@ -26,11 +27,29 @@ const post = (url, data) =>
 
 export const sendCode = (number) => {
     return (dispatch, getState) => {
+        const way = getState().way
+
+        if(way === 'phone') {
+            try {
+                number = normalizePhone(number)
+            }
+            catch(ex) {
+                dispatch(invalidNumber("Пожалуйста, заполните поле корректно"))
+                return
+            }
+        } else {
+            const isValid = /^[\w|\.|-]+@[\w|\.|-]+(\.\w+)+$/.test(number)
+            if (!isValid) {
+                dispatch(invalidNumber("Пожалуйста, заполните поле корректно"))
+                return
+            }
+        }
+
         dispatch(requestCode(number))
 
         return post('/Recovery.aspx/SendCodeForPasswordChange', {
             number,
-            type: getState().way
+            type: way
         }).then(response =>{
             return response.json()
         }).then(json => {
@@ -140,6 +159,13 @@ const phone = handleActions({
             ...state,
             codeId: action.payload,
             waiting: false
+        }
+    },
+
+    [chooseWay] (state) {
+        return {
+            ...state,
+            number: ''
         }
     }
 
