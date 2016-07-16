@@ -17,7 +17,7 @@ export default React.createClass({
             fullName: null,
             birthdayInputVisible: false,
             birthday: null,
-            emailInputVisible: true,
+            emailInputVisible: false,
             email: null,
             agreementBoxVisible: false,
             agree: {
