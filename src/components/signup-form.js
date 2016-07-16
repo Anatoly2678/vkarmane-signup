@@ -17,7 +17,7 @@ export default React.createClass({
             fullName: null,
             birthdayInputVisible: false,
             birthday: null,
-            emailInputVisible: false,
+            emailInputVisible: true,
             email: null,
             agreementBoxVisible: false,
             agree: {
@@ -192,10 +192,10 @@ export default React.createClass({
             }),
             contentType: 'application/json',
             dataType: 'json',
-            success: () => location.replace('/0/Nui/ViewModule.aspx'),
+            success: () => location.href = '/0/Nui/ViewModule.aspx',
             error: (xhr, code, err) => {
-                console.error(err.toString())
-                location.replace('/0/Nui/ViewModule.aspx')
+                console.error(err)
+                location.href = '/0/Nui/ViewModule.aspx'
             }
         })
     },

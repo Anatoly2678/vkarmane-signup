@@ -120,7 +120,7 @@ export const changePassword = ({pass, repeat}) => {
             const result = JSON.parse(json.d).ChangePasswordResult
 
             if (result.Code == 0) {
-                location.replace('signin.html');
+                location.href = '/signin.html'
             } else {
                 dispatch(failChangePassword(result.Message))
             }

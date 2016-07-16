@@ -107,8 +107,11 @@ export default React.createClass({
             }),
             contentType: 'application/json',
             dataType: 'json',
-            success: () => location.replace('/0/Nui/ViewModule.aspx'),
-            error: () => location.replace('/0/Nui/ViewModule.aspx')
+            success: () => location.href = '/0/Nui/ViewModule.aspx',
+            error: (xhr, code, err) => {
+                console.error(err)
+                location.href = '/0/Nui/ViewModule.aspx'
+            }
         })
     },
     handleLoginError(xhr, status, err) {
