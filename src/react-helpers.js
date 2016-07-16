@@ -23,5 +23,5 @@ export function normalizePhone(number) {
     }
 
     const str = digits.join('')
-    return `+7(${str.substr(1, 3)}) - ${str.substr(4, 3)} - ${str.substr(7, 2)} - ${str.substr(9, 2)}`
+    return `+7(${str.substr(1, 3)}) ${str.substr(4, 3)} - ${str.substr(7, 2)} - ${str.substr(9, 2)}`
 }
