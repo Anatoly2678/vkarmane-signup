@@ -23,7 +23,8 @@ const RecoveryForm = ({phone, verification, password, way,
         <h2 className="form-signin-heading">Восстановить пароль</h2>
         <div className="form-signin-heading-underline"></div>
 
-        <WayChooser way={way} onChange={onChangeWay} />
+        {$if(!verification.confirmed,
+                    <WayChooser way={way} onChange={onChangeWay} />)}
 
         {$if(!verification.confirmed,
             $if(way === 'phone',
@@ -59,14 +60,6 @@ const RecoveryForm = ({phone, verification, password, way,
                 repeatMessage={password.repeatIncorrectly ? 'Пароль повторен неправильно' : ''}
                 waiting={password.waiting}
                 onSend={onChangePassword} />
-        )}
-
-        {$if(verification.waitingConfirmation,
-            <div className="form-group">
-                <div className="progress">
-                    <div className="progress-bar progress-bar-striped active" style={{width:'100%'}}></div>
-                </div>
-            </div>
         )}
     </form>
 

@@ -165,7 +165,8 @@ const phone = handleActions({
     [chooseWay] (state) {
         return {
             ...state,
-            number: ''
+            number: '',
+            codeId: ''
         }
     }
 
