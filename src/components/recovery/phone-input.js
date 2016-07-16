@@ -23,12 +23,14 @@ export default function ({number, waiting, message, disabled, onChange, onSend})
                 <span className="help-block">{message}</span>
             </div>
 
-            <div className="form-group">
-                <button
-                    type="button" className="btn btn-primary"
-                    onClick={() => onSend(number)} disabled={waiting}>
-                    {$if(!waiting, "Подтвердите", "Подтверждение...")}
-                </button>
-            </div>
+            {$if(!disabled,
+                <div className="form-group">
+                    <button
+                        type="button" className="btn btn-primary"
+                        onClick={() => onSend(number) } disabled={waiting}>
+                        {$if(!waiting, "Подтвердите", "Подтверждение...") }
+                    </button>
+                </div>
+            )}
         </div>)
 }
