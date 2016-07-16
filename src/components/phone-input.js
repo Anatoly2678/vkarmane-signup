@@ -35,7 +35,7 @@ export default React.createClass({
                         autoFocus={true}
                         type="tel" id="phoneInput" className="form-control"
                         mask="(999) 999 - 99 - 99" placeholder="(___) ___ - __ - __" maskChar={null}
-                        onKeyPress={this.handleSendCodeClick}
+                        onKeyPress={() => sendVisible && this.handleSendCodeClick()}
                         onChange={this.handlePhoneChange} value={this.state.phone} />
                 </div>
 
