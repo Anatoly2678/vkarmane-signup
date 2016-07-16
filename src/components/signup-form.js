@@ -4,7 +4,7 @@ import FullNameInput from './fullname-input'
 import BirthdayInput from './birthday-input'
 import EmailInput from './email-input'
 import AgreementBox from './agreement-box'
-import {$if} from '../react-helpers'
+import {$if, normalizePhone} from '../react-helpers'
 import cookie from 'js-cookie'
 import SigninForm from './signin-form'
 import assign from 'lodash/assign'
@@ -129,7 +129,7 @@ export default React.createClass({
             Year: s.birthday.year,
             Month: + s.birthday.month + 1,
             Day: s.birthday.day,
-            Phone: s.phone,
+            Phone: normalizePhone(s.phone),
             Email: s.email,
             TimeZoneOffset: -((new Date().getTimezoneOffset())/60)} /* Наследие предков */
 

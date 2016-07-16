@@ -24,7 +24,10 @@ const RecoveryForm = ({phone, verification, password, way,
         <div className="form-signin-heading-underline"></div>
 
         {$if(!verification.confirmed,
-                    <WayChooser way={way} onChange={onChangeWay} />)}
+                    <WayChooser
+                        disabled={phone.waiting || verification.waiting}
+                        way={way} 
+                        onChange={onChangeWay} />)}
 
         {$if(!verification.confirmed,
             $if(way === 'phone',

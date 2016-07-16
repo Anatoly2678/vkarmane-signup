@@ -1,5 +1,5 @@
 import React from 'react'
-import {$if, $ifEnter} from '../react-helpers'
+import {$if, $ifEnter, normalizePhone} from '../react-helpers'
 
 export default React.createClass({
     getInitialState() {
@@ -98,7 +98,7 @@ export default React.createClass({
             type: "POST",
             url: '/Register.aspx/SendVerificationCodes',
             data: JSON.stringify({
-                number: this.props.phone,
+                number: normalizePhone(this.props.phone),
                 type: 'phone'
             }),
             contentType: 'application/json',

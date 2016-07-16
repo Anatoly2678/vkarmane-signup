@@ -1,10 +1,10 @@
 import React from 'react'
 
-export default function WayChooser ({way, onChange}) {
+export default function WayChooser ({way, disabled, onChange}) {
     return (
         <div className="form-group">
             <div className="radio">
-                <label>
+                <label disabled={disabled}>
                     <input
                         type="radio" name="optionsRadios"
                         id="usePhone" value="option2" checked={way === 'phone'}
@@ -13,7 +13,7 @@ export default function WayChooser ({way, onChange}) {
                 </label>
             </div>
             <div className="radio">
-                <label>
+                <label disabled={disabled}>
                     <input
                         type="radio" name="optionsRadios"
                         id="useEmail" value="option1" checked={way === 'email'}
