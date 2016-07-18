@@ -26,13 +26,22 @@ body {
     line-height: 45px;
 }
 
-h2.form-signin-heading {
+h2.form-signin-heading,
+h3.form-signin-heading {
     font-family: 'M-Geometria-ExtaBlack', Arial;
     font-weight: bold;
-    font-size: 40px;
     text-overflow: clip;
     overflow: hidden;
 }
+
+h2.form-signin-heading {
+    font-size: 40px;
+}
+
+h3.form-signin-heading {
+    font-size: 30px;
+}
+
 
 .form-signin-heading-underline {
     height: 4px;

@@ -18,13 +18,13 @@ export default function ({number, waiting, message, way, secsToRepeat, onConfirm
                     </button>
 
                     <div className="alert alert-dismissible alert-padding-adaptive" role="alert">
-                        <h2 className="form-signin-heading">Подтверждение {way == 'phone' ? 'номера телефона' : <span>электронной&nbsp;почты</span>}</h2>
+                        <h3 className="form-signin-heading">Подтверждение {way == 'phone' ? 'номера телефона' : <span>электронной&nbsp;почты</span>}</h3>
                         <div className="form-signin-heading-underline"></div>
 
                         <div className="form-group font-size-adaptive">
                             <p>На указанный вами {way === 'phone'
                                 ? 'номер телефона отправлено СМС'
-                                : 'адрес отправлено сообщение'} с кодом подтверждения.</p>
+                                : 'адрес отправлено сообщение'} с&nbsp;кодом подтверждения.</p>
                             <p>Введите полученный код, чтобы продолжить оформление заявки.</p>
                         </div>
 

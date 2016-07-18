@@ -33,10 +33,10 @@ export default React.createClass({
                         type="button" className="close" style={{margin:'20px'}}
                         onClick={() => this.props.onClose()}><span>&times;</span></button>
                 <div className="alert alert-dismissible alert-padding-adaptive" role="alert">
-                    <h2 className="form-signin-heading">Подтверждение номера телефона</h2>
+                    <h3 className="form-signin-heading">Подтверждение номера телефона</h3>
                     <div className="form-signin-heading-underline"></div>
                     <div className="form-group font-size-adaptive">
-                        <p>На указанный вами номер телефона отправлено СМС с кодом подтверждения.</p>
+                        <p>На указанный вами номер телефона отправлено СМС с&nbsp;кодом подтверждения.</p>
                         <p>Введите полученный код, чтобы продолжить оформление заявки.</p>
                     </div>
                     <div className="form-group">
