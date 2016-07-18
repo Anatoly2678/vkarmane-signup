@@ -2,7 +2,7 @@ import React from 'react'
 import InputMask from 'react-input-mask'
 import PhoneVerificationBox from './phone-verification-box'
 
-import {$if} from '../react-helpers'
+import {$if, normalizePhone} from '../react-helpers'
 
 export default React.createClass({
     getInitialState() {
@@ -14,9 +14,6 @@ export default React.createClass({
             errorMessage:'',
             phoneAlreadyExists: false
         }
-    },
-    normalize(number) {
-        return '+7' + number
     },
     render () {
 
@@ -34,7 +31,7 @@ export default React.createClass({
                     <InputMask
                         autoFocus={true}
                         type="tel" id="phoneInput" className="form-control"
-                        mask="(999) 999 - 99 - 99" placeholder="(___) ___ - __ - __" maskChar={null}
+                        mask="999 999 99 99" placeholder="___ ___ __ __" maskChar={null}
                         onKeyPress={() => sendVisible && this.handleSendCodeClick()}
                         onChange={this.handlePhoneChange} value={this.state.phone} />
                 </div>
@@ -65,7 +62,7 @@ export default React.createClass({
 
         const phoneVerificationBox  =
             <PhoneVerificationBox
-                phone={this.normalize(this.state.phone)}
+                phone={this.state.phone}
                 onError={this.handlePhoneVerificationError}
                 onAlreadyExists={this.handlePhoneVerificationAlreadyExists}
                 onSuccess={this.handlePhoneVerificationSuccess}
@@ -115,7 +112,7 @@ export default React.createClass({
             phoneVerified: true
         })
 
-        this.props.onChange(this.normalize(this.state.phone))
+        this.props.onChange(normalizePhone(this.state.phone))
     },
     handlePhoneVerificationClose() {
         this.setState({

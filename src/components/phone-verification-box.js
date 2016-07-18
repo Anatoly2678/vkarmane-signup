@@ -16,7 +16,7 @@ export default React.createClass({
     componentDidMount() {
         this.sendCode()
     },
-    componentDidUnount() {
+    componentWillUnmount() {
         if(this.timerId) clearInterval(this.timerId)
     },
     tick() {
@@ -43,7 +43,7 @@ export default React.createClass({
                         <p>Введите полученный код, чтобы продолжить оформление заявки.</p>
                     </div>
                     <div className="form-group">
-                        <input value={'+7 ' + this.props.phone.substr(2)} readOnly style={{backgroundColor:'#FFF', borderColor:'#FFF'}} type="tel" className="form-control" />
+                        <input value={'+7 ' + this.props.phone} readOnly style={{backgroundColor:'#FFF', borderColor:'#FFF'}} type="tel" className="form-control" />
                     </div>
 
                     {this.state.codeInputVisible ?

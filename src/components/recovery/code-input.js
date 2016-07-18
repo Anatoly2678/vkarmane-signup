@@ -1,11 +1,8 @@
 import React from 'react'
-import {$if, $ifEnter, normalizePhone} from '../../react-helpers'
+import {$if, $ifEnter, localizePhone} from '../../react-helpers'
 
 export default function ({number, waiting, message, way, secsToRepeat, onConfirm, onAbort, onRepeat}) {
     let code
-    if (way === 'phone') {
-        number = normalizePhone(number)
-    }
 
     return (
         <div className="modal fade in" id="myModal" style={{ display: 'block' }} tabIndex="-1" role="dialog">
@@ -30,7 +27,7 @@ export default function ({number, waiting, message, way, secsToRepeat, onConfirm
 
                         <div className="form-group">
                             <input
-                                value={way === 'phone' ? '+7 ' + number.substr(2) : number}
+                                value={way === 'phone' ? '+7 ' + localizePhone(number) : number}
                                 readOnly style={{ backgroundColor: '#FFF', borderColor: '#FFF' }}
                                 type="tel" className="form-control" />
                         </div>

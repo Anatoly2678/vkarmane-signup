@@ -16,10 +16,10 @@ export default function ({number, waiting, message, disabled, onChange, onSend})
                 <InputMask
                     autoFocus={true}
                     type="tel" id="phoneInput" className="form-control"
-                    mask="(999) 999 - 99 - 99" placeholder="(___) ___ - __ - __" maskChar={null}
+                    mask="999 999 99 99" placeholder="___ ___ __ __" maskChar={null}
                     onKeyPress={e => onSend(number)}
                     disabled={disabled || waiting}
-                    onChange={e => onChange('+7' + e.target.value)} />
+                    onChange={e => onChange(e.target.value)} />
                 <span className="help-block">{message}</span>
             </div>
 

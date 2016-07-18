@@ -25,3 +25,23 @@ export function normalizePhone(number) {
     const str = digits.join('')
     return `+7(${str.substr(1, 3)}) ${str.substr(4, 3)} - ${str.substr(7, 2)} - ${str.substr(9, 2)}`
 }
+
+export function localizePhone(number) {
+    if(!number) throw new Error('Argument number is false')
+
+    const digits = number.match(/\d/g)
+    if(!digits || !digits.length) {
+        throw new Error('Invalid number')
+    }
+
+    if(digits.length === 11 && digits[0] == '7') {
+        digits.shift()
+    }
+
+    if(digits.length !== 10) {
+        throw new Error('Invalid number')
+    }
+
+    const str = digits.join('')
+    return `${str.substr(0, 3)} ${str.substr(3, 3)} ${str.substr(6, 2)} ${str.substr(8, 2)}`
+}

@@ -40,8 +40,8 @@ export const sendCode = (number) => {
                 return
             }
         } else {
-            const isValid = /^[\w|\.|-]+@[\w|\.|-]+(\.\w+)+$/.test(number)
-            if (!isValid) {
+            const isEmail = /^[\w|\.|-]+@[\w|\.|-]+(\.\w+)+$/.test(number)
+            if (!isEmail) {
                 dispatch(invalidNumber("Пожалуйста, заполните поле корректно"))
                 return
             }
