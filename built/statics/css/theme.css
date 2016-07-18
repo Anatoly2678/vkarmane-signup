@@ -18,6 +18,11 @@ body {
     padding-bottom: 20px;
 }
 
+.capitalize
+{
+    text-transform: capitalize;
+}
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
