@@ -6,8 +6,9 @@ export default React.createClass({
             <div className="row header-adv">
                 <div className="col-xs-9">
                     <div className="col-xs-12 col-sm-5">
-                        <div id="logo" className="logo">
-                        </div>
+                        <a href="/">
+                            <div id="logo" className="logo"></div>
+                        </a>                
                         <h3 className="text-muted" hidden="hidden">ВКармане</h3>
                     </div>
                     <div className="col-xs-12 col-sm-7 phone-in-header">
@@ -15,7 +16,7 @@ export default React.createClass({
                         <p className="text-muted phone-info">Ежедневно с 06:00 до 18:00 по МСК</p>
                     </div>
                 </div>
-                <div className="col-xs-3">
+                <div className="col-xs-3" style={{ paddingTop: '8px' }}>
                     <nav>
                     <ul className="nav nav-pills pull-right">
                       <li role="presentation"><a href="/signin.html" className="icon-acc">Личный кабинет</a></li>

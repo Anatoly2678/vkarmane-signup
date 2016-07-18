@@ -27,7 +27,7 @@ body {
 }
 
 h2.form-signin-heading {
-    font-family: 'M-Geometria-ExtaBlack';
+    font-family: 'M-Geometria-ExtaBlack', Arial;
     font-weight: bold;
     font-size: 40px;
     text-overflow: clip;
@@ -96,7 +96,7 @@ fieldset[disabled] .form-control {
     height: auto;
     padding-top: 15px;
     padding-bottom: 15px;
-    font-family: 'M-Geometria';
+    font-family: 'M-Geometria', Arial;
     font-size: 16px;
 }
 
@@ -167,7 +167,7 @@ div.logo {
 }
 
 div.phone {
-    font-family: 'M-Geometria-Bold';
+    font-family: 'M-Geometria-Bold', Arial;
     font-size: 20px;
     font-weight: bold;
 }
@@ -253,7 +253,7 @@ div#register-info {
 }
 
 .step-group {
-	font-family: 'M-Geometria';
+	font-family: 'M-Geometria', Arial;
 	font-size: 20px;
 	text-align: center;
 	max-width: 768px;
