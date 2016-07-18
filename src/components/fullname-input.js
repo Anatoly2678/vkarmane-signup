@@ -2,6 +2,24 @@ import React from 'react'
 import {$if} from '../react-helpers'
 import defer from 'lodash/defer'
 
+String.prototype.capitalizeFirstLetter = function() {
+
+    var result;
+    if (this.length > 0) {
+        var strs = this.split(' ');
+        var newStr = new Array();
+        strs.forEach(function(item) {
+            newStr = newStr.concat([ item.charAt(0).toUpperCase() + item.slice(1).toLowerCase() ]);
+        }, this);
+        result = newStr.join(' ');
+    }
+    else
+    {
+        result = this;
+    }
+    return result;
+}
+
 export default React.createClass({
     getInitialState() {
         return {
@@ -73,6 +91,13 @@ export default React.createClass({
             </div>)
     },
     handleLastNameChange(e) {
+
+        var selectionStart = e.target.selectionStart;
+        var selectionEnd = e.target.selectionEnd;
+        e.target.value = e.target.value.capitalizeFirstLetter()
+        e.target.selectionStart = selectionStart;
+        e.target.selectionEnd = selectionEnd;
+
         this.setState({
             lastName: e.target.value,
             lastNameHasError: !this.checkIsValidName(e.target.value),
@@ -82,6 +107,13 @@ export default React.createClass({
         defer(this.raiseOnChange)
     },
     handleFirstNameChange(e) {
+
+        var selectionStart = e.target.selectionStart;
+        var selectionEnd = e.target.selectionEnd;
+        e.target.value = e.target.value.capitalizeFirstLetter()
+        e.target.selectionStart = selectionStart;
+        e.target.selectionEnd = selectionEnd;
+
         this.setState({
             firstName: e.target.value,
             firstNameHasError: !this.checkIsValidName(e.target.value),
@@ -91,6 +123,13 @@ export default React.createClass({
         defer(this.raiseOnChange)
     },
     handleMiddleNameChange(e) {
+
+        var selectionStart = e.target.selectionStart;
+        var selectionEnd = e.target.selectionEnd;
+        e.target.value = e.target.value.capitalizeFirstLetter()
+        e.target.selectionStart = selectionStart;
+        e.target.selectionEnd = selectionEnd;
+
         this.setState({
             middleName: e.target.value,
             middleNameHasError: !this.checkIsValidName(e.target.value),
