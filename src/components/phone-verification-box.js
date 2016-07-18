@@ -106,7 +106,7 @@ export default React.createClass({
             success: this.handleSendCodeResult,
             error: (xhr, code, err) => {
                 this.setState({ waiting: false })
-                alert(err.toString())
+                console.log(err.toString())
             }
         })
 
