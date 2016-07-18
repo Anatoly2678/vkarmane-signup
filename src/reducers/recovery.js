@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import { createAction, handleActions, handleAction } from 'redux-actions'
 import fetch from 'isomorphic-fetch'
+import {normalizePhone} from '../react-helpers'
 
 export const requestCode = createAction('REQUEST_CODE')
 export const invalidNumber = createAction('INVALID_NUMBER')
@@ -13,8 +14,8 @@ export const failChangePassword = createAction('FAIL_CHANGE_PASSWORD')
 export const validatePassword = createAction('VALIDATE_PASSWORD')
 export const chooseWay = createAction('CHOOSE_WAY')
 export const changeNumber = createAction('CHANGE_NUMBER')
-export const requestEmailExist = createAction('REQUEST_EMAIL_EXIST')
-export const saveEmailExistence = createAction('SAVE_EMAIL_EXISTENCE')
+export const abortCodeConfirmation = createAction('ABORT_CODE_CONFIRMATION')
+export const decrementSecsToRepeat = createAction('DECREMENT_SECS_TO_REPEAT')
 
 const post = (url, data) =>
     fetch(url, {
@@ -28,11 +29,31 @@ const post = (url, data) =>
 
 export const sendCode = (number) => {
     return (dispatch, getState) => {
+        const way = getState().way
+
+        if(way === 'phone') {
+            try {
+                number = normalizePhone(number)
+            }
+            catch(ex) {
+                dispatch(invalidNumber("Пожалуйста, заполните поле корректно"))
+                return
+            }
+        } else {
+            const isValid = /^[\w|\.|-]+@[\w|\.|-]+(\.\w+)+$/.test(number)
+            if (!isValid) {
+                dispatch(invalidNumber("Пожалуйста, заполните поле корректно"))
+                return
+            }
+        }
+
         dispatch(requestCode(number))
+        dispatch(repeatTimer())
+
 
         return post('/Recovery.aspx/SendCodeForPasswordChange', {
             number,
-            type: getState().way
+            type: way
         }).then(response =>{
             return response.json()
         }).then(json => {
@@ -103,7 +124,7 @@ export const changePassword = ({pass, repeat}) => {
             const result = JSON.parse(json.d).ChangePasswordResult
 
             if (result.Code == 0) {
-                location.replace('signin.html');
+                location.href = '/signin.html'
             } else {
                 dispatch(failChangePassword(result.Message))
             }
@@ -112,7 +133,21 @@ export const changePassword = ({pass, repeat}) => {
     }
 }
 
-const verifyEmail = (email) => {}
+function repeatTimer() {
+    return (dispatch, getState) => {
+
+        const secs = getState().phone.secsToRepeat
+        let timerId = getState().phone.timerId
+        if(timerId)  clearTimeout(timerId)
+
+        if(secs) {
+            timerId = setTimeout(function(){
+                dispatch(repeatTimer())
+            }, 1000)
+            dispatch(decrementSecsToRepeat(timerId))
+        }
+    }
+}
 
 const phone = handleActions({
     [changeNumber] (state, action) {
@@ -127,7 +162,8 @@ const phone = handleActions({
             ...state,
             waiting: true,
             number: action.payload,
-            message: ''
+            message: '',
+            secsToRepeat: 60
         }
     },
 
@@ -135,7 +171,8 @@ const phone = handleActions({
         return {
             ...state,
             message: action.payload,
-            waiting: false
+            waiting: false,
+            secsToRepeat: 0
         }
     },
 
@@ -145,14 +182,40 @@ const phone = handleActions({
             codeId: action.payload,
             waiting: false
         }
-    }
+    },
 
+    [chooseWay] (state) {
+        return {
+            ...state,
+            number: '',
+            codeId: '',
+            message: ''
+        }
+    },
+
+    [abortCodeConfirmation]  (state)  {
+        return {
+            ...state,
+            codeId: '',
+            secsToRepeat: 0
+        }
+    },
+
+    [decrementSecsToRepeat]  (state, action)  {
+        return {
+            ...state,
+            secsToRepeat: state.secsToRepeat - 1,
+            timerId: action.payload
+        }
+    }
 }, {
     number: '',
     sent: false,
     message: '',
     codeId: '',
-    waiting: false
+    waiting: false,
+    secsToRepeat: 0,
+    timerId: null
 })
 
 const verification = handleActions({
@@ -161,6 +224,12 @@ const verification = handleActions({
         waiting: true,
         code: action.payload
     }),
+    [abortCodeConfirmation]: (state, action) => ({
+        ...state,
+        waiting: false,
+        message: ''
+    }),
+    
     [codeConfirmed]: (state) => ({
         ...state,
         waiting: false,
@@ -219,28 +288,7 @@ const password = handleActions({
 const way = handleAction(
     chooseWay,
     (state, action) => action.payload || state,
-    'email')
-
-const email = handleActions({
-    [requestEmailExist] (state) {
-        return {
-            ...state,
-            waiting: true
-        }
-    },
-    [saveEmailExistence] (state, action) {
-        return {
-            ...state,
-            existingEmail: action.payload.exists
-                ? action.payload.email
-                : state.email.existingEmail,
-            message: action.payload.message
-        }
-    }
-}, {
-    existingEmail: '',
-    message: ''
-})
+    'phone')
 
 export default combineReducers({ phone, verification, password, way })
 

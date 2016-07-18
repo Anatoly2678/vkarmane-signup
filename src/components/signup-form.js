@@ -4,7 +4,7 @@ import FullNameInput from './fullname-input'
 import BirthdayInput from './birthday-input'
 import EmailInput from './email-input'
 import AgreementBox from './agreement-box'
-import {$if} from '../react-helpers'
+import {$if, normalizePhone} from '../react-helpers'
 import cookie from 'js-cookie'
 import SigninForm from './signin-form'
 import assign from 'lodash/assign'
@@ -74,13 +74,16 @@ export default React.createClass({
                 {$if(this.state.continueButtonVisible && !this.state.waitingForSignup,
                     <button type="submit" className="btn btn-primary btn-block"
                             disabled={!continueEnabled}>
-                        Продолжить оформление →
+                        Продолжить&nbsp;оформление<img src="/statics/images/arrow.png" style={{marginLeft: '15px', marginTop: '-2px'}} />
                     </button>)}
 
                 {$if(this.state.waitingForSignup,
-                    <div className="progress">
-                        <div className="progress-bar progress-bar-striped active" style={{width:'100%'}}></div>
-                    </div>)}
+                    <div className="form-group">
+                        <div className="progress">
+                            <div className="progress-bar progress-bar-striped active" style={{width:'100%'}}></div>
+                        </div>
+                    </div>
+                )}
             </form>)
     },
 
@@ -126,7 +129,7 @@ export default React.createClass({
             Year: s.birthday.year,
             Month: + s.birthday.month + 1,
             Day: s.birthday.day,
-            Phone: s.phone,
+            Phone: normalizePhone(s.phone),
             Email: s.email,
             TimeZoneOffset: -((new Date().getTimezoneOffset())/60)} /* Наследие предков */
 
@@ -189,10 +192,10 @@ export default React.createClass({
             }),
             contentType: 'application/json',
             dataType: 'json',
-            success: () => location.replace('/0/Nui/ViewModule.aspx'),
+            success: () => location.href = '/0/Nui/ViewModule.aspx',
             error: (xhr, code, err) => {
-                console.error(err.toString())
-                location.replace('/0/Nui/ViewModule.aspx')
+                console.error(err)
+                location.href = '/0/Nui/ViewModule.aspx'
             }
         })
     },

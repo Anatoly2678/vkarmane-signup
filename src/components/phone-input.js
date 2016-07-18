@@ -15,9 +15,12 @@ export default React.createClass({
             phoneAlreadyExists: false
         }
     },
+    normalize(number) {
+        return '+7' + number
+    },
     render () {
-        const normalize = number => '+7' + number.substr('+7 '.length)
-        const digitsInPhone = 11
+
+        const digitsInPhone = 3 + 3 + 4
         const countDigits = text => (text.match(/\d/g) || []).length
         const sendVisible =
             countDigits(this.state.phone) === digitsInPhone &&
@@ -26,17 +29,20 @@ export default React.createClass({
         const phoneInput = (
             <div className={"form-group" + (this.state.error ? " has-error": "")}>
                 <label htmlFor="inputPhone">Мобильный телефон</label>
-                <InputMask
-                    autoFocus={true}
-                    type="tel" id="phoneInput" className="form-control"
-                    mask="+7 (999) 999 - 99 - 99" placeholder="+7 (___) ___ - __ - __" maskChar="_"
-                    onKeyPress={this.handleSendCodeClick}
-                    onChange={this.handlePhoneChange} value={this.state.phone} />
+                <div>
+                    <span className="form-control country-code">+7</span>
+                    <InputMask
+                        autoFocus={true}
+                        type="tel" id="phoneInput" className="form-control"
+                        mask="(999) 999 - 99 - 99" placeholder="(___) ___ - __ - __" maskChar={null}
+                        onKeyPress={() => sendVisible && this.handleSendCodeClick()}
+                        onChange={this.handlePhoneChange} value={this.state.phone} />
+                </div>
 
                 <span className="help-block">{this.state.errorMessage}</span>
 
                 {$if(this.state.phoneAlreadyExists,
-                    <div style={{backgroundImage:'url(/assets/images/ialert.png)', backgroundPosition: 'left center', backgroundRepeat: 'no-repeat', padding: '5px 0px 2px 38px', display: 'block', backgroundColor: '#fff', borderColor:'#fff'}}>
+                    <div style={{backgroundImage:'url(/statics/images/ialert.png)', backgroundPosition: 'left center', backgroundRepeat: 'no-repeat', padding: '5px 0px 2px 38px', display: 'block', backgroundColor: '#fff', borderColor:'#fff'}}>
                         Такой номер уже зарегистрирован. Пожалуйста, <a href="#" onClick={e => {e.preventDefault(); this.props.onSignin()}}>авторизуйтесь</a>
                     </div>)}
 
@@ -50,6 +56,7 @@ export default React.createClass({
             <div className="form-group has-feedback">
                 <label htmlFor="inputPhone">Мобильный телефон</label>
                 <div className="has-feedback">
+                    <span className="form-control country-code">+7</span>
                     <input type="tel" id="inputPhone" className="form-control" value={this.state.phone} readOnly />
                     <span className="glyphicon glyphicon-ok form-control-feedback"></span>
                 </div>
@@ -58,7 +65,7 @@ export default React.createClass({
 
         const phoneVerificationBox  =
             <PhoneVerificationBox
-                phone={normalize(this.state.phone)}
+                phone={this.normalize(this.state.phone)}
                 onError={this.handlePhoneVerificationError}
                 onAlreadyExists={this.handlePhoneVerificationAlreadyExists}
                 onSuccess={this.handlePhoneVerificationSuccess}
@@ -73,7 +80,7 @@ export default React.createClass({
     },
     handlePhoneChange(e) {
         this.setState({
-            phone: e.target.value,
+            phone: e.target.value.substr(0, '(999) 999 - 99 - 99'.length), // Фикс пролемы ввода лишних символов в браузерах
             phoneAlreadyExists: false,
             error: false,
             errorMessage: '',
@@ -96,9 +103,11 @@ export default React.createClass({
     },
     handlePhoneVerificationError(message) {
         this.setState({
-            phoneVerificationBoxVisible: false
+            phoneVerificationBoxVisible: false,
+            error: true,
+            errorMessage: message,
         })
-        alert(message)
+
     },
     handlePhoneVerificationSuccess(phone) {
         this.setState({
@@ -106,7 +115,7 @@ export default React.createClass({
             phoneVerified: true
         })
 
-        this.props.onChange(phone)
+        this.props.onChange(this.normalize(this.state.phone))
     },
     handlePhoneVerificationClose() {
         this.setState({

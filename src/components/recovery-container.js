@@ -13,17 +13,23 @@ import {
     confirmCode,
     changePassword,
     chooseWay,
-    changeNumber
+    changeNumber,
+    abortCodeConfirmation
 } from '../reducers/recovery'
 
 
 const RecoveryForm = ({phone, verification, password, way,
-    onChangeNumber, onSendCode, onConfirmCode, onChangePassword, onChangeWay}) =>
+    onChangeNumber, onSendCode, onConfirmCode, onChangePassword, onChangeWay,
+    onAbortCodeConfirmation}) =>
     <form className="form-signin" onSubmit={e => e.preventDefault()}>
-        <h2 className="form-signin-heading">Восстановление пароля</h2>
+        <h2 className="form-signin-heading">Восстановить пароль</h2>
         <div className="form-signin-heading-underline"></div>
 
-        <WayChooser way={way} onChange={onChangeWay} />
+        {$if(!verification.confirmed,
+                    <WayChooser
+                        disabled={phone.waiting || verification.waiting}
+                        way={way} 
+                        onChange={onChangeWay} />)}
 
         {$if(!verification.confirmed,
             $if(way === 'phone',
@@ -46,9 +52,14 @@ const RecoveryForm = ({phone, verification, password, way,
 
         {$if(phone.codeId && !verification.confirmed,
             <CodeInput
+                number={phone.number}
                 waiting={verification.waiting}
+                way={way}
                 message={verification.message}
-                onConfirm={onConfirmCode} />
+                secsToRepeat={phone.secsToRepeat}
+                onConfirm={onConfirmCode} 
+                onAbort={onAbortCodeConfirmation}
+                onRepeat={onSendCode} />
         )}
 
         {$if(verification.confirmed,
@@ -59,14 +70,6 @@ const RecoveryForm = ({phone, verification, password, way,
                 repeatMessage={password.repeatIncorrectly ? 'Пароль повторен неправильно' : ''}
                 waiting={password.waiting}
                 onSend={onChangePassword} />
-        )}
-
-        {$if(verification.waitingConfirmation,
-            <div className="form-group">
-                <div className="progress">
-                    <div className="progress-bar progress-bar-striped active" style={{width:'100%'}}></div>
-                </div>
-            </div>
         )}
     </form>
 
@@ -82,6 +85,7 @@ export default connect(
         onConfirmCode: code => dispatch(confirmCode(code)),
         onChangePassword: (pass, repeat) => dispatch(changePassword({pass, repeat})),
         onChangeNumber: number => dispatch(changeNumber(number)),
-        onChangeWay: way => dispatch(chooseWay(way))
+        onChangeWay: way => dispatch(chooseWay(way)),
+        onAbortCodeConfirmation: () => dispatch(abortCodeConfirmation())
     })
 )(RecoveryForm)

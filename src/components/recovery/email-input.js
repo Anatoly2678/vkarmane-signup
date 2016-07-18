@@ -3,7 +3,7 @@ import React from 'react'
 import {$if, $ifEnter} from '../../react-helpers'
 
 export default function ({email, onChange, onSend, message, waiting, disabled}) {
-    const validEmail = /^[\w|\.|-]+@[\w|\.|-]+(\.\w+)+$/.test(email)
+    const isValid = /^[\w|\.|-]+@[\w|\.|-]+(\.\w+)+$/.test(email)
 
     return (
         <div>
@@ -23,11 +23,11 @@ export default function ({email, onChange, onSend, message, waiting, disabled}) 
                 <span className="help-block">{message}</span>
             </div>
 
-            {$if(!disabled && validEmail,
+            {$if(!disabled,
                 <div className="form-group">
                     <button
                         type="button" className="btn btn-primary"
-                        onClick={() => onSend(email)} disabled={waiting}>
+                        onClick={() => onSend(email) } disabled={waiting}>
                         {$if(!waiting, "Подтвердите", "Подтверждение...")}
                     </button>
                 </div>

@@ -18,6 +18,11 @@ body {
     padding-bottom: 20px;
 }
 
+.capitalize
+{
+    text-transform: capitalize;
+}
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
@@ -26,13 +31,22 @@ body {
     line-height: 45px;
 }
 
-h2.form-signin-heading {
-    font-family: 'M-Geometria-ExtaBlack';
+h2.form-signin-heading,
+h3.form-signin-heading {
+    font-family: 'M-Geometria-ExtaBlack', Arial;
     font-weight: bold;
-    font-size: 40px;
     text-overflow: clip;
     overflow: hidden;
 }
+
+h2.form-signin-heading {
+    font-size: 40px;
+}
+
+h3.form-signin-heading {
+    font-size: 30px;
+}
+
 
 .form-signin-heading-underline {
     height: 4px;
@@ -96,6 +110,8 @@ fieldset[disabled] .form-control {
     height: auto;
     padding-top: 15px;
     padding-bottom: 15px;
+    font-family: 'M-Geometria', Arial;
+    font-size: 16px;
 }
 
 input[type="checkbox"] {
@@ -165,7 +181,7 @@ div.logo {
 }
 
 div.phone {
-    font-family: 'M-Geometria-Bold';
+    font-family: 'M-Geometria-Bold', Arial;
     font-size: 20px;
     font-weight: bold;
 }
@@ -236,7 +252,7 @@ div#register-info {
 
 .form-signin {
     max-width: 482px;
-    padding: 25px 59px;
+    padding: 25px 59px 40px 59px;
     margin: 0 auto;
     border: 3px solid #FFB30F;
     /*+border-radius: 10px;*/
@@ -251,7 +267,7 @@ div#register-info {
 }
 
 .step-group {
-	font-family: 'M-Geometria';
+	font-family: 'M-Geometria', Arial;
 	font-size: 20px;
 	text-align: center;
 	max-width: 768px;
@@ -279,16 +295,14 @@ div#register-info {
 	width: 8%;
 	height: auto;
 	background-size: contain;
-    background-image: url(../images/arrow-right.png);
-    background-position: center;
-    background-repeat: no-repeat;
+    background: url(../images/arrow-right.png) no-repeat center;
 }
 .step-group-image {
 	width: 100%;
 	padding-bottom:  85.45%;
 	background-size: contain;
-	background-position: center;
     background-repeat: no-repeat;
+    background-position: center;
 }
 .signup-footer-step-one {
 	background-image: url(../images/step-signup.png);
@@ -353,7 +367,39 @@ div#register-info {
     }
 
     .alert-padding-adaptive {
-        padding: 20px 10px;
+        padding: 15px;
+    }
+
+    .form-signin {
+        padding: 15px;
+    }
+}
+
+@media (max-height: 740px) {
+    .header-adv {
+        padding-top: 0px;
+        padding-bottom: 25px;
+    }
+
+    .adaptive-space {
+        height: 30px;
+        width: 100%;
+    }
+}
+@media (max-height: 640px) {
+    .header-adv {
+        padding-top: 0px;
+        padding-bottom: 15px;
+    }
+
+    .adaptive-space {
+        height: 30px;
+        width: 100%;
+    }
+
+    .form-signin {
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
 }
 
@@ -369,4 +415,31 @@ div#register-info {
     .header {
         margin-bottom: 30px;
     }
+}
+
+@media (min-width: 768px) {
+    .birthday-day {
+        padding-right: 10px;
+    }
+    .birthday-month {
+        padding-left: 0;
+        padding-right: 10px;
+    }
+    .birthday-year {
+        padding-left: 0
+    }
+
+    .phone-in-header {
+        margin-left: -40px;
+    }
+}
+.country-code {
+    position: absolute !important;
+    width: 0;
+    background: transparent !important;
+    border-color: transparent !important;
+}
+
+.country-code + input.form-control {
+    padding-left: 35px !important;
 }

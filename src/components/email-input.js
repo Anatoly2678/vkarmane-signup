@@ -20,19 +20,18 @@ export default React.createClass({
     },
     render() {
         const showNotEntered = this.state.wasEntered && this.state.email.trim().length === 0
-        const showNotValid = this.state.wasEntered &&
-            this.state.email && !this.emailPattern.test(this.state.email)
+        const showNotValid = this.state.email && !this.emailPattern.test(this.state.email)
 
         return (
-            <div>
-                <label htmlFor="emailInput" className="newFieldLine">Осталось указать email и продолжим</label>
+            <div className="newFieldLine">
+                <label htmlFor="emailInput">Осталось указать e-mail и продолжим :)</label>
 
                 <div className={`form-group ${
                         $if(showNotEntered || this.state.exists || this.state.blocked || showNotValid, 'has-error')} ${
                         $if(this.state.success, 'has-feedback')}`}>
 
                     <input type="email" className="form-control" id="emailInput"
-                           value={this.state.email} placeholder="Укажите ваш email"
+                           value={this.state.email} placeholder="Укажите ваш e-mail"
                            onChange={this.handleEmailChange} disabled={this.props.disabled} />
 
                     {$if(this.state.success,

@@ -25,10 +25,10 @@ export default React.createClass({
                 {this.state.showAlert ? alert : null}
 
                 <div className="form-group">
-                    <label htmlFor="inputEmail">Ваш email</label>
+                    <label htmlFor="inputEmail">Ваш e-mail</label>
                     <input
                         type="email" id="inputEmail" className="form-control"
-                        placeholder="Укажите ваш email" required autoFocus
+                        placeholder="Укажите ваш e-mail" required autoFocus
                         value={this.state.email} onChange={this.handleEmailChange}
                         readOnly={this.state.waiting} />
                 </div>
@@ -50,7 +50,9 @@ export default React.createClass({
                         </button>
                     </div>
                     <div className="col-sm-6">
-                        <button type="button" onClick={this.handleRecovery} className="btn btn-link btn-block">
+                        <button
+                            type="button" onClick={this.handleRecovery}
+                            className="btn btn-link btn-block" style={{paddingLeft:'0', paddingRight:'0' }}>
                             Забыли пароль?
                         </button>
                     </div>
@@ -105,8 +107,11 @@ export default React.createClass({
             }),
             contentType: 'application/json',
             dataType: 'json',
-            success: () => location.replace('/0/Nui/ViewModule.aspx'),
-            error: () => location.replace('/0/Nui/ViewModule.aspx')
+            success: () => location.href = '/0/Nui/ViewModule.aspx',
+            error: (xhr, code, err) => {
+                console.error(err)
+                location.href = '/0/Nui/ViewModule.aspx'
+            }
         })
     },
     handleLoginError(xhr, status, err) {
