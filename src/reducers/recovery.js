@@ -14,6 +14,8 @@ export const failChangePassword = createAction('FAIL_CHANGE_PASSWORD')
 export const validatePassword = createAction('VALIDATE_PASSWORD')
 export const chooseWay = createAction('CHOOSE_WAY')
 export const changeNumber = createAction('CHANGE_NUMBER')
+export const abortCodeConfirmation = createAction('ABORT_CODE_CONFIRMATION')
+export const decrementSecsToRepeat = createAction('DECREMENT_SECS_TO_REPEAT')
 
 const post = (url, data) =>
     fetch(url, {
@@ -46,6 +48,8 @@ export const sendCode = (number) => {
         }
 
         dispatch(requestCode(number))
+        dispatch(repeatTimer())
+
 
         return post('/Recovery.aspx/SendCodeForPasswordChange', {
             number,
@@ -129,6 +133,22 @@ export const changePassword = ({pass, repeat}) => {
     }
 }
 
+function repeatTimer() {
+    return (dispatch, getState) => {
+
+        const secs = getState().phone.secsToRepeat
+        let timerId = getState().phone.timerId
+        if(timerId)  clearTimeout(timerId)
+
+        if(secs) {
+            timerId = setTimeout(function(){
+                dispatch(repeatTimer())
+            }, 1000)
+            dispatch(decrementSecsToRepeat(timerId))
+        }
+    }
+}
+
 const phone = handleActions({
     [changeNumber] (state, action) {
         return {
@@ -142,7 +162,8 @@ const phone = handleActions({
             ...state,
             waiting: true,
             number: action.payload,
-            message: ''
+            message: '',
+            secsToRepeat: 60
         }
     },
 
@@ -150,7 +171,8 @@ const phone = handleActions({
         return {
             ...state,
             message: action.payload,
-            waiting: false
+            waiting: false,
+            secsToRepeat: 0
         }
     },
 
@@ -166,16 +188,34 @@ const phone = handleActions({
         return {
             ...state,
             number: '',
-            codeId: ''
+            codeId: '',
+            message: ''
+        }
+    },
+
+    [abortCodeConfirmation]  (state)  {
+        return {
+            ...state,
+            codeId: '',
+            secsToRepeat: 0
+        }
+    },
+
+    [decrementSecsToRepeat]  (state, action)  {
+        return {
+            ...state,
+            secsToRepeat: state.secsToRepeat - 1,
+            timerId: action.payload
         }
     }
-
 }, {
     number: '',
     sent: false,
     message: '',
     codeId: '',
-    waiting: false
+    waiting: false,
+    secsToRepeat: 0,
+    timerId: null
 })
 
 const verification = handleActions({
@@ -184,6 +224,12 @@ const verification = handleActions({
         waiting: true,
         code: action.payload
     }),
+    [abortCodeConfirmation]: (state, action) => ({
+        ...state,
+        waiting: false,
+        message: ''
+    }),
+    
     [codeConfirmed]: (state) => ({
         ...state,
         waiting: false,
