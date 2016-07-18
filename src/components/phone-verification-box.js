@@ -16,6 +16,9 @@ export default React.createClass({
     componentDidMount() {
         this.sendCode()
     },
+    componentDidUnount() {
+        if(this.timerId) clearInterval(this.timerId)
+    },
     tick() {
         const {secsToResend} = this.state
         this.setState({secsToResend: secsToResend - 1})
@@ -33,7 +36,7 @@ export default React.createClass({
                         type="button" className="close" style={{margin:'20px'}}
                         onClick={() => this.props.onClose()}><span>&times;</span></button>
                 <div className="alert alert-dismissible alert-padding-adaptive" role="alert">
-                    <h3 className="form-signin-heading">Подтверждение номера телефона</h3>
+                    <h3 className="form-signin-heading">Подтверждение номера&nbsp;телефона</h3>
                     <div className="form-signin-heading-underline"></div>
                     <div className="form-group font-size-adaptive">
                         <p>На указанный вами номер телефона отправлено СМС с&nbsp;кодом подтверждения.</p>
@@ -106,7 +109,7 @@ export default React.createClass({
             success: this.handleSendCodeResult,
             error: (xhr, code, err) => {
                 this.setState({ waiting: false })
-                console.log(err.toString())
+                console.error(err.toString())
             }
         })
 

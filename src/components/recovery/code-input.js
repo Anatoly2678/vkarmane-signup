@@ -18,7 +18,7 @@ export default function ({number, waiting, message, way, secsToRepeat, onConfirm
                     </button>
 
                     <div className="alert alert-dismissible alert-padding-adaptive" role="alert">
-                        <h3 className="form-signin-heading">Подтверждение {way == 'phone' ? 'номера телефона' : <span>электронной&nbsp;почты</span>}</h3>
+                        <h3 className="form-signin-heading">Подтверждение {way == 'phone' ? <span>номера&nbsp;телефона</span> : <span>электронной&nbsp;почты</span>}</h3>
                         <div className="form-signin-heading-underline"></div>
 
                         <div className="form-group font-size-adaptive">

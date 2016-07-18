@@ -56,6 +56,7 @@ export default React.createClass({
             <div className="form-group has-feedback">
                 <label htmlFor="inputPhone">Мобильный телефон</label>
                 <div className="has-feedback">
+                    <span className="form-control country-code">+7</span>
                     <input type="tel" id="inputPhone" className="form-control" value={this.state.phone} readOnly />
                     <span className="glyphicon glyphicon-ok form-control-feedback"></span>
                 </div>
@@ -102,9 +103,11 @@ export default React.createClass({
     },
     handlePhoneVerificationError(message) {
         this.setState({
-            phoneVerificationBoxVisible: false
+            phoneVerificationBoxVisible: false,
+            error: true,
+            errorMessage: message,
         })
-        alert(message)
+
     },
     handlePhoneVerificationSuccess(phone) {
         this.setState({
