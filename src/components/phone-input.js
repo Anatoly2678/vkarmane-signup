@@ -1,5 +1,5 @@
 import React from 'react'
-import InputMask from 'react-input-mask'
+import InputMask from './InputElement'
 import PhoneVerificationBox from './phone-verification-box'
 
 import {$if, normalizePhone} from '../react-helpers'
@@ -16,7 +16,6 @@ export default React.createClass({
         }
     },
     render () {
-
         const digitsInPhone = 3 + 3 + 4
         const countDigits = text => (text.match(/\d/g) || []).length
         const sendVisible =
