@@ -1,17 +1,30 @@
 /* Space out content a bit */
 @font-face {
-    font-family: 'M-Geometria-Bold';
-    src: url('../fonts/Geometria-Bold.otf') format('truetype');
-}
-@font-face {
-    font-family: 'M-Geometria-ExtaBlack';
-    src: url('../fonts/Geometria-ExtaBlack.otf') format('truetype');
-}
-@font-face {
-    font-family: 'M-Geometria';
-    src: url('../fonts/Geometria.otf') format('truetype');
+  font-family: 'M-Geometria-Bold';
+  src: url('/statics/fonts/geometria-bold.woff2') format('woff2'), 
+       url('/statics/fonts/geometria-bold.woff') format('woff'),
+       url('/statics/fonts/geometria-bold.ttf') format('ttf'),
+       url('/statics/fonts/geometria-bold.eot') format('eot'),
+       url('/statics/fonts/geometria-bold.otf') format('truetype');
 }
 
+@font-face {
+  font-family: 'M-Geometria-ExtaBlack';
+  src: url('/statics/fonts/geometria-extablack.woff2') format('woff2'), 
+       url('/statics/fonts/geometria-extablack.woff') format('woff'),
+       url('/statics/fonts/geometria-extablack.ttf') format('ttf'),
+       url('/statics/fonts/geometria-extablack.eot') format('eot'),
+       url('/statics/fonts/geometria-extablack.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'M-Geometria';
+  src: url('/statics/fonts/geometria.woff2') format('woff2'), 
+       url('/statics/fonts/geometria.woff') format('woff'),
+       url('/statics/fonts/geometria.ttf') format('ttf'),
+       url('/statics/fonts/geometria.eot') format('eot'),
+       url('/statics/fonts/geometria.otf') format('truetype');
+}
 
 body {
     padding-top: 20px;
