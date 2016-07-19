@@ -32,7 +32,8 @@ export default React.createClass({
                         type="tel" id="phoneInput" className="form-control"
                         mask="999 999 99 99" placeholder="___ ___ __ __" maskChar={null}
                         onKeyPress={() => sendVisible && this.handleSendCodeClick()}
-                        onChange={this.handlePhoneChange} value={this.state.phone} />
+                        onChange={this.handlePhoneChange} value={this.state.phone}
+                        disabled={this.state.phoneVerificationBoxVisible} />
                 </div>
 
                 <span className="help-block">{this.state.errorMessage}</span>
@@ -43,8 +44,8 @@ export default React.createClass({
                     </div>)}
 
                 {$if(sendVisible,
-                    <button type="button" className="btn btn-primary" onClick={this.handleSendCodeClick}>
-                        Подтвердить телефон
+                    <button type="button" className="btn btn-primary" onClick={this.handleSendCodeClick} disabled={this.state.phoneVerificationBoxVisible}>
+                        {!this.state.phoneVerificationBoxVisible ? 'Подтвердить телефон' : 'Подтверждение...'}
                     </button>)}
             </div>)
 
@@ -76,7 +77,7 @@ export default React.createClass({
     },
     handlePhoneChange(e) {
         this.setState({
-            phone: e.target.value.substr(0, '(999) 999 - 99 - 99'.length), // Фикс пролемы ввода лишних символов в браузерах
+            phone: e.target.value.substr(0, '999 999 99 99'.length), // Фикс пролемы ввода лишних символов в браузерах
             phoneAlreadyExists: false,
             error: false,
             errorMessage: '',

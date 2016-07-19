@@ -10,7 +10,8 @@ export default React.createClass({
             errorMessage: null,
             waiting: false,
             codeInputVisible: false,
-            secsToResend: 0
+            secsToResend: 0,
+            showModal: false
         }
     },
     componentDidMount() {
@@ -28,6 +29,10 @@ export default React.createClass({
         }
     },
     render () {
+        if(!this.state.showModal) {
+            return <span></span>
+        }
+
         return (
         <div className="modal fade in" id="myModal" style={{display: 'block'}} tabIndex="-1" role="dialog">
             <div className="modal-dialog modal-width" role="document">
@@ -124,7 +129,8 @@ export default React.createClass({
     },
     handleSendCodeResult(res) {
         this.setState({
-            waiting: false
+            waiting: false,
+            showModal: true
         })
 
         const result = JSON.parse(res.d)['SendVerificationCodesResult']

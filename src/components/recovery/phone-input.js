@@ -19,7 +19,7 @@ export default function ({number, waiting, message, disabled, onChange, onSend})
                     mask="999 999 99 99" placeholder="___ ___ __ __" maskChar={null}
                     onKeyPress={e => onSend(number)}
                     disabled={disabled || waiting}
-                    onChange={e => onChange(e.target.value)} />
+                    onChange={e => onChange(e.target.value.substr(0, '999 999 99 99'.length))} />
                 <span className="help-block">{message}</span>
             </div>
 
