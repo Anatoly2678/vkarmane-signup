@@ -6,7 +6,7 @@ export default React.createClass({
             <div className="row header-adv">
                 <div className="col-xs-9">
                     <div className="col-xs-12 col-sm-5">
-                        <a href="/">
+                        <a href="http://vkarmane-online.ru">
                             <div id="logo" className="logo"></div>
                         </a>                
                         <h3 className="text-muted" hidden="hidden">ВКармане</h3>

@@ -1,5 +1,5 @@
 import React from 'react'
-import InputMask from 'react-input-mask'
+import InputMask from '../InputElement'
 
 import {$if} from '../../react-helpers'
 
