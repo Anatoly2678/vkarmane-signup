@@ -21,7 +21,7 @@ export default React.createClass({
             'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
 
         const days = map(range(1, this.daysInMonth(this.state.month, this.state.year) + 1), n => <option value={n} key={n}>{n}</option>)
-        const months = map(range(1, 13), n => <option value={n} key={n}>{monthNames[n-1]}</option>)
+        const months = map(range(1, 13), n => <option value={n} key={n}>{monthNames[n-1]}</option>) //13
 
         const maxYearOfBirth = new Date().getFullYear() - this.props.maxAge - 1
         const minYearOfBirth = new Date().getFullYear() - this.props.minAge

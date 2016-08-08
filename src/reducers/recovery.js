@@ -113,11 +113,12 @@ export const changePassword = ({pass, repeat}) => {
         dispatch(requestChangePassword())
 
         const state = getState()
+        console.info ('way: ' + state.way);
         return post('/Recovery.aspx/ChangePassword', {
             code: state.verification.code,
             codeId: state.phone.codeId,
             password: pass,
-            type: 'phone'
+            type: state.way // state.way // 'phone'
         }).then(response => {
             return response.json()
         }).then(json => {

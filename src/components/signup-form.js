@@ -127,7 +127,7 @@ export default React.createClass({
             Sname: s.fullName.last,
             Mname: s.fullName.middle,
             Year: s.birthday.year,
-            Month: + s.birthday.month + 1,
+            Month: + s.birthday.month,// + 1,
             Day: s.birthday.day,
             Phone: normalizePhone(s.phone),
             Email: s.email,
