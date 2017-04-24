@@ -12,8 +12,8 @@ export default React.createClass({
                         <h3 className="text-muted" hidden="hidden">ВКармане</h3>
                     </div>
                     <div className="col-xs-12 col-sm-7 phone-in-header">
-                        <div className="phone"><span>8 800</span> 500-35-85</div>
-                        <p className="text-muted phone-info">Ежедневно с 06:00 до 21:00 по МСК</p>
+                        <div className="phone"><span>8 800</span> 333-25-06</div>
+                        <p className="text-muted phone-info">Ежедневно с 06:00 до 20:00 по МСК</p>
                     </div>
                 </div>
                 <div className="col-xs-3" style={{ paddingTop: '8px' }}>

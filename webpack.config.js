@@ -6,6 +6,9 @@ module.exports = {
     entry: {
         signin: './src/signin.js',
         signup: './src/signup.js',
+		signinoffline: './src/signin-offline.js',
+		signupoffline: './src/signup-offline.js',
+		selectoffline: './src/select-offline.js',
         recovery: './src/recovery.js'
     },
     output: {

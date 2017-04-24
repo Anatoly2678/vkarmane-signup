@@ -9,10 +9,13 @@ export default function ({rules, asp, disabled, onChange}) {
                     checked={rules} disabled={disabled}
                     onChange={e => onChange({rules: e.target.checked})} />
                 <label htmlFor="iaccept"> <span></span>
-                    Я принимаю <a href="http://www.vkarmane-online.ru/files/flib/51.pdf" target="_blank" >
-                    Общие условия договора потребительского займа</a>, <a href="http://www.vkarmane-online.ru/files/flib/69.pdf" target="_blank">
-                    Правила предоставления займов</a> и <a href= "http://www.vkarmane-online.ru/files/flib/70.pdf" target="_blank">
-                    Информацию об условиях предоставления, использования и возврата потребительского микрозайма</a>. Предлагаю рассмотреть мое <a href="http://www.vkarmane-online.ru/files/flib/84.pdf" target="_blank">
+                    Я соглашаюсь с <a href="http://www.vkarmane-online.ru/files/flib/1-generalTerms.pdf" target="_blank" >
+                    Общими условиями договора потребительского займа</a> и 
+                    <a href="http://www.vkarmane-online.ru/files/flib/3-termsOfLending.pdf" target="_blank">
+                    Правилами предоставления займов</a> и 
+                    <a href= "http://www.vkarmane-online.ru/files/flib/2-info.pdf" target="_blank">, составленными в соответствии с
+                    Информацией об условиях предоставления, использования и возврата потребительского микрозайма</a>.
+                    Прошу принять мое <a href="http://www.vkarmane-online.ru/files/flib/118.pdf" target="_blank">
                     Заявление о предоставлении микрозайма</a>.
                 </label>
             </div>
@@ -22,9 +25,14 @@ export default function ({rules, asp, disabled, onChange}) {
                     checked={asp} disabled={disabled}
                     onChange={e => onChange({asp: e.target.checked})} />
                 <label htmlFor="icomfirm"> <span></span>
-                    Я, подтверждаю принятие <a href="http://www.vkarmane-online.ru/files/flib/83.pdf" target="_blank">
-                    Соглашения об использовании АСП</a> и <a href="http://www.vkarmane-online.ru/files/flib/45.pdf" target="_blank">
-                    Правилами обработки персональных данных</a>.
+                    Я принимаю <a href="http://www.vkarmane-online.ru/files/flib/5-agreementUse.pdf" target="_blank">
+                    Соглашение об использовании АСП</a>,
+                    <a href="http://www.vkarmane-online.ru/files/flib/9-personalDataThirdParties.pdf" target="_blank">
+                    Согласие субъекта на предоставление персональных данных третьим лицам</a>,
+                    <a href="http://www.vkarmane-online.ru/files/flib/7-agreementCooperation.pdf" target="_blank">
+                    Согласие на взаимодействие с третьими лицами, направленное на возврат просроченной задолженности</a>,
+                    подтверждаю ознакомление с <a href="http://www.vkarmane-online.ru/files/flib/4-yourPersonalData.pdf" target="_blank">
+                    Правилами обработки персональных данных</a> и даю согласие МФК Джой Мани (ООО) на их обработку.
                 </label>
             </div>
         </div>)
