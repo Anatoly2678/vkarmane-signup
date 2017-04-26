@@ -17,13 +17,6 @@ export default function PointChooser ({point, disabled, onChange}) {
                         <div>(ул. Красный проспект, 186)</div>
                 </label>
             </div>
-            <div className="radio">
-                <label disabled={disabled}>
-                <input type="radio" name="Point" value="439b9ae6-766c-4837-b6bd-013ef6896adb" disabled/>
-                <div>Пункт оформления займов №4</div>
-            <div>(ул. Рассветная, 4 корп 2)</div>
-            </label>
-            </div>
             <div className="radio" >
                 <label disabled={disabled}>
                 <input type="radio" name="Point" value="b0a9dd53-6070-41fc-9727-cd147b9570a2" />
@@ -40,9 +33,9 @@ export default function PointChooser ({point, disabled, onChange}) {
             </div>
             <div className="radio">
                 <label disabled={disabled}>
-                <input type="radio" name="Point" value="0000000-000-0000-0000-00000000000" disabled/>
+                <input type="radio" name="Point" value="fe007774-f9f7-4e06-bd7a-b9ba94383bfb"/>
                 <div>Пункт оформления займов №7</div>
-            <div>(ул. Карла Маркса)</div>
+            <div>(ул. Карла Маркса проспект, 37/2)</div>
             </label>
             </div>
         </div>)
